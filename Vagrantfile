@@ -1,14 +1,21 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-Vagrant::Config.run do |config|
+# do not fogert to install omnibus plugin
+# 'vagrant plugin install vagrant-omnibus'
+
+Vagrant.configure("2") do |config|
   config.vm.box = "precise32"
   config.vm.box_url = "http://files.vagrantup.com/precise32.box"
 
-  config.vm.forward_port 3000, 3000
-  config.vm.forward_port 3306, 3306
+  # Set the version of chef to install using the vagrant-omnibus plugin
+  config.omnibus.chef_version = :latest
 
-  config.vm.share_folder "app", "/home/vagrant/app", "app/", :create => true
+  config.vm.network "forwarded_port", guest: 8000, host: 8000 #icecast2
+  config.vm.network "forwarded_port", guest: 6600, host: 6600 #mpd
+
+  config.vm.synced_folder "app/", "/home/vagrant/app", :create => true
+  config.vm.synced_folder "music/", "/home/vagrant/music", :create => true
 
   config.vm.provision :chef_solo do |chef|
     chef.cookbooks_path = ["cookbooks"]
@@ -17,8 +24,11 @@ Vagrant::Config.run do |config|
     chef.add_recipe "rvm::vagrant"
     chef.add_recipe "rvm::system"
     chef.add_recipe "git"
-    chef.add_recipe "postgresql"
-    chef.add_recipe "mysql::server"
+    chef.add_recipe "mpd"
+    chef.add_recipe "icecast2"
+    #chef.add_recipe "rails_application"
+    #chef.add_recipe "postgresql"
+    #chef.add_recipe "mysql::server"
 
     chef.json.merge!({
       :rvm => {
