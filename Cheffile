@@ -17,3 +17,8 @@ cookbook 'git',
 #  :ref => 'postgresql-improvements'
 #cookbook 'mysql'
 
+cookbook 'mpd',
+	:git => 'https://github.com/i42n/chef-cookbook-mpd'
+
+cookbook 'icecast2',
+	:git => 'https://github.com/i42n/chef-cookbook-icecast2'
