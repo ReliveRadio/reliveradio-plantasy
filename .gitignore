@@ -1,4 +1,5 @@
 .vagrant
 cookbooks/
 tmp
-app/*
+app/*cookbooks
+tmp
