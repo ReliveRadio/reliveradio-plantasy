@@ -22,3 +22,5 @@ cookbook 'mpd',
 
 cookbook 'icecast2',
 	:git => 'https://github.com/i42n/chef-cookbook-icecast2'
+
+cookbook 'rails_application'
