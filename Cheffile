@@ -23,4 +23,6 @@ cookbook 'mpd',
 cookbook 'icecast2',
 	:git => 'https://github.com/i42n/chef-cookbook-icecast2'
 
-cookbook 'rails_application'
+cookbook 'nginx',
+	:git => 'https://github.com/i42n/nginx',
+	:ref => 'ad23235fc1d8d7ddc6955988d8c9d51c2caa07eb'
