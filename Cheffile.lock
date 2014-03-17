@@ -48,8 +48,8 @@ GIT
 
 GIT
   remote: https://github.com/i42n/nginx
-  ref: ad23235fc1d8d7ddc6955988d8c9d51c2caa07eb
-  sha: ad23235fc1d8d7ddc6955988d8c9d51c2caa07eb
+  ref: master
+  sha: 328b9aa75e0f1904faab2fadd900d24d8df83cde
   specs:
     nginx (2.4.5)
       apt (~> 2.2)

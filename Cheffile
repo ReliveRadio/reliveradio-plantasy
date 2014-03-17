@@ -25,4 +25,4 @@ cookbook 'icecast2',
 
 cookbook 'nginx',
 	:git => 'https://github.com/i42n/nginx',
-	:ref => 'ad23235fc1d8d7ddc6955988d8c9d51c2caa07eb'
+	:ref => 'master'
