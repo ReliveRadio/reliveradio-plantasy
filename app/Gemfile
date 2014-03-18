@@ -27,6 +27,27 @@ gem 'turbolinks'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 1.2'
 
+gem 'rake'
+gem 'json'
+gem 'will_paginate'
+
+# webframgework
+gem 'foundation-rails', '~> 5.2'
+
+# nice icon font
+gem 'font-awesome-rails', '~> 4.0'
+
+# testing gems
+gem 'test-unit'
+gem 'rspec-rails'
+gem 'factory_girl_rails'
+gem 'faker'
+gem 'capybara'
+gem 'guard-rspec'
+gem 'database_cleaner'
+gem 'vcr'
+gem 'timecop'
+
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
   gem 'sdoc', require: false
@@ -42,4 +63,4 @@ end
 # gem 'capistrano', group: :development
 
 # Use debugger
-# gem 'debugger', group: [:development, :test]
+gem 'debugger', group: [:development, :test]
