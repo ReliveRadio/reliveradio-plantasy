@@ -58,6 +58,9 @@ Vagrant.configure("2") do |config|
           :ruby => "/usr/local/rvm/rubies/ruby-2.1.1/bin/ruby",
           :root => "/usr/local/rvm/gems/ruby-2.1.1/gems/passenger-4.0.38"
         }
+      },
+      :mpd => {
+        :bind => "0.0.0.0"
       }
     })
   end
