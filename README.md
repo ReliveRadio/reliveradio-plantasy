@@ -1,7 +1,3 @@
-Having fun installing all that software needed to start a new rails project? No?<br />Then use this VM instead. Read this article to find out why this is a great thing: 
-
-http://blog.base2.io/2012/05/01/vagrants-and-chefs-and-librarians-oh-my/#.UQmCJEq6BYh
-
 # Get up and running
 
 ## 1. Install VirtualBox
@@ -23,6 +19,13 @@ https://www.vagrantup.com/
 ## 5. Build the VM
 ``
   $ vagrant up
+``
+
+## 6. Log in and install app gems
+``
+  $ vagrant ssh
+  $ cd app
+  $ bundle
 ``
 
 # Usage
