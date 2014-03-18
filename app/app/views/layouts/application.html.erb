@@ -13,6 +13,23 @@
 
   <body>
 
+    <!-- FLASH MESSAGES -->
+    <% if !flash.blank? %>
+    <div class="row">
+      <div class="medium-12 columns">
+        <% if flash[:error] %>
+          <div class="alert-box alert"><%= flash[:error] %></div>
+        <% end %>
+        <% if flash[:success] %>
+          <div class="alert-box success"><%= flash[:success] %></div>
+        <% end %>
+        <% if flash[:notice] %>
+          <div class="alert-box"><%= flash[:notice] %></div>
+        <% end %>
+      </div>
+    </div>
+    <% end %>
+
     <%= yield %>
     <%= javascript_include_tag "application" %>
   </body>
