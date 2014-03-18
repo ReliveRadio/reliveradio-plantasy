@@ -38,6 +38,8 @@ Vagrant.configure("2") do |config|
     chef.add_recipe "nginx::source"
     chef.add_recipe "nginx::passenger"
 
+    chef.add_recipe "nodejs::install_from_package"
+
     chef.json.merge!({
       :rvm => {
         :default_ruby => 'ruby-2.1.1',
