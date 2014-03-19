@@ -24,6 +24,23 @@ class PodcastsController < ApplicationController
   def edit
   end
 
+  def update_episodes(podcast)
+    feed = Feedjira::Feed.fetch_and_parse(podcast.feed)
+    feed.entries.each do |episode|
+      unless Episode.exists? :guid => episode.id
+        Episode.create(
+          guid: episode.id,
+          title: episode.title,
+          subtitle: episode.summary,
+          content: episode.content,
+          #pub_date: episode.published,
+          cached: false,
+          podcast_id: podcast.id
+        )
+      end
+    end
+  end
+
   # POST /podcasts
   # POST /podcasts.json
   def create
@@ -32,6 +49,8 @@ class PodcastsController < ApplicationController
     @podcast.title = feed.title
     @podcast.website = feed.url
     @podcast.feed = feed.feed_url
+    @podcast.save
+    update_episodes(@podcast)
 
     respond_to do |format|
       if @podcast.save
