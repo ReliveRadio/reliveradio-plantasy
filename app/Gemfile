@@ -31,6 +31,8 @@ gem 'rake'
 gem 'json'
 gem 'will_paginate'
 
+gem 'feedjira'
+
 # webframgework
 gem 'foundation-rails', '~> 5.2'
 
