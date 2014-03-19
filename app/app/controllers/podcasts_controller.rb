@@ -1,3 +1,5 @@
+require 'feedjira'
+
 class PodcastsController < ApplicationController
   before_action :set_podcast, only: [:show, :edit, :update, :destroy]
 
@@ -25,7 +27,11 @@ class PodcastsController < ApplicationController
   # POST /podcasts
   # POST /podcasts.json
   def create
-    @podcast = Podcast.new(podcast_params)
+    @podcast = Podcast.new()
+    feed = Feedjira::Feed.fetch_and_parse(podcast_params['feed'])
+    @podcast.title = feed.title
+    @podcast.website = feed.url
+    @podcast.feed = feed.feed_url
 
     respond_to do |format|
       if @podcast.save
