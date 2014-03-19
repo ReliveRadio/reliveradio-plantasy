@@ -1,0 +1,39 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Title:</strong>
+  <%= @podcast.title %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @podcast.description %>
+</p>
+
+<p>
+  <strong>Logo url:</strong>
+  <%= @podcast.logo_url %>
+</p>
+
+<p>
+  <strong>Website:</strong>
+  <%= @podcast.website %>
+</p>
+
+<p>
+  <strong>Feed:</strong>
+  <%= @podcast.feed %>
+</p>
+
+<p>
+  <strong>Tags:</strong>
+  <%= @podcast.tags %>
+</p>
+
+<p>
+  <strong>Category:</strong>
+  <%= @podcast.category %>
+</p>
+
+<%= link_to 'Edit', edit_podcast_path(@podcast) %> |
+<%= link_to 'Back', podcasts_path %>
