@@ -9,7 +9,9 @@ class NewFeedWorker
 			podcast = Podcast.create!(
 				title: feed.title,
 				website: feed.url,
-				feed: feed.feed_url
+				feed: feed.feed_url,
+				description: feed.itunes_summary,
+				logo_url: feed.logo_url
 			)
 			# fetch episodes in the background with sidekiq
 	    	UpdateFeedWorker.perform_async(podcast.id)
