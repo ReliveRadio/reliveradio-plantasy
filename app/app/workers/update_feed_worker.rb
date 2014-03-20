@@ -9,7 +9,7 @@ class UpdateFeedWorker
 			feed = Feedjira::Feed.fetch_and_parse(podcast.feed)
 			feed.entries.each do |episode|
 				unless Episode.exists? :guid => episode.id
-					Episode.create(
+					Episode.create!(
 						guid: episode.id,
 						title: episode.title,
 						subtitle: episode.summary,

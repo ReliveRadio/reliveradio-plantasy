@@ -27,24 +27,13 @@ class PodcastsController < ApplicationController
   # POST /podcasts
   # POST /podcasts.json
   def create
-    @podcast = Podcast.new()
-    feed = Feedjira::Feed.fetch_and_parse(podcast_params['feed'])
-    @podcast.title = feed.title
-    @podcast.website = feed.url
-    @podcast.feed = feed.feed_url
-    @podcast.save
+    NewFeedWorker.perform_async(podcast_params['feed'])
 
     # reload episodes in the background with sidekiq
-    UpdateFeedWorker.perform_async(@podcast.id)
+    #UpdateFeedWorker.perform_async(@podcast.id)
 
     respond_to do |format|
-      if @podcast.save
-        format.html { redirect_to @podcast, notice: 'Podcast was successfully created.' }
-        format.json { render action: 'show', status: :created, location: @podcast }
-      else
-        format.html { render action: 'new' }
-        format.json { render json: @podcast.errors, status: :unprocessable_entity }
-      end
+      format.html { redirect_to podcasts_url, notice: 'Podcast will be added in the background.' }
     end
   end
 
