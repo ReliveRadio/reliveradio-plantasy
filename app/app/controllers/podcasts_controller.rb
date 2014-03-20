@@ -44,6 +44,7 @@ class PodcastsController < ApplicationController
   # POST /podcasts
   # POST /podcasts.json
   def create
+    #UpdateFeedWorker.perform_async('bob', 5)
     @podcast = Podcast.new()
     feed = Feedjira::Feed.fetch_and_parse(podcast_params['feed'])
     @podcast.title = feed.title
