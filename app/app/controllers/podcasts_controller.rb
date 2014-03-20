@@ -1,7 +1,7 @@
 require 'feedjira'
 
 class PodcastsController < ApplicationController
-  before_action :set_podcast, only: [:show, :edit, :update, :destroy]
+  before_action :set_podcast, only: [:show, :edit, :update, :destroy, :update_feed]
 
   # GET /podcasts
   # GET /podcasts.json
@@ -24,13 +24,27 @@ class PodcastsController < ApplicationController
   def edit
   end
 
+  def update_feed
+    # reload episodes in the background with sidekiq
+    UpdateFeedWorker.perform_async(@podcast.id)
+
+    respond_to do |format|
+        format.html { redirect_to @podcast, notice: 'Episodes will be refreshed in background.' }
+    end
+  end
+
+  def update_all_feeds
+    UpdateAllFeedsWorker.perform_async
+
+    respond_to do |format|
+      format.html { redirect_to podcasts_url, notice: 'All podcast feeds will be refreshed in the background.' }
+    end
+  end
+
   # POST /podcasts
   # POST /podcasts.json
   def create
     NewFeedWorker.perform_async(podcast_params['feed'])
-
-    # reload episodes in the background with sidekiq
-    #UpdateFeedWorker.perform_async(@podcast.id)
 
     respond_to do |format|
       format.html { redirect_to podcasts_url, notice: 'Podcast will be added in the background.' }

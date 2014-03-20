@@ -1,6 +1,10 @@
 require 'sidekiq/web'
 
 App::Application.routes.draw do
+
+  get '/podcasts/:id/update', to: 'podcasts#update_feed'
+  get '/podcasts/update_all', to: 'podcasts#update_all_feeds'
+
   resources :episodes
   resources :podcasts
 
