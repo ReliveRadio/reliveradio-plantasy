@@ -24,34 +24,18 @@ class PodcastsController < ApplicationController
   def edit
   end
 
-  def update_episodes(podcast)
-    feed = Feedjira::Feed.fetch_and_parse(podcast.feed)
-    feed.entries.each do |episode|
-      unless Episode.exists? :guid => episode.id
-        Episode.create(
-          guid: episode.id,
-          title: episode.title,
-          subtitle: episode.summary,
-          content: episode.content,
-          #pub_date: episode.published,
-          cached: false,
-          podcast_id: podcast.id
-        )
-      end
-    end
-  end
-
   # POST /podcasts
   # POST /podcasts.json
   def create
-    #UpdateFeedWorker.perform_async('bob', 5)
     @podcast = Podcast.new()
     feed = Feedjira::Feed.fetch_and_parse(podcast_params['feed'])
     @podcast.title = feed.title
     @podcast.website = feed.url
     @podcast.feed = feed.feed_url
     @podcast.save
-    update_episodes(@podcast)
+
+    # reload episodes in the background with sidekiq
+    UpdateFeedWorker.perform_async(@podcast.id)
 
     respond_to do |format|
       if @podcast.save
