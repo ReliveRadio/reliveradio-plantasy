@@ -12,7 +12,7 @@ class PodcastsController < ApplicationController
   # GET /podcasts/1
   # GET /podcasts/1.json
   def show
-    @episodes = @podcast.episodes
+    @episodes = @podcast.episodes.order(:pub_date).reverse
   end
 
   # GET /podcasts/new
