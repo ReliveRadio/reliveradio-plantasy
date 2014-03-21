@@ -1,5 +1,5 @@
 class EpisodesController < ApplicationController
-  before_action :set_episode, only: [:show, :edit, :update, :destroy]
+  before_action :set_episode, only: [:show, :edit, :update, :destroy, :download]
 
   # GET /episodes
   # GET /episodes.json
@@ -19,6 +19,13 @@ class EpisodesController < ApplicationController
 
   # GET /episodes/1/edit
   def edit
+  end
+
+  def download
+    DownloadEpisodeWorker.perform_async(@episode.id)
+    respond_to do |format|
+      format.html { redirect_to @episode, notice: 'File will be downloaded in background.'}
+    end
   end
 
   # POST /episodes
