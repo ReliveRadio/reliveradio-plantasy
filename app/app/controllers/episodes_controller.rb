@@ -1,5 +1,7 @@
+require 'ruby-mpd'
+
 class EpisodesController < ApplicationController
-  before_action :set_episode, only: [:show, :edit, :update, :destroy, :download]
+  before_action :set_episode, only: [:show, :edit, :update, :destroy, :download, :play]
 
   # GET /episodes
   # GET /episodes.json
@@ -26,6 +28,22 @@ class EpisodesController < ApplicationController
     respond_to do |format|
       format.html { redirect_to @episode, notice: 'File will be downloaded in background.'}
     end
+  end
+
+  def play
+    if @episode.cached?
+      mpd = MPD.new
+      mpd.connect
+      mpd.update
+      length = mpd.queue.length - 1
+      mpd.delete 1..length if length > 0
+      mpd.add File.basename(@episode.local_path)
+      mpd.play
+      redirect_to @episode.podcast, notice: @episode.title + ' was added to the playlist'
+    else
+      redirect_to @episode.podcast, :flash => { :error => 'Can not add this episode to the playlist as it is not cached. Please download it first.' }
+    end
+
   end
 
   # POST /episodes

@@ -83,6 +83,7 @@
         <td><%= episode.cached %></td>
         <td><%= episode.local_path %></td>
         <td><%= link_to 'Download', controller: 'episodes', action: 'download', id: episode.id %></td>
+        <td><%= link_to "Play Next", controller: "episodes", action: "play", id: episode.id %></td>
         <td><%= link_to 'Show', episode %></td>
         <td><%= link_to 'Edit', edit_episode_path(episode) %></td>
         <td><%= link_to 'Destroy', episode, method: :delete, data: { confirm: 'Are you sure?' } %></td>

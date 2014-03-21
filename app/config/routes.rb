@@ -7,6 +7,7 @@ App::Application.routes.draw do
   get '/podcasts/delete_all_episodes', to: 'podcasts#delete_all_episodes'
 
   get '/episodes/:id/download', to: 'episodes#download'
+  get '/episodes/:id/play', to: 'episodes#play'
 
   resources :episodes
   resources :podcasts
