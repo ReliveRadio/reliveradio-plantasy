@@ -37,7 +37,8 @@
 
 <h2>All episodes of this podcast</h2>
 
-<%= link_to 'Update Episodes', controller: 'podcasts', action: 'update_feed', id: @podcast.id %>
+<%= link_to 'Check for new Episodes', {controller: 'podcasts', action: 'update_feed', id: @podcast.id}, class: 'button success'%>
+<%= link_to 'Delete All Episodes', {controller: 'podcasts', action: 'delete_all_episodes', id: @podcast.id}, class: 'button alert' %>
 <table>
   <thead>
     <tr>

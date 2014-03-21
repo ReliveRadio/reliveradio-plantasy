@@ -1,7 +1,7 @@
 require 'feedjira'
 
 class PodcastsController < ApplicationController
-  before_action :set_podcast, only: [:show, :edit, :update, :destroy, :update_feed]
+  before_action :set_podcast, only: [:show, :edit, :update, :destroy, :update_feed, :delete_all_episodes]
 
   # GET /podcasts
   # GET /podcasts.json
@@ -73,6 +73,15 @@ class PodcastsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to podcasts_url }
       format.json { head :no_content }
+    end
+  end
+
+  def delete_all_episodes
+    @podcast.episodes.each do |episode|
+      episode.destroy
+    end
+    respond_to do |format|
+      format.html { redirect_to @podcast, notice: 'All episodes of this podcast have been deleted.' }
     end
   end
 

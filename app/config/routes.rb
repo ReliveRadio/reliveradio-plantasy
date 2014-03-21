@@ -4,6 +4,7 @@ App::Application.routes.draw do
 
   get '/podcasts/:id/update', to: 'podcasts#update_feed'
   get '/podcasts/update_all', to: 'podcasts#update_all_feeds'
+  get '/podcasts/delete_all_episodes', to: 'podcasts#delete_all_episodes'
 
   resources :episodes
   resources :podcasts
