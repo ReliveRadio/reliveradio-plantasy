@@ -9,6 +9,7 @@ App::Application.routes.draw do
 
   get '/episodes/:id/download', to: 'episodes#download'
   get '/episodes/:id/play', to: 'episodes#play'
+  get '/episodes/:id/delete_cached_file', to: 'episodes#delete_cached_file'
 
   resources :episodes
   resources :podcasts

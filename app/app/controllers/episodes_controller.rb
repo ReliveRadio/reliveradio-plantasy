@@ -1,7 +1,7 @@
 require 'ruby-mpd'
 
 class EpisodesController < ApplicationController
-  before_action :set_episode, only: [:show, :edit, :update, :destroy, :download, :play]
+  before_action :set_episode, only: [:show, :edit, :update, :destroy, :download, :play, :delete_cached_file]
 
   # GET /episodes
   # GET /episodes.json
@@ -42,7 +42,6 @@ class EpisodesController < ApplicationController
     else
       redirect_to @episode.podcast, :flash => { :error => 'Can not add this episode to the playlist as it is not cached. Please download it first.' }
     end
-
   end
 
   # POST /episodes
@@ -75,9 +74,40 @@ class EpisodesController < ApplicationController
     end
   end
 
+  def delete_cached_file
+    if @episode.cached?
+      remove_cache @episode
+      respond_to do |format|
+        format.html { redirect_to @episode, flash: {notice: 'File was deleted.'}}
+      end
+    else
+      respond_to do |format|
+        format.html { redirect_to @episode, flash: {error: 'Can not delete cached file as it is not cached.'}}
+      end
+    end
+  end
+
+  def remove_cache(episode)
+      # TODO check if it is in any playlist
+      
+      # delete file from disk
+      File.delete(@episode.local_path)
+      # update mpd database     
+      mpd = MPD.new
+      mpd.connect
+      mpd.update
+      # update database entry
+      @episode.cached = false
+      @episode.local_path = nil
+      @episode.save
+  end
+
   # DELETE /episodes/1
   # DELETE /episodes/1.json
   def destroy
+    if @episode.cached?
+      remove_cache @episode
+    end
     @episode.destroy
     respond_to do |format|
       format.html { redirect_to episodes_url }
