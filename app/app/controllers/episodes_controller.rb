@@ -34,7 +34,6 @@ class EpisodesController < ApplicationController
     if @episode.cached?
       mpd = MPD.new
       mpd.connect
-      mpd.update
       length = mpd.queue.length - 1
       mpd.delete 1..length if length > 0
       mpd.add File.basename(@episode.local_path)

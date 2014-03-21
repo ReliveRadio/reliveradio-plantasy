@@ -1,5 +1,6 @@
 require 'open-uri'
 require 'uri'
+require 'ruby-mpd'
 
 class DownloadEpisodeWorker
 	include Sidekiq::Worker
@@ -14,5 +15,8 @@ class DownloadEpisodeWorker
     	end
     	episode.cached = true
     	episode.save
+		mpd = MPD.new
+		mpd.connect
+		mpd.update
 	end
 end
