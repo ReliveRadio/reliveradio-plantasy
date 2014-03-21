@@ -34,6 +34,9 @@
   <%= @podcast.category %>
 </p>
 
+<%= link_to 'Edit', edit_podcast_path(@podcast) %> |
+<%= link_to 'Back', podcasts_path %>
+
 <h2>All episodes of this podcast</h2>
 
 <%= link_to 'Check for new Episodes', {controller: 'podcasts', action: 'update_feed', id: @podcast.id}, class: 'button success'%>
@@ -83,6 +86,3 @@
     <% end %>
   </tbody>
 </table>
-
-<%= link_to 'Edit', edit_podcast_path(@podcast) %> |
-<%= link_to 'Back', podcasts_path %>
