@@ -37,6 +37,8 @@ Vagrant.configure("2") do |config|
     chef.add_recipe "icecast2"
     chef.add_recipe "nginx::source"
     chef.add_recipe "nginx::passenger"
+    chef.add_recipe "redisio::install"
+    chef.add_recipe "redisio::enable"
 
     chef.add_recipe "nodejs::install_from_package"
 

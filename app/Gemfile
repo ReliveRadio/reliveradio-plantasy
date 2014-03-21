@@ -30,6 +30,11 @@ gem 'jbuilder', '~> 1.2'
 gem 'rake'
 gem 'json'
 gem 'will_paginate'
+gem 'feedjira'
+
+gem 'sidekiq'
+gem 'sinatra', require: false
+gem 'slim'
 
 # webframgework
 gem 'foundation-rails', '~> 5.2'

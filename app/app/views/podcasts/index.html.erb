@@ -1,0 +1,40 @@
+<h1>Listing podcasts</h1>
+
+<%= link_to 'New Podcast', new_podcast_path, class: 'button success' %>
+<%= link_to 'Check for new Episodes', {controller: 'podcasts', action: 'update_all_feeds'}, class: 'button' %>
+
+<table>
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Description</th>
+      <th>Logo url</th>
+      <th>Website</th>
+      <th>Feed</th>
+      <th>Tags</th>
+      <th>Category</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @podcasts.each do |podcast| %>
+      <tr>
+        <td><%= podcast.title %></td>
+        <td><%= podcast.description %></td>
+        <td><%= podcast.logo_url %><img src="<%= podcast.logo_url %>" style="height: 100px" /></td>
+        <td><%= podcast.website %></td>
+        <td><%= podcast.feed %></td>
+        <td><%= podcast.tags %></td>
+        <td><%= podcast.category %></td>
+        <td><%= link_to 'Show', podcast %></td>
+        <td><%= link_to 'Edit', edit_podcast_path(podcast) %></td>
+        <td><%= link_to 'Destroy', podcast, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
