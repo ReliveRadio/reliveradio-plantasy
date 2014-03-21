@@ -1,7 +1,7 @@
 require 'feedjira'
 
 class PodcastsController < ApplicationController
-  before_action :set_podcast, only: [:show, :edit, :update, :destroy, :update_feed, :delete_all_episodes]
+  before_action :set_podcast, only: [:show, :edit, :update, :destroy, :update_feed, :delete_all_episodes, :download_all_episodes]
 
   # GET /podcasts
   # GET /podcasts.json
@@ -38,6 +38,14 @@ class PodcastsController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to podcasts_url, notice: 'All podcast feeds will be refreshed in the background.' }
+    end
+  end
+
+  def download_all_episodes
+    DownloadAllEpisodesWorker.perform_async(@podcast.id)
+
+    respond_to do |format|
+      format.html { redirect_to @podcast, notice: 'All episodes of this podcast will be downloaded in the background.' }
     end
   end
 

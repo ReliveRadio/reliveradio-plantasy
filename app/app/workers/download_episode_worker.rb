@@ -4,8 +4,6 @@ require 'uri'
 class DownloadEpisodeWorker
 	include Sidekiq::Worker
 
-	# check for new episodes of the given podcast and import them
-	# into the database
 	def perform(episode_id)
 		episode = Episode.find(episode_id)
 		uri = URI.parse(episode.audio_file_url)
