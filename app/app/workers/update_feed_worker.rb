@@ -7,6 +7,7 @@ class UpdateFeedWorker
 		podcast = Podcast.find(podcast_id)
 		if !podcast.blank?
 			feed = Feedjira::Feed.fetch_and_parse(podcast.feed)
+			feed.sanitize_entries! # escape all harmful stuff
 			feed.entries.each do |episode|
 				unless Episode.exists? :guid => episode.id
 					Episode.create!(

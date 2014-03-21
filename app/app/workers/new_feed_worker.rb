@@ -5,6 +5,7 @@ class NewFeedWorker
 	# afterwards start new task which imports all its episodes
 	def perform(feed_url)
 		feed = Feedjira::Feed.fetch_and_parse(feed_url)
+		feed.sanitize_entries! # escape all harmful stuff
 		unless Podcast.exists? :title => feed.title
 			podcast = Podcast.create!(
 				title: feed.title,
