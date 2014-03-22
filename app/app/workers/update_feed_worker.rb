@@ -1,3 +1,5 @@
+require 'chronic_duration'
+
 class UpdateFeedWorker
 	include Sidekiq::Worker
 
@@ -10,6 +12,9 @@ class UpdateFeedWorker
 			feed.sanitize_entries! # escape all harmful stuff
 			feed.entries.each do |episode|
 				unless Episode.exists? :guid => episode.id
+					if !episode.itunes_duration.blank?
+						duration = ChronicDuration.parse(episode.itunes_duration)
+					end
 					Episode.create!(
 						guid: episode.id,
 						podcast_id: podcast.id,
@@ -19,12 +24,12 @@ class UpdateFeedWorker
 						subtitle: episode.summary,
 						content: episode.content,
 						pub_date: episode.published,
-						#filesize_in_bytes: episode.filesize_in_bytes,
-						#duration: episode.duration,
+						filesize: episode.enclosure_length,
+						duration: duration,
 						flattr_url: episode.flattr_url,
-						#tags: episode.tags,
-						icon_url: episode.icon_url,
-						audio_file_url: episode.audio_file_url,
+						tags: episode.itunes_keywords,
+						icon_url: episode.itunes_image,
+						audio_file_url: episode.enclosure_url,
 						cached: false
 					)
 				end

@@ -1,6 +1,7 @@
 require 'open-uri'
 require 'uri'
 require 'ruby-mpd'
+require 'audioinfo'
 
 class DownloadEpisodeWorker
 	include Sidekiq::Worker
@@ -14,7 +15,19 @@ class DownloadEpisodeWorker
       		file << open(episode.audio_file_url).read
     	end
     	episode.cached = true
+
+    	if episode.duration.blank?
+			AudioInfo.open(episode.local_path) do |info|
+			  #info.artist   # or info["artist"]
+			  #info.title    # or info["title"]
+			  episode.duration = info.length   # playing time of the file
+			  #info.bitrate  # average bitrate
+			  #info.to_h     # { "artist" => "artist", "title" => "title", etc... }
+			end
+    	end
+
     	episode.save
+
 		mpd = MPD.new
 		mpd.connect
 		mpd.update

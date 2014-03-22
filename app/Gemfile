@@ -32,6 +32,9 @@ gem 'json'
 gem 'will_paginate'
 gem 'feedjira'
 
+gem 'ruby-audioinfo'
+gem 'chronic_duration'
+
 gem 'sidekiq'
 gem 'sinatra', require: false
 gem 'slim'

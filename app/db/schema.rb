@@ -11,7 +11,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140319142241) do
+ActiveRecord::Schema.define(version: 20140322131328) do
+
+  create_table "channel_playlists", force: true do |t|
+    t.string   "author"
+    t.string   "name"
+    t.text     "description"
+    t.string   "language"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "episodes", force: true do |t|
     t.string   "title"
@@ -28,6 +37,16 @@ ActiveRecord::Schema.define(version: 20140319142241) do
     t.boolean  "cached"
     t.string   "local_path"
     t.integer  "podcast_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "filesize"
+  end
+
+  create_table "playlist_entries", force: true do |t|
+    t.datetime "start_time"
+    t.boolean  "premiere"
+    t.integer  "channel_playlist_id"
+    t.integer  "episode_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

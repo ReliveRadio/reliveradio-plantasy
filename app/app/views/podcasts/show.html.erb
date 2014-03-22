@@ -1,4 +1,3 @@
-
 <img src="<%= @podcast.logo_url %>" style="height: 100px" />
 
 <p>
@@ -58,6 +57,7 @@
       <th>Tags</th>
       <th>Icon url</th>
       <th>Audio file url</th>
+      <th>Filesize</th>
       <th>Cached</th>
       <th>Local path</th>
       <th></th>
@@ -81,6 +81,7 @@
         <td><%= episode.tags %></td>
         <td><%= episode.icon_url %><img src="<%= episode.icon_url %>" style="height: 100px" /></td>
         <td><%= episode.audio_file_url %></td>
+        <td><%= episode.filesize %></td>
         <td><%= episode.cached %></td>
         <td><%= episode.local_path %></td>
         <td><%= link_to 'Download', controller: 'episodes', action: 'download', id: episode.id %></td>
