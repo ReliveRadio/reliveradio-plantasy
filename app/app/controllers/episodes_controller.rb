@@ -87,27 +87,9 @@ class EpisodesController < ApplicationController
     end
   end
 
-  def remove_cache(episode)
-    # TODO check if it is in any playlist
-    
-    # delete file from disk
-    File.delete(@episode.local_path)
-    # update mpd database     
-    mpd = MPD.new
-    mpd.connect
-    mpd.update
-    # update database entry
-    @episode.cached = false
-    @episode.local_path = nil
-    @episode.save
-  end
-
   # DELETE /episodes/1
   # DELETE /episodes/1.json
   def destroy
-    if @episode.cached?
-      remove_cache @episode
-    end
     @episode.destroy
     respond_to do |format|
       format.html { redirect_to episodes_url }

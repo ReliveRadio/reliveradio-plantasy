@@ -2,17 +2,18 @@ require 'sidekiq/web'
 
 App::Application.routes.draw do
 
+  root to: 'podcasts#index'
+
   get '/podcasts/:id/update', to: 'podcasts#update_feed'
   get '/podcasts/update_all', to: 'podcasts#update_all_feeds'
   get '/podcasts/delete_all_episodes', to: 'podcasts#delete_all_episodes'
   get '/podcasts/download_all_episodes', to: 'podcasts#download_all_episodes'
+  resources :podcasts
 
   get '/episodes/:id/download', to: 'episodes#download'
   get '/episodes/:id/play', to: 'episodes#play'
   get '/episodes/:id/delete_cached_file', to: 'episodes#delete_cached_file'
-
   resources :episodes
-  resources :podcasts
 
   mount Sidekiq::Web => '/sidekiq'
 
