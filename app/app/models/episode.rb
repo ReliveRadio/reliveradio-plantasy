@@ -1,5 +1,6 @@
 class Episode < ActiveRecord::Base
 	belongs_to :podcast
+	has_many :playlist_entries
 	validates_associated :podcast
 
 	validates :title, presence: true

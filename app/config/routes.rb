@@ -12,6 +12,10 @@ App::Application.routes.draw do
   resources :admins, only: [:index, :destroy]
   get 'admins/:id/approve', to: 'admins#approve', as: 'approve_user'
 
+  resources :channel_playlists
+
+  resources :playlist_entries
+
   get '/podcasts/:id/update', to: 'podcasts#update_feed'
   get '/podcasts/update_all', to: 'podcasts#update_all_feeds'
   get '/podcasts/delete_all_episodes', to: 'podcasts#delete_all_episodes'
