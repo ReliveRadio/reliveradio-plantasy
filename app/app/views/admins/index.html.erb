@@ -1,0 +1,31 @@
+<h1>Listing admins</h1>
+
+<%= link_to 'New Podcast', new_podcast_path, class: 'button success' %>
+<%= link_to 'Check for new Episodes', {controller: 'podcasts', action: 'update_all_feeds'}, class: 'button' %>
+
+<table>
+  <thead>
+    <tr>
+      <th>Mail</th>
+      <th>Approved?</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @admins.each do |admin| %>
+      <tr>
+        <td><%= admin.email %></td>
+        <% if admin.approved.blank? %>
+        <td><%= link_to 'Approve', controller: 'admins', action: 'approve', id: admin.id %></td>
+        <% else %>
+        <td><%= admin.approved %></td>
+        <% end %>
+        <td><%= link_to 'Destroy', admin, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
