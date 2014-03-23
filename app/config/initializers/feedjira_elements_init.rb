@@ -10,6 +10,8 @@ Feedjira::Feed.add_common_feed_element('language', :as => :language)
 
 # item attributes
 
+#Feedjira::Feed.add_common_feed_entry_element('itunes:summary', :as => :itunes_summary)
+#Feedjira::Feed.add_common_feed_entry_element('itunes:subtitle', :as => :itunes_subtitle)
 Feedjira::Feed.add_common_feed_entry_element('itunes:keywords', :as => :itunes_keywords)
 Feedjira::Feed.add_common_feed_entry_element('itunes:image', :value => :href, :as => :itunes_image)
 Feedjira::Feed.add_common_feed_entry_element('enclosure', :value => :url, :as => :enclosure_url)
