@@ -27,11 +27,11 @@ https://www.vagrantup.com/
 ``
 
 ## Log in and install app gems
-``
+```
   $ vagrant ssh
   $ cd app
   $ bundle
-``
+```
 
 ## Start sidekiq workers
 
