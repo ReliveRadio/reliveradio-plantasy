@@ -12,7 +12,10 @@ class NewFeedWorker
 				website: feed.url,
 				feed: feed.feed_url,
 				description: feed.itunes_summary,
-				logo_url: feed.logo_url
+				logo_url: feed.logo_url,
+				tags: feed.itunes_keywords,
+				category: feed.itunes_category,
+				author: feed.itunes_author
 			)
 			# fetch episodes in the background with sidekiq
 	    	UpdateFeedWorker.perform_async(podcast.id)

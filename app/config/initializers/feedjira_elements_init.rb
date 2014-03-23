@@ -2,6 +2,9 @@
 
 Feedjira::Feed.add_common_feed_element('itunes:summary', :as => :itunes_summary)
 Feedjira::Feed.add_common_feed_element('itunes:image', :value => :href, :as => :logo_url)
+Feedjira::Feed.add_common_feed_element('itunes:keywords', :as => :itunes_keywords)
+Feedjira::Feed.add_common_feed_element('itunes:category', :value => :text, :as => :itunes_category)
+Feedjira::Feed.add_common_feed_element('itunes:author', :as => :itunes_author)
 
 # item attributes
 
