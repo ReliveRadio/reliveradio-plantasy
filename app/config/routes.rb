@@ -27,7 +27,7 @@ App::Application.routes.draw do
   get '/episodes/:id/delete_cached_file', to: 'episodes#delete_cached_file'
   resources :episodes
   
-  get "playlist_management/index"
+  get 'playlist_management/:channel_playlist', to: 'playlist_management#index'
 
   authenticate :admin do
     mount Sidekiq::Web => '/sidekiq'
