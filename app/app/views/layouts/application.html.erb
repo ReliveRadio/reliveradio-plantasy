@@ -17,6 +17,7 @@
     <% if !flash.blank? %>
     <div class="row">
       <div class="medium-12 columns">
+        <!-- TODO add alert and notice for devise -->
         <% if flash[:error] %>
           <div class="alert-box alert"><%= flash[:error] %></div>
         <% end %>
@@ -29,6 +30,9 @@
       </div>
     </div>
     <% end %>
+
+    <%= render 'devise/menu/registration_items' %>
+    <%= render 'devise/menu/login_items' %>
 
     <%= yield %>
     <%= javascript_include_tag "application" %>

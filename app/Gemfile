@@ -35,6 +35,8 @@ gem 'feedjira'
 gem 'ruby-audioinfo'
 gem 'chronic_duration'
 
+gem 'devise'
+
 gem 'sidekiq'
 gem 'sinatra', require: false
 gem 'slim'

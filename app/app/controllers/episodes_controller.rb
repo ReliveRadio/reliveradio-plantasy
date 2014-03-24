@@ -2,6 +2,7 @@ require 'ruby-mpd'
 
 class EpisodesController < ApplicationController
   before_action :set_episode, only: [:show, :edit, :update, :destroy, :download, :play, :delete_cached_file]
+  before_filter :authenticate_admin!
 
   # GET /episodes
   # GET /episodes.json

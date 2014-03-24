@@ -4,6 +4,10 @@ App::Application.routes.draw do
 
   root to: 'podcasts#index'
 
+  devise_for :admins
+  resources :admins, only: [:index, :destroy]
+  get 'admins/:id/approve', to: 'admins#approve', as: 'approve_user'
+
   get '/podcasts/:id/update', to: 'podcasts#update_feed'
   get '/podcasts/update_all', to: 'podcasts#update_all_feeds'
   get '/podcasts/delete_all_episodes', to: 'podcasts#delete_all_episodes'
@@ -15,7 +19,9 @@ App::Application.routes.draw do
   get '/episodes/:id/delete_cached_file', to: 'episodes#delete_cached_file'
   resources :episodes
 
-  mount Sidekiq::Web => '/sidekiq'
+  authenticate :admin do
+    mount Sidekiq::Web => '/sidekiq'
+  end
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

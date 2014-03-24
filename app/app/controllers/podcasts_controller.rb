@@ -2,6 +2,7 @@ require 'feedjira'
 
 class PodcastsController < ApplicationController
   before_action :set_podcast, only: [:show, :edit, :update, :destroy, :update_feed, :delete_all_episodes, :download_all_episodes]
+  before_filter :authenticate_admin!
 
   # GET /podcasts
   # GET /podcasts.json
