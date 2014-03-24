@@ -1,0 +1,16 @@
+<div class="row">
+	<div class="medium-3 columns">
+		<img src="<%= @episode.icon_url.blank? ? @podcast.logo_url : @episode.icon_url %>" />
+	</div>
+	<div class="medium-9 columns">
+		<h1><%= @episode.title %></h1>
+		<p><%= @episode.subtitle%></p>
+	</div>
+</div>
+
+<div class="row">
+	<div class="medium-12 columns">
+
+		<%= raw @episode.content %>
+	</div>
+</div>
