@@ -5,22 +5,22 @@
 </div>
 
 <div class="row">
-	<div class="medium-3 columns playlist">
-		<div class="playlist" style="background: #eee; height: 600px; overflow-y: scroll">
+	<div class="medium-4 columns playlist">
+		<div id="playlist" style="background: #eee; height: 600px; overflow-y: scroll">
 		<% @playlist_entries.each do |entry| %>
 			<div><%= entry.episode.title %></div>
 		<% end %>
 		</div>
 		<div class="button" style="width:100%">Apply</div>
 	</div>
-	<div class="medium-9 columns">
+	<div class="medium-8 columns">
         <ul class="small-block-grid-3 large-block-grid-3">
         <% @episodes.each do |episode| %>
           <li>
                 <img src="<%= episode.icon_url %>">
                 <h5><%= episode.title %></h5>
                 <p><%= first_x_words(episode.subtitle) %></p>
-                <%= link_to 'Add', episode, class: 'button small success' %>
+                <div class="button small success add-episode" id="<%= episode.id %>">Add</div>
           </li>
         <% end %>
         </ul>
