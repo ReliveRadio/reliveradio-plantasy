@@ -1,8 +1,5 @@
 <h1>Listing admins</h1>
 
-<%= link_to 'New Podcast', new_podcast_path, class: 'button success' %>
-<%= link_to 'Check for new Episodes', {controller: 'podcasts', action: 'update_all_feeds'}, class: 'button' %>
-
 <table>
   <thead>
     <tr>
@@ -18,7 +15,7 @@
       <tr>
         <td><%= admin.email %></td>
         <% if admin.approved.blank? %>
-        <td><%= link_to 'Approve', controller: 'admins', action: 'approve', id: admin.id %></td>
+        <td><%= link_to 'Approve', approve_user_path(admin.id) %></td>
         <% else %>
         <td><%= admin.approved %></td>
         <% end %>

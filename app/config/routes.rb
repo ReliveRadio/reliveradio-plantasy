@@ -6,7 +6,7 @@ App::Application.routes.draw do
 
   devise_for :admins
   resources :admins, only: [:index, :destroy]
-  get '/admins/:id/approve', to: 'admins#approve'
+  get 'admins/:id/approve', to: 'admins#approve', as: 'approve_user'
 
   get '/podcasts/:id/update', to: 'podcasts#update_feed'
   get '/podcasts/update_all', to: 'podcasts#update_all_feeds'
