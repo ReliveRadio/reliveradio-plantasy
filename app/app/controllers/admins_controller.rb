@@ -10,13 +10,16 @@ class AdminsController < ApplicationController
     @admin.approved = true
     respond_to do |format|
       if @admin.save
+        AdminMailer.delay(:queue => 'mailer').admin_approved(@admin.id)
         format.html { redirect_to '/admins', notice: 'User approved.' }
       end
     end
   end
 
   def destroy
+    email = @admin.email
     if @admin.destroy
+      AdminMailer.delay(:queue => 'mailer').admin_destroy(email)
       redirect_to '/admins', notice: "User deleted."
     end
   end

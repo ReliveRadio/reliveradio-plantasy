@@ -2,12 +2,12 @@ class Admin < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
-  :recoverable, :rememberable, :trackable, :validatable
+  :recoverable, :rememberable, :trackable, :validatable, :async
 
-  #after_create :send_admin_mail
+  after_create :send_admin_mail
 
   def send_admin_mail
-  	AdminMailer.new_user_waiting_for_approval(self).deliver
+  	AdminMailer.delay(:queue => 'mailer').new_admin_waiting_for_approval(self.id)
   end
 
   def self.send_reset_password_instructions(attributes={})

@@ -36,8 +36,10 @@ gem 'ruby-audioinfo'
 gem 'chronic_duration'
 
 gem 'devise'
-
+gem "devise-async"
 gem 'sidekiq'
+gem 'figaro'
+
 gem 'sinatra', require: false
 gem 'slim'
 
