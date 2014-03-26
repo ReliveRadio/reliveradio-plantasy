@@ -11,5 +11,6 @@ class CreatePodcasts < ActiveRecord::Migration
 
       t.timestamps
     end
+    add_index :podcasts, [:feed, :title], :unique => true
   end
 end

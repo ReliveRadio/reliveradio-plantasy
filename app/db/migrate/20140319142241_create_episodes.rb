@@ -19,5 +19,6 @@ class CreateEpisodes < ActiveRecord::Migration
 
       t.timestamps
     end
+    add_index :episodes, [:guid], :unique => true
   end
 end
