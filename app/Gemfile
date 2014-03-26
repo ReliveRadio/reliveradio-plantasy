@@ -38,6 +38,7 @@ gem 'chronic_duration'
 gem 'devise'
 gem "devise-async"
 gem 'sidekiq'
+gem 'sidekiq_status'
 gem 'figaro'
 
 gem 'sinatra', require: false
