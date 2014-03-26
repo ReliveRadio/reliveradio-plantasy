@@ -12,12 +12,13 @@ class CreateEpisodes < ActiveRecord::Migration
       t.string :tags
       t.string :icon_url
       t.string :audio_file_url
-      t.boolean :cached
+      t.boolean :cached, default: false
       t.string :local_path
 
       t.integer :podcast_id
 
       t.timestamps
     end
+    add_index :episodes, [:guid], :unique => true
   end
 end
