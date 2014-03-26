@@ -4,6 +4,8 @@ class Admin < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
   :recoverable, :rememberable, :trackable, :validatable, :async
 
+  validates :approved, presence: true
+
   after_create :send_admin_mail
 
   def send_admin_mail
