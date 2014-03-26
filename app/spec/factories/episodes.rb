@@ -17,6 +17,7 @@ FactoryGirl.define do
     audio_file_url Faker::Internet.url
     cached false
     local_path ""
+    filesize Faker::Number.number(6)
   end
 
   factory :episode_cached do
@@ -33,5 +34,6 @@ FactoryGirl.define do
     audio_file_url Faker::Internet.url
     cached true
     local_path Faker::Internet.url
+    filesize Faker::Number.number(6)
   end
 end
