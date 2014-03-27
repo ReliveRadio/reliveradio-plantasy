@@ -3,10 +3,10 @@ class Episode < ActiveRecord::Base
 	has_many :playlist_entries
 	validates_associated :podcast
 
+	validates :guid, presence: true
 	validates :title, presence: true
 	validates :link, presence: true
 	validates :pub_date, presence: true
-	validates :guid, presence: true
 	validates :audio_file_url, presence: true
 
 	before_destroy :remove_cache
