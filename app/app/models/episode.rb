@@ -13,4 +13,5 @@ class Episode < ActiveRecord::Base
 	def remove_cache
 		EpisodesController.helpers.remove_cache(self)
 	end
+
 end

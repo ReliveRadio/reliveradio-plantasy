@@ -6,11 +6,4 @@ class Podcast < ActiveRecord::Base
 	validates :logo_url, presence: true
 	validates :website, presence: true
 
-	def self.search(search)
-		if search
-			where('title LIKE ?', "%#{search}%")
-		else
-			scoped # like all but without doing the query
-		end
-	end
 end

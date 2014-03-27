@@ -31,6 +31,7 @@ gem 'rake'
 gem 'json'
 gem 'will_paginate'
 gem 'will_paginate-foundation'
+gem 'ransack'
 gem 'feedjira'
 
 gem 'ruby-audioinfo'
