@@ -58,6 +58,7 @@ describe EpisodesController do
     describe "with invalid params" do
       it "assigns a newly created but unsaved episode as @episode" do
         # Trigger the behavior that occurs when invalid params are submitted
+        # https://stackoverflow.com/questions/3760691/what-is-the-use-of-any-instance-method-in-rails
         Episode.any_instance.stub(:save).and_return(false)
         post :create, {:episode => { "audio_file_url" => "" }}
         assigns(:episode).should be_a_new(Episode)
