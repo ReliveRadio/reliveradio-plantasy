@@ -1,16 +1,17 @@
 <div class="row">
 	<div class="medium-12 columns">
 		<h1>Podcast Verzeichnis</h1>
-        <ul class="small-block-grid-3 large-block-grid-5">
-        <% @podcasts.each do |podcast| %>
-          <li>
-                <a href="<%= directory_show_podcast_url(podcast.id) %>">
-                	<img src="<%= podcast.logo_url %>" />
-                </a>
-                <h5><%= podcast.title %></h5>
-                <%= first_x_words(podcast.description, 20) %>
-          </li>
-        <% end %>
-        </ul>
+
+		<%= render 'searchbar' %>
+
+		<div id="results"><%= render 'podcasts' %></div>
+	</div>
+</div>
+
+<div class="row">
+	<div class="small-12 columns">
+		<div class="pagination-centered">
+			<%= will_paginate @podcasts, renderer: FoundationPagination::Rails %> 
+		</div>
 	</div>
 </div>

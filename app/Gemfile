@@ -30,6 +30,7 @@ gem 'jbuilder', '~> 1.2'
 gem 'rake'
 gem 'json'
 gem 'will_paginate'
+gem 'will_paginate-foundation'
 gem 'feedjira'
 
 gem 'ruby-audioinfo'

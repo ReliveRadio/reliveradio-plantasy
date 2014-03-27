@@ -1,0 +1,14 @@
+<div id="searchbar" class="row">
+	<div class="medium-6 small-centered columns">
+		<%= form_tag directory_path, remote: true, :method => 'get' do %>
+		<div class="row collapse">
+			<div class="small-10 columns">
+				<%= text_field_tag :search, params[:search], :placeholder => "Verzeichnis durchsuchen", :id => "search-input-field" %>
+			</div>
+			<div class="small-2 columns hide-for-small">
+				<%= submit_tag "Search", :name => nil, :class => "prefix button" %>
+			</div>
+		</div>
+		<% end %>
+	</div>
+</div>

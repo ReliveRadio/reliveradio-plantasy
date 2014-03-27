@@ -1,7 +1,11 @@
 class DirectoryController < ApplicationController
 
   def index
-  	@podcasts = Podcast.all.order(:title)
+    @podcasts = Podcast.search(params[:search]).order(:title).paginate(:per_page => 15, :page => params[:page])
+    respond_to do |format|
+      format.html {}
+      format.js   {}
+    end
   end
 
   def show_podcast
