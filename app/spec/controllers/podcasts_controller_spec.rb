@@ -56,6 +56,12 @@ describe PodcastsController do
         post :create, {:podcast => attributes_for(:podcast)}
         response.should redirect_to(Podcast.last)
       end
+
+      it "redirects to podcast if the podcast is alredy in database" do
+        podcast = create(:podcast)
+        post :create, {:podcast => podcast.attributes}
+        response.should redirect_to(podcast)
+      end
     end
 
     describe "with invalid params" do

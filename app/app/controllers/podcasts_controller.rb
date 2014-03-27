@@ -61,11 +61,19 @@ class PodcastsController < ApplicationController
   # POST /podcasts
   # POST /podcasts.json
   def create
-  	if !podcast_params['feed'].blank?
-    	NewFeedWorker.perform_async(podcast_params['feed'])
-    	respond_to do |format|
-    	  	format.html { redirect_to podcasts_url, notice: 'Podcast will be added in the background.' }
-    	end
+    feed_url = podcast_params['feed']
+  	if !feed_url.blank?
+      if !Podcast.exists? feed: feed_url
+    	  NewFeedWorker.perform_async(feed_url)
+    	  respond_to do |format|
+    	    	format.html { redirect_to podcasts_url, notice: 'Podcast will be added in the background.' }
+    	  end
+      else
+        @podcast = Podcast.find_by feed: feed_url
+        respond_to do |format|
+            format.html { redirect_to @podcast, notice: 'Podcast already in databse.' }
+        end
+      end
     else
       respond_to do |format|
     	  format.html { redirect_to new_podcast_url, flash: {error: 'Invalid URL.'} }
