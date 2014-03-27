@@ -45,6 +45,12 @@ MAILER_DOMAIN: i42n.auriga.uberspace.de
 MAILER_SERVER_ADDRESS: auriga.uberspace.de
 ```
 
+## Migrate Database
+
+```
+  $ rake db:migrate
+```
+
 ## Start sidekiq workers
 
 ``
