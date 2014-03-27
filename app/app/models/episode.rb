@@ -1,7 +1,9 @@
 class Episode < ActiveRecord::Base
 	belongs_to :podcast
 	has_many :playlist_entries
+
 	validates_associated :podcast
+	validates :podcast_id, presence: true
 
 	validates :guid, presence: true
 	validates :title, presence: true
