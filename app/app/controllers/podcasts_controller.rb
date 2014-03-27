@@ -67,8 +67,8 @@ class PodcastsController < ApplicationController
     	  	format.html { redirect_to podcasts_url, notice: 'Podcast will be added in the background.' }
     	end
     else
-        respond_to do |format|
-    	  	format.html { redirect_to new_podcast_url, flash: {error: 'Invalid URL.'} }
+      respond_to do |format|
+    	  format.html { redirect_to new_podcast_url, flash: {error: 'Invalid URL.'} }
     	end 
     end
   end
