@@ -2,20 +2,7 @@ require 'spec_helper'
 
 describe "episodes/new" do
   before(:each) do
-    assign(:episode, stub_model(Episode,
-      :title => "MyString",
-      :link => "MyString",
-      :guid => "MyString",
-      :subtitle => "MyString",
-      :content => "MyText",
-      :duration => 1,
-      :flattr_url => "MyString",
-      :tags => "MyString",
-      :icon_url => "MyString",
-      :audio_file_url => "MyString",
-      :cached => false,
-      :local_path => "MyString"
-    ).as_new_record)
+    assign(:episode, stub_model(Episode, attributes_for(:episode)).as_new_record)
   end
 
   it "renders new episode form" do

@@ -2,15 +2,7 @@ require 'spec_helper'
 
 describe "podcasts/show" do
   before(:each) do
-    @podcast = assign(:podcast, stub_model(Podcast,
-      :title => "Title",
-      :description => "MyText",
-      :logo_url => "Logo Url",
-      :website => "Website",
-      :feed => "Feed",
-      :tags => "Tags",
-      :category => "Category"
-    ))
+    @podcast = assign(:podcast, stub_model(Podcast,attributes_for(:podcast)))
   end
 
   it "renders attributes in <p>" do
