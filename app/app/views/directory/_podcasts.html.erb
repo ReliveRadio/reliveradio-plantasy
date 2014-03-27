@@ -9,3 +9,6 @@
 	</li>
 	<% end %>
 </ul>
+<div class="pagination-centered">
+	<%= will_paginate @podcasts, :param_name => 'podcasts_page',  renderer: FoundationPagination::Rails %> 
+</div>
