@@ -38,19 +38,22 @@ describe EpisodesController do
   describe "POST create" do
     describe "with valid params" do
       it "creates a new Episode" do
+        podcast = create(:podcast)
         expect {
-          post :create, {:episode => attributes_for(:episode)}
+          post :create, {:episode => attributes_for(:episode, podcast_id: podcast.id)}
         }.to change(Episode, :count).by(1)
       end
 
       it "assigns a newly created episode as @episode" do
-        post :create, {:episode => attributes_for(:episode)}
+        podcast = create(:podcast)
+        post :create, {:episode => attributes_for(:episode, podcast_id: podcast.id)}
         assigns(:episode).should be_a(Episode)
         assigns(:episode).should be_persisted
       end
 
       it "redirects to the created episode" do
-        post :create, {:episode => attributes_for(:episode)}
+        podcast = create(:podcast)
+        post :create, {:episode => attributes_for(:episode, podcast_id: podcast.id)}
         response.should redirect_to(Episode.last)
       end
     end

@@ -3,6 +3,7 @@
 require 'faker'
 
 FactoryGirl.define do
+
   factory :episode do
     title Faker::Lorem.paragraph(1)
     link Faker::Internet.url
@@ -18,6 +19,7 @@ FactoryGirl.define do
     cached false
     local_path ""
     filesize Faker::Number.number(6)
+    podcast
   end
 
   factory :episode_cached do
@@ -35,5 +37,6 @@ FactoryGirl.define do
     cached true
     local_path Faker::Internet.url
     filesize Faker::Number.number(6)
+    podcast
   end
 end
