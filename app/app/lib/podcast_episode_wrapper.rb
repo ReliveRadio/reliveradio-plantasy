@@ -1,3 +1,6 @@
+# This is a wrapper class to display podcasts and episodes as search results
+# in a single array.
+
 class PodcastEpisodeWrapper
 
 	def initialize(podcast_or_episode)
