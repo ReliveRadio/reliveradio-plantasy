@@ -5,9 +5,15 @@ class DirectoryController < ApplicationController
     @query.sorts = 'title asc' if @query.sorts.empty?
     podcasts = @query.result
 
-    episodes_query = Episode.search(params[:q])
-    episodes_query.sorts = 'title asc' if @query.sorts.empty?
-    episodes = episodes_query.result
+    # only show episodes in results if there was actually a search query
+    if params[:q]
+      # if there is a search query search all the matchin episodes
+      episodes_query = Episode.search(params[:q])
+      episodes_query.sorts = 'title asc' if @query.sorts.empty?
+      episodes = episodes_query.result
+    else
+      episodes = []
+    end
 
     @results = []
     podcasts.each do |podcast|
