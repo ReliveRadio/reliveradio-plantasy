@@ -4,7 +4,7 @@
 
 		<div id="searchbar" class="row">
 			<div class="large-6 medium-9 small-centered columns">
-				<%= search_form_for @query, url: directory_path, method: :get, remote: true do |f| %>
+				<%= search_form_for @query, url: directory_path, method: :get, remote: false do |f| %>
 					<div class="row collapse">
 						<div class="medium-10 columns">
 							<%= f.text_field :title_or_subtitle_cont, :placeholder => "Verzeichnis durchsuchen", :id => "search-input-field" %>
