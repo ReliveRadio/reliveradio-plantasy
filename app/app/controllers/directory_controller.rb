@@ -17,7 +17,8 @@ class DirectoryController < ApplicationController
       @results.append(PodcastEpisodeWrapper.new(episode))
     end
 
-    @results = @results.paginate(:per_page => 15, :page => params[:podcasts_page])
+    # add pagination
+    @results = @results.paginate(:per_page => 15, :page => params[:page])
 
     respond_to do |format|
       format.html {}
