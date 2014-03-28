@@ -1,6 +1,8 @@
 class DirectoryController < ApplicationController
 
   def index
+
+    # search all matchin podcasts
     @query = Podcast.search(params[:q])
     @query.sorts = 'title asc' if @query.sorts.empty?
     podcasts = @query.result
@@ -15,6 +17,7 @@ class DirectoryController < ApplicationController
       episodes = []
     end
 
+    # create combined results array that consists of wrapper objects
     @results = []
     podcasts.each do |podcast|
       @results.append(PodcastEpisodeWrapper.new(podcast))
