@@ -1,0 +1,18 @@
+<ul class="small-block-grid-3 medium-block-grid-4 large-block-grid-5">
+	<% @results.each do |result| %>
+	<li>
+		<% if result.is_podcast? %>
+			<a href="<%= directory_show_podcast_url(result.id) %>">
+		<% else %>
+			<a href="<%= directory_show_episode_url(result.id) %>">
+		<% end %>
+		<img src="<%= result.image_url %>" /></a>
+		
+		<h5><%= result.title %></h5>
+		<p><%= first_x_words result.subtitle %></p>
+	</li>
+	<% end %>
+</ul>
+<div class="pagination-centered">
+	<%= will_paginate @results, :param_name => 'podcasts_page',  renderer: FoundationPagination::Rails %> 
+</div>

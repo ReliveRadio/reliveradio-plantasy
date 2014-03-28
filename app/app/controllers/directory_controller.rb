@@ -1,9 +1,24 @@
 class DirectoryController < ApplicationController
 
   def index
-    @podcast_query = Podcast.search(params[:q])
-    @podcast_query.sorts = 'title asc' if @podcast_query.sorts.empty?
-    @podcasts = @podcast_query.result.paginate(:per_page => 15, :page => params[:podcasts_page])
+    @query = Podcast.search(params[:q])
+    @query.sorts = 'title asc' if @query.sorts.empty?
+    podcasts = @query.result
+
+    episodes_query = Episode.search(params[:q])
+    episodes_query.sorts = 'title asc' if @query.sorts.empty?
+    episodes = episodes_query.result
+
+    @results = []
+    podcasts.each do |podcast|
+      @results.append(PodcastEpisodeWrapper.new(podcast))
+    end
+    episodes.each do |episode|
+      @results.append(PodcastEpisodeWrapper.new(episode))
+    end
+
+    @results = @results.paginate(:per_page => 15, :page => params[:podcasts_page])
+
     respond_to do |format|
       format.html {}
       format.js   {}
