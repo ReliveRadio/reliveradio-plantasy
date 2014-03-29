@@ -5,15 +5,28 @@ require 'audioinfo'
 
 class DownloadEpisodeWorker
 	include Sidekiq::Worker
+	include Sidekiq::Status::Worker
 
 	def perform(episode_id)
 		episode = Episode.find(episode_id)
-		uri = URI.parse(episode.audio_file_url)
-		filename = File.basename(uri.path)
+		url = URI.parse(episode.audio_file_url)
+		filename = File.basename(url.path)
     	episode.local_path = '/home/vagrant/music/' + filename
-		open(episode.local_path, 'wb') do |file|
-      		file << open(episode.audio_file_url).read
+
+    	Net::HTTP.new(url.host, url.port).request_get(url.path) do |response|
+    		filesize = response['Content-Length'].to_i
+    		bytes_done = 0
+
+			open(episode.local_path, 'wb') do |file|
+	    		response.read_body do |fragment|
+	    			file << fragment
+	    			# update status
+	    			bytes_done += fragment.length
+	    			at bytes_done, filesize
+	    		end
+	    	end
     	end
+
     	episode.cached = true
 
     	if episode.duration.blank?
@@ -32,4 +45,5 @@ class DownloadEpisodeWorker
 		mpd.connect
 		mpd.update
 	end
+
 end
