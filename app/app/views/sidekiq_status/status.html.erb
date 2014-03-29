@@ -1,0 +1,20 @@
+<h1>SidekiqStatus#status</h1>
+<div id="status-info"><%= render 'status' %></div>
+<%= javascript_tag do %>
+$(function(){
+	window.job_<%= @job_id %> = false;
+	// refresh time in milliseconds
+	var intervalTime = 1 * 1000; // 1 second
+
+	function fetch_updates(){
+		$.get('<%= j (status_url(@job_id)) %>', null, null, 'script');
+		if (!window.job_<%= @job_id %> == true) {
+			setTimeout(fetch_updates, intervalTime);
+		}
+	}
+
+	// start timer
+	setTimeout(fetch_updates, intervalTime);
+	
+});
+<% end %>

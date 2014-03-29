@@ -19,6 +19,8 @@ App::Application.routes.draw do
   get '/episodes/:id/delete_cached_file', to: 'episodes#delete_cached_file'
   resources :episodes
 
+  get "sidekiq_status/:id", to: 'sidekiq_status#status', as: 'status'
+  
   authenticate :admin do
     mount Sidekiq::Web => '/sidekiq'
   end

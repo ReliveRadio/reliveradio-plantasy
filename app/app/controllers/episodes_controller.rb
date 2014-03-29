@@ -25,9 +25,9 @@ class EpisodesController < ApplicationController
   end
 
   def download
-    DownloadEpisodeWorker.perform_async(@episode.id)
+    @job_id = DownloadEpisodeWorker.perform_async(@episode.id)
     respond_to do |format|
-      format.html { redirect_to @episode, notice: 'File will be downloaded in background.'}
+      format.html { redirect_to status_url(@job_id), notice: 'File will be downloaded in background.'}
     end
   end
 
@@ -77,7 +77,7 @@ class EpisodesController < ApplicationController
 
   def delete_cached_file
     if @episode.cached?
-      remove_cache @episode
+      @episode.remove_cache
       respond_to do |format|
         format.html { redirect_to @episode, flash: {notice: 'File was deleted.'}}
       end

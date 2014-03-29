@@ -33,12 +33,13 @@ gem 'will_paginate'
 gem 'feedjira'
 
 gem 'ruby-audioinfo'
+gem 'wavefile'
 gem 'chronic_duration'
 
 gem 'devise'
 gem "devise-async"
 gem 'sidekiq'
-gem 'sidekiq_status'
+gem 'sidekiq-status'
 gem 'figaro'
 
 gem 'sinatra', require: false
