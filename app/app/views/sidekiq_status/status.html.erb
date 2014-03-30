@@ -1,5 +1,5 @@
 <h1>SidekiqStatus#status</h1>
-<div id="status-info"><%= render 'status' %></div>
+<div id="status-info-<%= @job_id %>"><%= render 'status' %></div>
 <%= javascript_tag do %>
 $(function(){
 	window.job_<%= @job_id %> = false;

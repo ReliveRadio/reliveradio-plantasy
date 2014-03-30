@@ -25,9 +25,14 @@ class EpisodesController < ApplicationController
   end
 
   def download
-    @job_id = DownloadEpisodeWorker.perform_async(@episode.id)
-    respond_to do |format|
-      format.html { redirect_to status_url(@job_id), notice: 'File will be downloaded in background.'}
+    if !@episode.cached?
+      @job_id = DownloadEpisodeWorker.perform_async(@episode.id)
+      respond_to do |format|
+        format.html { redirect_to status_url(@job_id), notice: 'File will be downloaded in background.'}
+        format.js {}
+      end
+    else
+      # TODO
     end
   end
 

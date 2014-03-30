@@ -99,7 +99,9 @@
         <td><%= episode.filesize %></td>
         <td><%= episode.cached %></td>
         <td><%= episode.local_path %></td>
-        <td><%= link_to 'Download', controller: 'episodes', action: 'download', id: episode.id %></td>
+        <td>
+          <div id="status-info-<%= episode.id %>"><%= link_to 'Download', controller: 'episodes', action: 'download', remote: true, id: episode.id %></div>
+        </td>
         <td><%= link_to 'Delete Cached File', controller: 'episodes', action: 'delete_cached_file', id: episode.id %></td>
         <td><%= link_to "Play Next", controller: "episodes", action: "play", id: episode.id %></td>
         <td><%= link_to 'Show', episode %></td>

@@ -1,0 +1,20 @@
+$(function(){
+
+	// update elements id so that the requested AJAX update changes the correct element
+	$('#status-info-<%= @episode.id %>').attr('id', 'status-info-<%= @job_id %>');
+
+	window.job_<%= @job_id %> = false;
+	// refresh time in milliseconds
+	var intervalTime_<%= @job_id %> = 1 * 1000; // 1 second
+
+	function fetch_updates_<%= @job_id %>(){
+		$.get('<%= j (status_url(@job_id)) %>', null, null, 'script');
+		if (!window.job_<%= @job_id %> == true) {
+			setTimeout(fetch_updates_<%= @job_id %>, intervalTime_<%= @job_id %>);
+		}
+	}
+
+	// start timer
+	setTimeout(fetch_updates_<%= @job_id %>, intervalTime_<%= @job_id %>);
+	
+});
