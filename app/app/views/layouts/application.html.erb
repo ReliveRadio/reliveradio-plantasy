@@ -13,8 +13,6 @@
 
   <body>
 
-    <%= javascript_include_tag "application" %>
-
     <!-- FLASH MESSAGES -->
     <% if !flash.blank? %>
     <div class="row">
@@ -37,5 +35,7 @@
     <%= render 'devise/menu/login_items' %>
 
     <%= yield %>
+
+    <%= javascript_include_tag "application" %>
   </body>
 </html>
