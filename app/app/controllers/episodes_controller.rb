@@ -32,7 +32,10 @@ class EpisodesController < ApplicationController
         format.js {}
       end
     else
-      # TODO
+      respond_to do |format|
+        format.html { redirect_to @episode, notice: 'Episode already cached.'}
+        format.js {}
+      end
     end
   end
 
