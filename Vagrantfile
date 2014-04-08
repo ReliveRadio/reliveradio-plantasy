@@ -1,9 +1,6 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-# do not fogert to install omnibus plugin
-# 'vagrant plugin install vagrant-omnibus'
-
 Vagrant.configure("2") do |config|
   config.vm.box = "ubuntu-12.04"
   config.vm.box_url = "http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_ubuntu-12.04_chef-provisionerless.box"
@@ -14,6 +11,8 @@ Vagrant.configure("2") do |config|
   end
 
   # Set the version of chef to install using the vagrant-omnibus plugin
+  # do not fogert to install omnibus plugin
+  # 'vagrant plugin install vagrant-omnibus'
   config.omnibus.chef_version = :latest
 
   config.vm.network "forwarded_port", guest: 3000, host: 3000 #rails, thin
