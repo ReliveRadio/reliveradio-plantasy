@@ -1,6 +1,7 @@
 class PlaylistEntriesController < ApplicationController
   before_action :set_playlist_entry, only: [:show, :edit, :update, :destroy]
-
+  before_filter :authenticate_admin!
+  
   # GET /playlist_entries
   # GET /playlist_entries.json
   def index

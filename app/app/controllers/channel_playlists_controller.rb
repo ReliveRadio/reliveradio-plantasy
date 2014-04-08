@@ -1,5 +1,6 @@
 class ChannelPlaylistsController < ApplicationController
   before_action :set_channel_playlist, only: [:show, :edit, :update, :destroy]
+  before_filter :authenticate_admin!
 
   # GET /channel_playlists
   # GET /channel_playlists.json
