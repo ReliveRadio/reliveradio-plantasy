@@ -1,6 +1,7 @@
 <div class="row">
 	<div class="medium-12 columns">
-		<h1>Playlist Management</h1>
+		<h1>Playlist Management <small><%= @channel_playlist.name %></small></h1>
+		<p><%= @channel_playlist.description %></p>
 	</div>
 </div>
 
@@ -8,9 +9,13 @@
 	<div class="medium-4 columns playlist">
 		<div id="playlist" style="background: #eee; height: 600px; overflow-y: scroll">
 		<% @playlist_entries.each do |entry| %>
-			<div><%= entry.episode.title %></div>
+			<div>
+				<%= entry.start_time %>, 
+				<%= entry.episode.title %>
+			</div>
 		<% end %>
 		</div>
+		<div class="success button" style="width:100%">Download All</div>
 		<div class="button" style="width:100%">Apply</div>
 	</div>
 	<div class="medium-8 columns">
@@ -20,7 +25,7 @@
                 <img src="<%= episode.icon_url %>">
                 <h5><%= episode.title %></h5>
                 <p><%= first_x_words(episode.subtitle) %></p>
-                <div class="button small success add-episode" id="<%= episode.id %>">Add</div>
+				<%= link_to 'Add', {controller: 'playlist_management', action: 'create_entry', episode_id: episode.id, channel_playlist: @channel_playlist.id}, class: 'button small success'%>
           </li>
         <% end %>
         </ul>

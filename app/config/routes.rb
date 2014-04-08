@@ -12,9 +12,11 @@ App::Application.routes.draw do
   resources :admins, only: [:index, :destroy]
   get 'admins/:id/approve', to: 'admins#approve', as: 'approve_user'
 
-  resources :channel_playlists
-
-  resources :playlist_entries
+  resources :channel_playlists do
+    resources :playlist_entries
+  end
+  get 'playlist_management/:channel_playlist', to: 'playlist_management#index', as: 'playlist_management'
+  get 'playlist_management/:channel_playlist/create_entry/:episode_id', to: 'playlist_management#create_entry'
 
   get '/podcasts/:id/update', to: 'podcasts#update_feed'
   get '/podcasts/update_all', to: 'podcasts#update_all_feeds'
@@ -27,7 +29,6 @@ App::Application.routes.draw do
   get '/episodes/:id/delete_cached_file', to: 'episodes#delete_cached_file'
   resources :episodes
   
-  get 'playlist_management/:channel_playlist', to: 'playlist_management#index'
 
   authenticate :admin do
     mount Sidekiq::Web => '/sidekiq'
