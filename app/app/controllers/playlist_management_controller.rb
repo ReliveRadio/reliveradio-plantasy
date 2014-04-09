@@ -4,18 +4,14 @@ class PlaylistManagementController < ApplicationController
 
   def index
   	@episodes = Episode.all
-  	# TODO
-  	# cut off all entries in the past?
-  	@playlist_entries = @channel_playlist.playlist_entries.order(start_time: :asc)
-  	@playlist_entries.delete_if { |entry| entry.end_time < Time.now } # remove past entries TODO SQL
+  	@playlist_entries = @channel_playlist.playlist_entries.where("end_time >= :now", {now: Time.now}).order(start_time: :asc)
   end
 
   def create_entry
   	@episode = Episode.find(params[:episode_id])
 
   	# calc start time for new playlist entry
-  	@playlist_entries = @channel_playlist.playlist_entries.order(start_time: :asc)
-  	@playlist_entries.delete_if { |entry| entry.end_time < Time.now } # remove past entries TODO SQL
+  	@playlist_entries = @channel_playlist.playlist_entries.where("end_time >= :now", {now: Time.now}).order(start_time: :asc)
 
   	if @playlist_entries.blank?
   		start_time = Time.now
@@ -70,9 +66,7 @@ class PlaylistManagementController < ApplicationController
 
     def update_mpd(channel_playlist)
 		# collect all future entries
-		playlist_entries = channel_playlist.playlist_entries.order(start_time: :asc)
-		# TODO do this in SQL!!!
-		playlist_entries.delete_if { |entry| entry.end_time < Time.now } # remove past entries
+		playlist_entries = channel_playlist.playlist_entries.where("end_time >= :now", {now: Time.now}).order(start_time: :asc)
 
 		mpd = MPD.new
 		mpd.connect
