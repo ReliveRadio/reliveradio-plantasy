@@ -9,9 +9,13 @@
 	<div class="medium-4 columns playlist">
 		<div id="playlist" class="panel" style="height: 600px; overflow-y: scroll">
 		<% @playlist_entries.each do |entry| %>
-			<div>
-				<%= entry.start_time %>, 
-				<%= entry.episode.title %>
+			<div class="row collapse">
+				<div class="small-12 columns">
+					<div><%= entry.episode.title %></div>
+					<div><%= entry.start_time %></div>
+					<div><%= entry.end_time %></div>
+				</div>
+				<hr/>
 			</div>
 		<% end %>
 		</div>
