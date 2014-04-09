@@ -4,7 +4,7 @@ module EpisodesHelper
 			# TODO check if it is in any future playlist
 
 			# delete file from disk
-			File.delete(episode.local_path)
+			File.delete(episode.local_path) rescue false
 			# update mpd database     
 			mpd = MPD.new
 			mpd.connect
