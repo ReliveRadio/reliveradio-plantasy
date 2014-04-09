@@ -14,4 +14,12 @@ class PlaylistEntry < ActiveRecord::Base
 	def duration
 		self.episode.duration
 	end
+
+	def time_left
+		if isLive?
+			end_time - Time.now
+		else
+			"is not live"
+		end
+	end
 end
