@@ -75,7 +75,7 @@ class PlaylistManagementController < ApplicationController
 		status = mpd.status
 		if status[:playlistlength] > 0 && status[:state] == :play
 			# remove live entry
-			playlist_entries.delete_if { |entry| (entry.start_time < Time.now) && (entry.end_time > Time.now) }
+			playlist_entries.delete_if { |entry| entry.isLive? }
 
 			# delete all played entries
 			if status[:song] > 0
