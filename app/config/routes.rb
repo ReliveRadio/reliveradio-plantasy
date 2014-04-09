@@ -17,6 +17,7 @@ App::Application.routes.draw do
   end
   get 'playlist_management/:channel_playlist', to: 'playlist_management#index', as: 'playlist_management'
   get 'playlist_management/:channel_playlist/create_entry/:episode_id', to: 'playlist_management#create_entry'
+  get 'playlist_management/:channel_playlist/destroy_entry/:playlist_entry_id', to: 'playlist_management#destroy_entry'
 
   get '/podcasts/:id/update', to: 'podcasts#update_feed'
   get '/podcasts/update_all', to: 'podcasts#update_all_feeds'

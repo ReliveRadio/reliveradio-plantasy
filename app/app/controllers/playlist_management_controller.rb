@@ -31,7 +31,26 @@ class PlaylistManagementController < ApplicationController
   end
 
   def destroy_entry
-  	params[:playlist_entry_id]
+  	@playlist_entry = PlaylistEntry.find(params[:playlist_entry_id])
+    # do not remove just playling entry
+    if !@playlist_entry.blank? && !@playlist_entry.isLive?
+      # adjust all start and end times of all episodes after the entry
+      before_playlist_entries = @channel_playlist.playlist_entries.where("end_time <= :this_start_time", {this_start_time: @playlist_entry.start_time}).order(start_time: :asc)
+      after_playlist_entries = @channel_playlist.playlist_entries.where("start_time > :this_start_time", {this_start_time: @playlist_entry.start_time}).order(start_time: :asc)
+      temp_start_time = before_playlist_entries.last.end_time
+      after_playlist_entries.each do |entry|
+        entry.start_time = temp_start_time
+        entry.end_time = temp_start_time + entry.episode.duration.seconds
+        temp_start_time = entry.end_time
+      end
+      # remove entry
+      @playlist_entry.destroy
+      # update mpd
+      update_mpd @channel_playlist
+    end
+    respond_to do |format|
+      format.html { redirect_to playlist_management_url, channel_playlist: @channel_playlist.id}
+    end
   end
 
   def move_entry

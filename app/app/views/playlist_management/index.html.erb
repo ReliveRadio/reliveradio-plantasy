@@ -14,6 +14,7 @@
 					<div><%= entry.episode.title %></div>
 					<div><%= entry.start_time %></div>
 					<div><%= entry.end_time %></div>
+					<div><%= link_to 'Remove', {controller: 'playlist_management', action: 'destroy_entry', playlist_entry_id: entry.id, channel_playlist: @channel_playlist.id}, class: 'button alert tiny'%></div>
 				</div>
 				<hr/>
 			</div>
