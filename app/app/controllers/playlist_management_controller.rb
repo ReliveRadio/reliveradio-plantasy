@@ -80,10 +80,6 @@ class PlaylistManagementController < ApplicationController
   	
   end
 
-  def apply_playlist
-  	
-  end
-
   private
     def set_channel_playlist
       @channel_playlist = ChannelPlaylist.find(params[:channel_playlist])
