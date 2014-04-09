@@ -7,13 +7,15 @@ class PlaylistManagementController < ApplicationController
   	# TODO
   	# cut off all entries in the past?
   	@playlist_entries = @channel_playlist.playlist_entries.order(start_time: :asc)
-  	@playlist_entries.delete_if { |entry| entry.end_time < Time.now } # remove past entries
+  	@playlist_entries.delete_if { |entry| entry.end_time < Time.now } # remove past entries TODO SQL
   end
 
   def create_entry
   	@episode = Episode.find(params[:episode_id])
+
+  	# calc start time for new playlist entry
   	@playlist_entries = @channel_playlist.playlist_entries.order(start_time: :asc)
-  	@playlist_entries.delete_if { |entry| entry.end_time < Time.now } # remove past entries
+  	@playlist_entries.delete_if { |entry| entry.end_time < Time.now } # remove past entries TODO SQL
 
   	if @playlist_entries.blank?
   		start_time = Time.now
@@ -25,47 +27,7 @@ class PlaylistManagementController < ApplicationController
 
   	PlaylistEntry.create(channel_playlist_id: @channel_playlist.id, episode_id: @episode.id, start_time: start_time, end_time: end_time)
 
-  	#update_mpd(@channel_playlist)
-
-	# collect all future entries
-	playlist_entries = @channel_playlist.playlist_entries.order(start_time: :asc)
-	# TODO do this in SQL!!!
-	playlist_entries.delete_if { |entry| entry.end_time < Time.now } # remove past entries
-
-	mpd = MPD.new
-	mpd.connect
-
-	# delete all mpd entries but not the currently playling one
-	status = mpd.status
-	if status[:playlistlength] > 0 && status[:state] == :play
-		# remove live entry
-		playlist_entries.delete_if { |entry| (entry.start_time < Time.now) && (entry.end_time > Time.now) }
-
-		# delete all played entries
-		if status[:song] > 0
-			mpd.delete 0...status[:song]
-		end
-		# update status because positions changed
-		status = mpd.status
-		# delete all future entries
-		start = status[:song] + 1
-		if start < status[:playlistlength]
-			mpd.delete start...status[:playlistlength]
-		end
-	else
-		mpd.clear if status[:state] == :stop
-		#TODO seek!!!
-	end
-
-	# if status is blank there is nothing in the queue
-
-	# TODO add check if all episodes are cached!
-	
-	playlist_entries.each do |entry|
-		mpd.add File.basename(entry.episode.local_path)
-	end		
-	mpd.play
-	mpd.disconnect
+  	update_mpd @channel_playlist
 
     respond_to do |format|
       format.html { redirect_to playlist_management_url, channel_playlist: @channel_playlist.id, notice: 'Episode was added to the playlist.' }
@@ -80,9 +42,72 @@ class PlaylistManagementController < ApplicationController
   	
   end
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   private
     def set_channel_playlist
       @channel_playlist = ChannelPlaylist.find(params[:channel_playlist])
+    end
+
+    def update_mpd(channel_playlist)
+		# collect all future entries
+		playlist_entries = channel_playlist.playlist_entries.order(start_time: :asc)
+		# TODO do this in SQL!!!
+		playlist_entries.delete_if { |entry| entry.end_time < Time.now } # remove past entries
+
+		mpd = MPD.new
+		mpd.connect
+
+		# delete all mpd entries but not the currently playling one
+		status = mpd.status
+		if status[:playlistlength] > 0 && status[:state] == :play
+			# remove live entry
+			playlist_entries.delete_if { |entry| (entry.start_time < Time.now) && (entry.end_time > Time.now) }
+
+			# delete all played entries
+			if status[:song] > 0
+				mpd.delete 0...status[:song]
+			end
+			# update status because positions changed
+			status = mpd.status
+			# delete all future entries
+			start = status[:song] + 1
+			if start < status[:playlistlength]
+				mpd.delete start...status[:playlistlength]
+			end
+		else
+			mpd.clear if status[:state] == :stop
+			#TODO seek!!!
+		end
+
+		# if status is blank there is nothing in the queue
+
+		# TODO add check if all episodes are cached!
+		
+		playlist_entries.each do |entry|
+			mpd.add File.basename(entry.episode.local_path)
+		end		
+		mpd.play
+		mpd.disconnect
     end
 
 end
