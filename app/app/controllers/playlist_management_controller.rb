@@ -13,6 +13,7 @@ class PlaylistManagementController < ApplicationController
   def create_entry
   	@episode = Episode.find(params[:episode_id])
   	@playlist_entries = @channel_playlist.playlist_entries.order(start_time: :asc)
+  	@playlist_entries.delete_if { |entry| entry.end_time < Time.now } # remove past entries
 
   	if @playlist_entries.blank?
   		start_time = Time.now
