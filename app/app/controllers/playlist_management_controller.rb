@@ -41,6 +41,7 @@ class PlaylistManagementController < ApplicationController
       after_playlist_entries.each do |entry|
         entry.start_time = temp_start_time
         entry.end_time = temp_start_time + entry.episode.duration.seconds
+        entry.save
         temp_start_time = entry.end_time
       end
       # remove entry
