@@ -16,7 +16,7 @@ class PlaylistManagementController < ApplicationController
   	if @playlist_entries.blank?
   		start_time = Time.now
   	else
-  		start_time = @playlist_entries.last.end_time + @episode.duration.seconds
+  		start_time = @playlist_entries.last.end_time
   	end
 
   	end_time = start_time + @episode.duration.seconds
