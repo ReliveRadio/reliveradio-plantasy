@@ -4,12 +4,7 @@ class PlaylistManagementController < ApplicationController
 
   def index
   	@episodes = Episode.all
-  	@playlist_entries = @channel_playlist.playlist_entries.where("end_time >= :now", {now: Time.now}).order(:position)
-    if @playlist_entries.blank?
-      @offset = 1
-    else
-      @offset = @playlist_entries.first.position
-    end
+  	fetch_playlist_entries_and_offset
   end
 
   def create_entry
@@ -30,12 +25,7 @@ class PlaylistManagementController < ApplicationController
   	update_mpd @channel_playlist
 
     # update playlist html element via JS response
-    @playlist_entries = @channel_playlist.playlist_entries.where("end_time >= :now", {now: Time.now}).order(:position)
-    if @playlist_entries.blank?
-      @offset = 1
-    else
-      @offset = @playlist_entries.first.position
-    end
+    fetch_playlist_entries_and_offset
     respond_to do |format|
       format.js { render 'playlist_update' }
     end
@@ -62,12 +52,7 @@ class PlaylistManagementController < ApplicationController
       update_mpd @channel_playlist
     end
     # update playlist html element via JS response
-    @playlist_entries = @channel_playlist.playlist_entries.where("end_time >= :now", {now: Time.now}).order(:position)
-    if @playlist_entries.blank?
-      @offset = 1
-    else
-      @offset = @playlist_entries.first.position
-    end
+    fetch_playlist_entries_and_offset
     respond_to do |format|
       format.js { render 'playlist_update' }
     end
@@ -97,12 +82,7 @@ class PlaylistManagementController < ApplicationController
     update_mpd @channel_playlist
 
     # update playlist html element via JS response
-    @playlist_entries = @channel_playlist.playlist_entries.where("end_time >= :now", {now: Time.now}).order(:position)
-    if @playlist_entries.blank?
-      @offset = 1
-    else
-      @offset = @playlist_entries.first.position
-    end
+    fetch_playlist_entries_and_offset
     respond_to do |format|
       format.js { render 'playlist_update' }
     end
@@ -132,6 +112,15 @@ class PlaylistManagementController < ApplicationController
   private
     def set_channel_playlist
       @channel_playlist = ChannelPlaylist.find(params[:channel_playlist])
+    end
+
+    def fetch_playlist_entries_and_offset
+      @playlist_entries = @channel_playlist.playlist_entries.where("end_time >= :now", {now: Time.now}).order(:position)
+      if @playlist_entries.blank?
+        @offset = 1
+      else
+        @offset = @playlist_entries.first.position
+      end
     end
 
     def update_mpd(channel_playlist)
