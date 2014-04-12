@@ -5,13 +5,18 @@ class PlaylistManagementController < ApplicationController
   def index
   	@episodes = Episode.all
   	@playlist_entries = @channel_playlist.playlist_entries.where("end_time >= :now", {now: Time.now}).order(:position)
+    if @playlist_entries.blank?
+      @offset = 1
+    else
+      @offset = @playlist_entries.first.position
+    end
   end
 
   def create_entry
   	@episode = Episode.find(params[:episode_id])
 
   	# calc start time for new playlist entry
-  	@playlist_entries = @channel_playlist.playlist_entries.where("end_time >= :now", {now: Time.now}).order(start_time: :asc)
+  	@playlist_entries = @channel_playlist.playlist_entries.order(:position)
 
   	if @playlist_entries.blank?
   		start_time = Time.now
@@ -34,12 +39,10 @@ class PlaylistManagementController < ApplicationController
     # do not remove just playling entry
     if !@playlist_entry.blank? && !@playlist_entry.isLive?
       # adjust all start and end times of all episodes after the entry
-      before_playlist_entries = @channel_playlist.playlist_entries.where("end_time <= :this_start_time", {this_start_time: @playlist_entry.start_time}).order(start_time: :asc)
-      after_playlist_entries = @channel_playlist.playlist_entries.where("start_time > :this_start_time", {this_start_time: @playlist_entry.start_time}).order(start_time: :asc)
       # start time for the entry AFTER the deleted one has to be end time of the entry BEFORE the deleted one
-      temp_start_time = before_playlist_entries.last.end_time
+      temp_start_time = @playlist_entry.lower_item.end_time
       # update all after entries play times
-      after_playlist_entries.each do |entry|
+      @playlist_entry.higher_items.each do |entry|
         entry.start_time = temp_start_time
         entry.end_time = temp_start_time + entry.episode.duration.seconds
         entry.save
@@ -62,12 +65,21 @@ class PlaylistManagementController < ApplicationController
   def sort
     offset = params[:offset].to_i # position of the first entry in the list that was rendered in the view
     params[:playlist_entry].each_with_index do |id, index|
-      PlaylistEntry.update_all({position: index + offset}, {id: id})
+      PlaylistEntry.where(id: id).update_all(position: index + offset)
     end
 
     # update start and end times
-    
+    temp_start_time = PlaylistEntry.find(params[:playlist_entry][0]).start_time
+    params[:playlist_entry].each do |id|
+      entry = PlaylistEntry.find(id)
+      entry.start_time = temp_start_time
+      entry.end_time = temp_start_time + entry.episode.duration.seconds
+      entry.save
+      temp_start_time = entry.end_time
+    end
+
     # update mpd
+    update_mpd @channel_playlist
 
     # update playlist html element via JS response
     @playlist_entries = @channel_playlist.playlist_entries.where("end_time >= :now", {now: Time.now}).order(:position)
