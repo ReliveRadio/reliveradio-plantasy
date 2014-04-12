@@ -64,7 +64,16 @@ class PlaylistManagementController < ApplicationController
     params[:playlist_entry].each_with_index do |id, index|
       PlaylistEntry.update_all({position: index + offset}, {id: id})
     end
-  	render nothing: true
+
+    # update start and end times
+    
+    # update mpd
+
+    # update playlist html element via JS response
+    @playlist_entries = @channel_playlist.playlist_entries.where("end_time >= :now", {now: Time.now}).order(:position)
+    respond_to do |format|
+      format.js { render 'sort' }
+    end
   end
 
 

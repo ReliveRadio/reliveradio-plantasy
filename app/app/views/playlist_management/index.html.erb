@@ -7,23 +7,8 @@
 
 <div class="row">
 	<div class="medium-4 columns">
-		<div class="panel" style="height: 600px; overflow-y: scroll">
-
-			<ul id="playlist-entry-list" data-update-url="<%= sort_playlist_entries_url(offset: @playlist_entries.first.position)%>">
-				<% @playlist_entries.each do |entry| %>
-					<%= content_tag_for :li, entry do %>
-						<span class="handle">drag</span>
-						<div><%= entry.position %></div>
-						<div><%= entry.episode.title %></div>
-						<div><%= entry.start_time %></div>
-						<div><%= entry.end_time %></div>
- 						<div>Time left: <%= entry.time_left %> seconds</div>
-						<% if !entry.isLive? %>
-							<div><%= link_to 'Remove', {controller: 'playlist_management', action: 'destroy_entry', playlist_entry_id: entry.id, channel_playlist: @channel_playlist.id}, class: 'button alert tiny'%></div>
-						<% end %>
-					<% end %>
-				<% end %>
-			</ul>
+		<div id="playlist" class="panel" style="height: 600px; overflow-y: scroll">
+			<%= render 'playlist' %>
 		</div>
 	</div>
 	<div class="medium-8 columns">
