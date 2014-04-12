@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140323124409) do
+ActiveRecord::Schema.define(version: 20140412102536) do
 
   create_table "admins", force: true do |t|
     t.string   "email",                  default: "",    null: false
@@ -71,6 +71,7 @@ ActiveRecord::Schema.define(version: 20140323124409) do
     t.integer  "episode_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "position"
   end
 
   create_table "podcasts", force: true do |t|

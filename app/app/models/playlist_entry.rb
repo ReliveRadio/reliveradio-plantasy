@@ -2,6 +2,8 @@ class PlaylistEntry < ActiveRecord::Base
 	belongs_to :episode
 	belongs_to :channel_playlist
 
+	acts_as_list :scope => :channel_playlist
+
 	validates :start_time, presence: true
 	validates :end_time, presence: true
 	validates :episode_id, presence: true

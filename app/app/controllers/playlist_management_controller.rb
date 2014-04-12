@@ -4,7 +4,7 @@ class PlaylistManagementController < ApplicationController
 
   def index
   	@episodes = Episode.all
-  	@playlist_entries = @channel_playlist.playlist_entries.where("end_time >= :now", {now: Time.now}).order(start_time: :asc)
+  	@playlist_entries = @channel_playlist.playlist_entries.where("end_time >= :now", {now: Time.now}).order(:position)
   end
 
   def create_entry
@@ -55,8 +55,11 @@ class PlaylistManagementController < ApplicationController
     end
   end
 
-  def move_entry
-  	
+  def sort
+    params[:playlist_entry].each_with_index do |id, index|
+      PlaylistEntry.update_all({position: index+1}, {id: id})
+    end
+  	render nothing: true
   end
 
 
