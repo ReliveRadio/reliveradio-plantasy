@@ -15,7 +15,7 @@
         <ul class="small-block-grid-3 large-block-grid-3">
         <% @episodes.each do |episode| %>
           <li>
-                <img src="<%= episode.icon_url %>">
+                <img src="<%= episode.icon_url_podcast_fallback %>">
                 <h5><%= episode.title %></h5>
                 <p><%= first_x_words(episode.subtitle) %></p>
                 <% if episode.cached? %>
