@@ -5,4 +5,5 @@ class Podcast < ActiveRecord::Base
 	validates :title, presence: true
 	validates :logo_url, presence: true
 	validates :website, presence: true
+
 end

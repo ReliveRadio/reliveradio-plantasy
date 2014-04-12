@@ -27,4 +27,13 @@ class Episode < ActiveRecord::Base
 			save
 		end
 	end
+
+	# def icon_url
+	# 	self[:icon_url] || podcast.logo_url
+	# end
+
+	def icon_url_podcast_fallback
+		icon_url || podcast.try(:logo_url)
+	end
+
 end
