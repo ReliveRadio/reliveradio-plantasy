@@ -29,8 +29,15 @@ class PlaylistManagementController < ApplicationController
 
   	update_mpd @channel_playlist
 
+    # update playlist html element via JS response
+    @playlist_entries = @channel_playlist.playlist_entries.where("end_time >= :now", {now: Time.now}).order(:position)
+    if @playlist_entries.blank?
+      @offset = 1
+    else
+      @offset = @playlist_entries.first.position
+    end
     respond_to do |format|
-      format.html { redirect_to playlist_management_url, channel_playlist: @channel_playlist.id, notice: 'Episode was added to the playlist.' }
+      format.js { render 'playlist_update' }
     end
   end
 
@@ -40,21 +47,29 @@ class PlaylistManagementController < ApplicationController
     if !@playlist_entry.blank? && !@playlist_entry.isLive?
       # adjust all start and end times of all episodes after the entry
       # start time for the entry AFTER the deleted one has to be end time of the entry BEFORE the deleted one
-      temp_start_time = @playlist_entry.lower_item.end_time
+      temp_start_time = @playlist_entry.higher_item.end_time
       # update all after entries play times
-      @playlist_entry.higher_items.each do |entry|
+      @playlist_entry.lower_items.each do |entry|
         entry.start_time = temp_start_time
         entry.end_time = temp_start_time + entry.episode.duration.seconds
         entry.save
         temp_start_time = entry.end_time
       end
       # remove entry
+      @playlist_entry.remove_from_list
       @playlist_entry.destroy
       # update mpd
       update_mpd @channel_playlist
     end
+    # update playlist html element via JS response
+    @playlist_entries = @channel_playlist.playlist_entries.where("end_time >= :now", {now: Time.now}).order(:position)
+    if @playlist_entries.blank?
+      @offset = 1
+    else
+      @offset = @playlist_entries.first.position
+    end
     respond_to do |format|
-      format.html { redirect_to playlist_management_url, channel_playlist: @channel_playlist.id}
+      format.js { render 'playlist_update' }
     end
   end
 
@@ -83,8 +98,13 @@ class PlaylistManagementController < ApplicationController
 
     # update playlist html element via JS response
     @playlist_entries = @channel_playlist.playlist_entries.where("end_time >= :now", {now: Time.now}).order(:position)
+    if @playlist_entries.blank?
+      @offset = 1
+    else
+      @offset = @playlist_entries.first.position
+    end
     respond_to do |format|
-      format.js { render 'sort' }
+      format.js { render 'playlist_update' }
     end
   end
 

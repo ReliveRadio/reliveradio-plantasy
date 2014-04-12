@@ -19,7 +19,7 @@
                 <h5><%= episode.title %></h5>
                 <p><%= first_x_words(episode.subtitle) %></p>
                 <% if episode.cached? %>
-					<%= link_to 'Add', {controller: 'playlist_management', action: 'create_entry', episode_id: episode.id, channel_playlist: @channel_playlist.id}, class: 'button small'%>
+					<%= link_to 'Add', {controller: 'playlist_management', action: 'create_entry', remote: true, episode_id: episode.id, channel_playlist: @channel_playlist.id}, class: 'button small'%>
 				<% else %>
 					<%= link_to 'Download', {controller: 'episodes', action: 'download', id: episode.id}, class: 'button small success' %>
 				<% end %>
