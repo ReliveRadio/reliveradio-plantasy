@@ -18,7 +18,6 @@ class PlaylistManagementController < ApplicationController
   	else
   		start_time = @playlist_entries.last.end_time
   	end
-
   	end_time = start_time + @episode.duration.seconds
 
   	PlaylistEntry.create(channel_playlist_id: @channel_playlist.id, episode_id: @episode.id, start_time: start_time, end_time: end_time)
@@ -37,7 +36,9 @@ class PlaylistManagementController < ApplicationController
       # adjust all start and end times of all episodes after the entry
       before_playlist_entries = @channel_playlist.playlist_entries.where("end_time <= :this_start_time", {this_start_time: @playlist_entry.start_time}).order(start_time: :asc)
       after_playlist_entries = @channel_playlist.playlist_entries.where("start_time > :this_start_time", {this_start_time: @playlist_entry.start_time}).order(start_time: :asc)
+      # start time for the entry AFTER the deleted one has to be end time of the entry BEFORE the deleted one
       temp_start_time = before_playlist_entries.last.end_time
+      # update all after entries play times
       after_playlist_entries.each do |entry|
         entry.start_time = temp_start_time
         entry.end_time = temp_start_time + entry.episode.duration.seconds
@@ -88,6 +89,7 @@ class PlaylistManagementController < ApplicationController
 		# collect all future entries
 		playlist_entries = channel_playlist.playlist_entries.where("end_time >= :now", {now: Time.now}).order(start_time: :asc)
 
+
 		mpd = MPD.new
 		mpd.connect
 
@@ -113,14 +115,11 @@ class PlaylistManagementController < ApplicationController
 			#TODO seek!!!
 		end
 
-		# if status is blank there is nothing in the queue
-
-		# TODO add check if all episodes are cached!
-		
+    # add remaining entries to the mpd playlist		
 		playlist_entries.each do |entry|
 			mpd.add File.basename(entry.episode.local_path)
 		end		
-		mpd.play
+		mpd.play # ensure mpd is playing
 		mpd.disconnect
     end
 
