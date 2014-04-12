@@ -55,9 +55,14 @@ class PlaylistManagementController < ApplicationController
     end
   end
 
+  # posts a list of entries.
+  # their index in the list is their new position
+  # their id in the list is the playlist entry id
+  # offset parameter is the position of the first playlist entry returned by index action
   def sort
+    offset = params[:offset].to_i # position of the first entry in the list that was rendered in the view
     params[:playlist_entry].each_with_index do |id, index|
-      PlaylistEntry.update_all({position: index+1}, {id: id})
+      PlaylistEntry.update_all({position: index + offset}, {id: id})
     end
   	render nothing: true
   end
