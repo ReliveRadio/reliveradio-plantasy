@@ -1,3 +1,5 @@
+require 'humantime'
+
 class PlaylistEntry < ActiveRecord::Base
 	belongs_to :episode
 	belongs_to :channel_playlist
@@ -19,9 +21,13 @@ class PlaylistEntry < ActiveRecord::Base
 
 	def time_left
 		if isLive?
-			end_time - Time.now
+			(end_time - Time.now).round
 		else
-			"is not live"
+			(end_time - start_time).round
 		end
+	end
+
+	def time_left_human
+		HumanTime.output time_left
 	end
 end

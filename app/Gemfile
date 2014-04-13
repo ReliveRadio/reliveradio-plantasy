@@ -38,6 +38,7 @@ gem 'feedjira'
 gem 'ruby-audioinfo'
 gem 'wavefile'
 gem 'chronic_duration'
+gem 'humantime'
 
 gem 'devise'
 gem "devise-async"

@@ -107,6 +107,7 @@ GEM
       guard (~> 2.1)
       rspec (>= 2.14, < 4.0)
     hike (1.2.3)
+    humantime (0.2.2)
     i18n (0.6.9)
     jbuilder (1.5.3)
       activesupport (>= 3.0.0)
@@ -286,6 +287,7 @@ DEPENDENCIES
   font-awesome-rails (~> 4.0)
   foundation-rails (~> 5.2)
   guard-rspec
+  humantime
   jbuilder (~> 1.2)
   jquery-rails
   jquery-ui-rails
