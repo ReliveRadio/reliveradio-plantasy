@@ -1,3 +1,7 @@
+<div class="pagination-centered">
+	<%= will_paginate @episodes, :param_name => 'page', :params => { :controller => "playlist_management", :action => "search" }, renderer: FoundationPagination::Rails %> 
+</div>
+
 <ul class="small-block-grid-3 large-block-grid-3">
 	<% @episodes.each do |episode| %>
 	<li>
