@@ -9,7 +9,7 @@ function apply_sortable() {
 	});
 }
 
-
 $(function() {
 	apply_sortable();
+	$('.pagination a').attr('data-remote', 'true');
 });

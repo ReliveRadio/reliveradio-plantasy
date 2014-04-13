@@ -3,8 +3,18 @@ class PlaylistManagementController < ApplicationController
   before_filter :authenticate_admin!
 
   def index
-  	@episodes = Episode.all
+    @episodes = Episode.all.paginate(:per_page => 15, :page => params[:page])
+    @query = Episode.search(params[:q])
   	fetch_playlist_entries_and_offset
+  end
+
+  def search
+    @query = Episode.search(params[:q])
+    @query.sorts = 'title asc' if @query.sorts.empty? # TODO is that right?
+    @episodes = @query.result.paginate(:per_page => 15, :page => params[:page])
+    respond_to do |format|
+      format.js { render 'search' }
+    end
   end
 
   def create_entry
