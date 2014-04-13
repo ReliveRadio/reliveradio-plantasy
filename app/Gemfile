@@ -36,6 +36,7 @@ gem 'ransack'
 gem 'feedjira'
 
 gem 'ruby-audioinfo'
+gem 'wavefile'
 gem 'chronic_duration'
 
 gem 'devise'
