@@ -24,6 +24,10 @@
 							<%= f.submit "Search", :class => "prefix button" %>
 						</div>
 					</div>
+					<div class="row">
+						<%= f.check_box :cached_true %>
+						<%= f.label :cached_true %>
+					</div>
 				<% end %>
 			</div>
 		</div>
