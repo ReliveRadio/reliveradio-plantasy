@@ -17,6 +17,13 @@ class PlaylistManagementController < ApplicationController
     end
   end
 
+  def update_playlist
+    fetch_playlist_entries_and_offset
+    respond_to do |format|
+      format.js { render 'playlist_update' }
+    end
+  end
+
   def create_entry
   	@episode = Episode.find(params[:episode_id])
 

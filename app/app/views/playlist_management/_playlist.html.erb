@@ -1,4 +1,6 @@
-<ul id="playlist-entry-list" data-update-url="<%= sort_playlist_entries_url(offset: @offset)%>">
+<ul id="playlist-entry-list"
+	data-update-url="<%= sort_playlist_entries_url(offset: @offset, channel_playlist: @channel_playlist.id) %>"
+	data-fetch-url="<%= update_playlist_entries_url(channel_playlist: @channel_playlist.id) %>">
 	<% @playlist_entries.each do |entry| %>
 		<%= content_tag_for :li, entry do %>
 			<span class="handle">drag</span>
