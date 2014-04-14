@@ -16,12 +16,11 @@ App::Application.routes.draw do
     resources :playlist_entries
   end
 
-  get 'playlist_management/:channel_playlist', to: 'playlist_management#index', as: 'playlist_management'
+  get "playlist_management/:channel_playlist", to: "playlist_management#index", as: 'playlist_management'
   get 'playlist_management/:channel_playlist/create_entry/:episode_id', to: 'playlist_management#create_entry'
   get 'playlist_management/:channel_playlist/destroy_entry/:playlist_entry_id', to: 'playlist_management#destroy_entry'
   post 'playlist_management/:channel_playlist/sort', to: 'playlist_management#sort' , as: 'sort_playlist_entries'
   get 'playlist_management/:channel_playlist/update_playlist', to: 'playlist_management#update_playlist' , as: 'update_playlist_entries'
-  get 'playlist_management/:channel_playlist/search', to: 'playlist_management#search' , as: 'playlist_management_search'
 
   get '/podcasts/:id/update', to: 'podcasts#update_feed'
   get '/podcasts/update_all', to: 'podcasts#update_all_feeds'

@@ -1,5 +1,5 @@
 <div class="pagination-centered">
-	<%= will_paginate @episodes, :param_name => 'page', :params => { :controller => "playlist_management", :action => "search" }, renderer: FoundationPagination::Rails %> 
+	<%= will_paginate @episodes, :param_name => 'page', :params => { :controller => "playlist_management", :action => "index" }, renderer: FoundationPagination::Rails %> 
 </div>
 
 
@@ -7,18 +7,18 @@
 	<thead>
 		<tr>
 			<th width="80"></th>
-			<th>Title</th>
-			<th>Duration</th>
-			<th>Publish Date</th>
-			<th>Playcount</th>
-			<th>Last Played</th>
+			<th><%= sort_link @query, :title, {}, { :remote => true, :method => :get } %></th>
+			<th><%= sort_link @query, :duration, {}, { :remote => true, :method => :get } %></th>
+			<th><%= sort_link @query, :pub_date, {}, { :remote => true, :method => :get } %></th>
+			<th><%= sort_link @query, :playcount, {}, { :remote => true, :method => :get } %></th>
+			<th><%= sort_link @query, :last_played, {}, { :remote => true, :method => :get } %></th>
 			<th></th>
 		</tr>
 	</thead>
 	<tbody>
 		<% @episodes.each do |episode| %>
 		<tr>
-			<td><%= image_tag episode.icon_url_podcast_fallback, size: '80' %></td>
+			<td width="80"><%= image_tag episode.icon_url_podcast_fallback, size: '80' %></td>
 			<td><%= episode.title %></td>
 			<td><%= episode.duration %></td>
 			<td><%= episode.pub_date %></td>
@@ -38,5 +38,5 @@
 
 
 <div class="pagination-centered">
-	<%= will_paginate @episodes, :param_name => 'page', :params => { :controller => "playlist_management", :action => "search" }, renderer: FoundationPagination::Rails %> 
+	<%= will_paginate @episodes, :param_name => 'page', :params => { :controller => "playlist_management", :action => "index" }, renderer: FoundationPagination::Rails %> 
 </div>
