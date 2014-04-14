@@ -10,6 +10,8 @@
 			<th>Title</th>
 			<th>Duration</th>
 			<th>Publish Date</th>
+			<th>Playcount</th>
+			<th>Last Played</th>
 			<th></th>
 		</tr>
 	</thead>
@@ -20,6 +22,8 @@
 			<td><%= episode.title %></td>
 			<td><%= episode.duration %></td>
 			<td><%= episode.pub_date %></td>
+			<td><%= episode.playcount %></td>
+			<td><%= episode.last_played %></td>
 			<td>
 				<% if episode.cached? %>
 				<%= link_to 'Add', {controller: 'playlist_management', action: 'create_entry', remote: true, episode_id: episode.id, channel_playlist: @channel_playlist.id}, class: 'button tiny'%>

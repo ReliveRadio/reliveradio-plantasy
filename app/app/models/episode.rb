@@ -37,4 +37,12 @@ class Episode < ActiveRecord::Base
 		icon_url || podcast.try(:logo_url)
 	end
 
+	def playcount
+		PlaylistEntry.where(episode_id: self.id).count
+	end
+
+	def last_played
+		PlaylistEntry.where(episode_id: self.id).maximum(:start_time)
+	end
+
 end
