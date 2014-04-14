@@ -1,0 +1,29 @@
+<h1>Listing playlist_entries</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Start time</th>
+      <th>Premiere</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @playlist_entries.each do |playlist_entry| %>
+      <tr>
+        <td><%= playlist_entry.start_time %></td>
+        <td><%= playlist_entry.premiere %></td>
+        <td><%= link_to 'Show', playlist_entry %></td>
+        <td><%= link_to 'Edit', edit_playlist_entry_path(playlist_entry) %></td>
+        <td><%= link_to 'Destroy', playlist_entry, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Playlist entry', new_playlist_entry_path %>

@@ -31,5 +31,6 @@ class DownloadEpisodeWorker
 		mpd = MPD.new
 		mpd.connect
 		mpd.update
+		mpd.disconnect
 	end
 end

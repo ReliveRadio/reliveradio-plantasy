@@ -1,0 +1,42 @@
+<div class="pagination-centered">
+	<%= will_paginate @episodes, :param_name => 'page', :params => { :controller => "playlist_management", :action => "index" }, renderer: FoundationPagination::Rails %> 
+</div>
+
+
+<table>
+	<thead>
+		<tr>
+			<th width="80"></th>
+			<th><%= sort_link @query, :title, {}, { :remote => true, :method => :get } %></th>
+			<th><%= sort_link @query, :duration, {}, { :remote => true, :method => :get } %></th>
+			<th><%= sort_link @query, :pub_date, {}, { :remote => true, :method => :get } %></th>
+			<th>Playcount</th>
+			<th>Last played</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+		<% @episodes.each do |episode| %>
+		<tr>
+			<td width="80"><%= image_tag episode.icon_url_podcast_fallback, size: '80' %></td>
+			<td><%= episode.title %></td>
+			<td><%= episode.duration %></td>
+			<td><%= episode.pub_date %></td>
+			<td><%= episode.playcount %></td>
+			<td><%= episode.last_played %></td>
+			<td>
+				<% if episode.cached? %>
+				<%= link_to 'Add', {controller: 'playlist_management', action: 'create_entry', remote: true, episode_id: episode.id, channel_playlist: @channel_playlist.id}, class: 'button tiny'%>
+				<% else %>
+				<%= link_to 'Download', {controller: 'episodes', action: 'download', id: episode.id, remote: true}, class: 'button tiny success' %>
+				<% end %>
+			</td>
+		</tr>
+		<% end %>
+	</tbody>
+</table>
+
+
+<div class="pagination-centered">
+	<%= will_paginate @episodes, :param_name => 'page', :params => { :controller => "playlist_management", :action => "index" }, renderer: FoundationPagination::Rails %> 
+</div>

@@ -1,0 +1,25 @@
+<%= form_for(@playlist_entry) do |f| %>
+  <% if @playlist_entry.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@playlist_entry.errors.count, "error") %> prohibited this playlist_entry from being saved:</h2>
+
+      <ul>
+      <% @playlist_entry.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :start_time %><br>
+    <%= f.datetime_select :start_time %>
+  </div>
+  <div class="field">
+    <%= f.label :premiere %><br>
+    <%= f.check_box :premiere %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

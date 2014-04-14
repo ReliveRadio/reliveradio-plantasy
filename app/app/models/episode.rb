@@ -1,5 +1,6 @@
 class Episode < ActiveRecord::Base
 	belongs_to :podcast
+	has_many :playlist_entries
 	validates_associated :podcast
 
 	validates :title, presence: true
@@ -34,6 +35,14 @@ class Episode < ActiveRecord::Base
 
 	def icon_url_podcast_fallback
 		icon_url || podcast.try(:logo_url)
+	end
+
+	def playcount
+		PlaylistEntry.where(episode_id: self.id).count
+	end
+
+	def last_played
+		PlaylistEntry.where(episode_id: self.id).maximum(:start_time)
 	end
 
 end

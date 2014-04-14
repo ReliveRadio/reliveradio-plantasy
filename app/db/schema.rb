@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140323124409) do
+ActiveRecord::Schema.define(version: 20140412102536) do
 
   create_table "admins", force: true do |t|
     t.string   "email",                  default: "",    null: false
@@ -31,6 +31,15 @@ ActiveRecord::Schema.define(version: 20140323124409) do
 
   add_index "admins", ["email"], name: "index_admins_on_email", unique: true
   add_index "admins", ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true
+
+  create_table "channel_playlists", force: true do |t|
+    t.string   "author"
+    t.string   "name"
+    t.text     "description"
+    t.string   "language"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "episodes", force: true do |t|
     t.string   "title"
@@ -53,6 +62,17 @@ ActiveRecord::Schema.define(version: 20140323124409) do
   end
 
   add_index "episodes", ["guid"], name: "index_episodes_on_guid", unique: true
+
+  create_table "playlist_entries", force: true do |t|
+    t.datetime "start_time"
+    t.datetime "end_time"
+    t.boolean  "premiere",            default: false
+    t.integer  "channel_playlist_id"
+    t.integer  "episode_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "position"
+  end
 
   create_table "podcasts", force: true do |t|
     t.string   "title"
