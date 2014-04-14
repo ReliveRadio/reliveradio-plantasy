@@ -28,7 +28,7 @@
 				<% if episode.cached? %>
 				<%= link_to 'Add', {controller: 'playlist_management', action: 'create_entry', remote: true, episode_id: episode.id, channel_playlist: @channel_playlist.id}, class: 'button tiny'%>
 				<% else %>
-				<%= link_to 'Download', {controller: 'episodes', action: 'download', id: episode.id}, class: 'button tiny success' %>
+				<%= link_to 'Download', {controller: 'episodes', action: 'download', id: episode.id, remote: true}, class: 'button tiny success' %>
 				<% end %>
 			</td>
 		</tr>
