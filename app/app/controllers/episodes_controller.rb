@@ -28,6 +28,7 @@ class EpisodesController < ApplicationController
     DownloadEpisodeWorker.perform_async(@episode.id)
     respond_to do |format|
       format.html { redirect_to @episode, notice: 'File will be downloaded in background.'}
+      format.js { render :nothing => true, :status => 200}
     end
   end
 
