@@ -1,17 +1,20 @@
-<ul id="playlist-entry-list"
-	data-update-url="<%= sort_playlist_entries_url(offset: @offset, channel_playlist: @channel_playlist.id) %>"
-	data-fetch-url="<%= update_playlist_entries_url(channel_playlist: @channel_playlist.id) %>">
-	<% @playlist_entries.each do |entry| %>
-		<%= content_tag_for :li, entry do %>
-			<span class="handle">drag</span>
-			<div><%= entry.position %></div>
-			<div><%= entry.episode.title %></div>
+<table>
+  <tbody 	id="playlist-entry-list"
+			data-update-url="<%= sort_playlist_entries_url(offset: @offset, channel_playlist: @channel_playlist.id) %>"
+			data-fetch-url="<%= update_playlist_entries_url(channel_playlist: @channel_playlist.id) %>">
+  	<% @playlist_entries.each do |entry| %>
+	    <%= content_tag_for :tr, entry do %>
+	      <td style="vertical-align: top"><%= image_tag entry.episode.icon_url_podcast_fallback, size: '50', class: 'handle' %></td>
+	      <td>
+	      	<h6><%= entry.episode.title %></h6>
 			<div><%= entry.start_time %></div>
 			<div><%= entry.end_time %></div>
-				<div>Time left: <%= entry.time_left_human %></div>
+			<div>Time left: <%= entry.time_left_human %></div>
 			<% if !entry.isLive? %>
 				<div><%= link_to 'Remove', {controller: 'playlist_management', action: 'destroy_entry', remote: true, playlist_entry_id: entry.id, channel_playlist: @channel_playlist.id}, class: 'button alert tiny'%></div>
-			<% end %>
-		<% end %>
-	<% end %>
-</ul>
+			<% end %>		
+	      </td>
+	    <% end %>
+    <% end %>
+  </tbody>
+</table>
