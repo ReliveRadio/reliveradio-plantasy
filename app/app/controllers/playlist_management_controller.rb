@@ -6,7 +6,7 @@ class PlaylistManagementController < ApplicationController
     @query = Episode.search(params[:q])
     @query.sorts = 'title asc' if @query.sorts.empty? # sort by title asc default. otherwise sorts is already set by form
     @episodes = @query.result.paginate(:per_page => 15, :page => params[:page])
-    
+
   	fetch_playlist_entries_and_offset
     respond_to do |format|
       format.js { render 'search' }
@@ -25,7 +25,7 @@ class PlaylistManagementController < ApplicationController
   	@episode = Episode.find(params[:episode_id])
 
   	# calc start time for new playlist entry
-  	@playlist_entries = @channel_playlist.playlist_entries.order(:position)
+  	@playlist_entries = @channel_playlist.playlist_entries.where("end_time >= :now", {now: Time.now}).order(:position)
 
   	if @playlist_entries.blank?
   		start_time = Time.now
