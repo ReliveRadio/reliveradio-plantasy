@@ -71,50 +71,23 @@
 		<%= link_to 'Delete All Episodes', {controller: 'podcasts', action: 'delete_all_episodes', id: @podcast.id}, class: 'button alert' %>
 		<%= link_to 'Download All Episodes', {controller: 'podcasts', action: 'download_all_episodes', id: @podcast.id}, class: 'button' %>
 		
-		<table>
-			<thead>
-				<tr>
-					<th></th>
-					<th>Title</th>
-					<th>Pub date</th>
-					<th>Duration</th>
-					<th>Tags</th>
-					<th><i class="fa fa-download"></i></th>
-					<th></th>
-				</tr>
-			</thead>
-
-			<tbody>
-				<% @episodes.each do |episode| %>
-				<tr>
-					<td><%= image_tag episode.icon_url_podcast_fallback, size: '80' %></td>
-					<td><%= link_to episode.title, episode %></td>
-					<td><%= episode.pub_date %></td>
-					<td><%= episode.duration %></td>
-					<td><%= episode.tags %></td>
-					<td>
-						<% if episode.cached? %>
-							<i class="fa fa-check-circle" style="color: green"></i>
-						<% else %>
-							<i class="fa fa-times-circle" style="color: red"></i>
-						<% end %>
-					</td>
-
-					<td>
-						<div>
-							<% if episode.cached? %>
-								<%= link_to 'Delete Cache', controller: 'episodes', action: 'delete_cached_file', id: episode.id %>
-							<% else %>
-								<%= link_to 'Download', controller: 'episodes', action: 'download', id: episode.id%>
-							<% end %>
+		<div id="searchbar" class="row">
+			<div class="large-6 medium-9 small-centered columns">
+				<%= search_form_for @query, url: podcast_path(id: @podcast.id), method: :get, remote: false do |f| %>
+					<div class="row collapse">
+						<div class="medium-10 columns">
+							<%= f.text_field :title_or_subtitle_cont, :placeholder => "Search Podcast", :id => "search-input-field" %>
 						</div>
-						<div><%= link_to 'Edit', edit_episode_path(episode) %></div>
-						<div><%= link_to 'Destroy', episode, method: :delete, data: { confirm: 'Are you sure?' } %></div>
-					</td>
-				</tr>
+						<%= f.hidden_field :podcast_id_eq, value: @podcast.id %>
+						<div class="medium-2 columns hide-for-small">
+							<%= f.submit "Search", :class => "prefix button" %>
+						</div>
+					</div>
 				<% end %>
-			</tbody>
-		</table>
+			</div>
+		</div>
+
+		<%= render 'episode_list' %>
 		
 	</div>
 </div>

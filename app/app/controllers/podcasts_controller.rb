@@ -15,7 +15,13 @@ class PodcastsController < ApplicationController
   # GET /podcasts/1
   # GET /podcasts/1.json
   def show
-    @episodes = @podcast.episodes.order(:pub_date).reverse
+    @query = Episode.search(params[:q])
+    if params[:q]
+      @query.sorts = 'pub_date desc' if @query.sorts.empty?
+      @episodes = @query.result.paginate(:page => params[:page], :per_page => 15)
+    else
+      @episodes = @podcast.episodes.order(pub_date: :desc).paginate(:page => params[:page], :per_page => 15)
+    end
   end
 
   # GET /podcasts/new

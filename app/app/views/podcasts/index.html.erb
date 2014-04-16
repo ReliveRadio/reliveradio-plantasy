@@ -5,10 +5,6 @@
 		<%= link_to 'New Podcast', new_podcast_path, class: 'button success' %>
 		<%= link_to 'Check for new Episodes', {controller: 'podcasts', action: 'update_all_feeds'}, class: 'button' %>
 
-		<div class="pagination-centered">
-			<%= will_paginate @podcasts, :param_name => 'page',  renderer: FoundationPagination::Rails %> 
-		</div>
-
 		<div id="searchbar" class="row">
 			<div class="large-6 medium-9 small-centered columns">
 				<%= search_form_for @query, method: :get, remote: false do |f| %>
@@ -25,10 +21,6 @@
 		</div>
 
 		<%= render 'podcasts_list' %>
-
-		<div class="pagination-centered">
-			<%= will_paginate @podcasts, :param_name => 'page',  renderer: FoundationPagination::Rails %> 
-		</div>
 		
 	</div>
 </div>

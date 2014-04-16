@@ -1,3 +1,7 @@
+<div class="pagination-centered">
+	<%= will_paginate @podcasts, :param_name => 'page',  renderer: FoundationPagination::Rails %> 
+</div>
+
 <table>
 	<thead>
 		<tr>
@@ -27,3 +31,7 @@
 		<% end %>
 	</tbody>
 </table>
+
+<div class="pagination-centered">
+	<%= will_paginate @podcasts, :param_name => 'page',  renderer: FoundationPagination::Rails %> 
+</div>
