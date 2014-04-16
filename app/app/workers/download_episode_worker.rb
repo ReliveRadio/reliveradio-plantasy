@@ -16,15 +16,14 @@ class DownloadEpisodeWorker
     	end
     	episode.cached = true
 
-    	if episode.duration.blank?
-			AudioInfo.open(episode.local_path) do |info|
-			  #info.artist   # or info["artist"]
-			  #info.title    # or info["title"]
-			  episode.duration = info.length   # playing time of the file
-			  #info.bitrate  # average bitrate
-			  #info.to_h     # { "artist" => "artist", "title" => "title", etc... }
-			end
-    	end
+    	# read duration from audio file
+		AudioInfo.open(episode.local_path) do |info|
+		  #info.artist   # or info["artist"]
+		  #info.title    # or info["title"]
+		  episode.duration = info.length   # playing time of the file
+		  #info.bitrate  # average bitrate
+		  #info.to_h     # { "artist" => "artist", "title" => "title", etc... }
+		end
 
     	episode.save
 
