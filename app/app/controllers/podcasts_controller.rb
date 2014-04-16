@@ -7,7 +7,7 @@ class PodcastsController < ApplicationController
   # GET /podcasts
   # GET /podcasts.json
   def index
-    @podcasts = Podcast.all
+    @podcasts = Podcast.paginate(:page => params[:page], :per_page => 15)
   end
 
   # GET /podcasts/1

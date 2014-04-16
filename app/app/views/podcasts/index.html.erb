@@ -5,6 +5,9 @@
 		<%= link_to 'New Podcast', new_podcast_path, class: 'button success' %>
 		<%= link_to 'Check for new Episodes', {controller: 'podcasts', action: 'update_all_feeds'}, class: 'button' %>
 
+		<div class="pagination-centered">
+			<%= will_paginate @podcasts, :param_name => 'page',  renderer: FoundationPagination::Rails %> 
+		</div>
 
 		<table>
 			<thead>
@@ -36,6 +39,9 @@
 			</tbody>
 		</table>
 
+		<div class="pagination-centered">
+			<%= will_paginate @podcasts, :param_name => 'page',  renderer: FoundationPagination::Rails %> 
+		</div>
 		
 	</div>
 </div>
