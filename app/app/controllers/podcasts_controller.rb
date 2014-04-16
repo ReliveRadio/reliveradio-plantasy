@@ -7,7 +7,9 @@ class PodcastsController < ApplicationController
   # GET /podcasts
   # GET /podcasts.json
   def index
-    @podcasts = Podcast.paginate(:page => params[:page], :per_page => 15)
+    @query = Podcast.search(params[:q])
+    @query.sorts = 'title asc' if @query.sorts.empty?
+    @podcasts = @query.result.paginate(:page => params[:page], :per_page => 15)
   end
 
   # GET /podcasts/1

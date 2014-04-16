@@ -9,35 +9,22 @@
 			<%= will_paginate @podcasts, :param_name => 'page',  renderer: FoundationPagination::Rails %> 
 		</div>
 
-		<table>
-			<thead>
-				<tr>
-					<th></th>
-					<th>Title</th>
-					<th>Author</th>
-					<th>Links</th>
-					<th></th>
-				</tr>
-			</thead>
-
-			<tbody>
-				<% @podcasts.each do |podcast| %>
-				<tr>
-					<td><%= image_tag podcast.logo_url, size: '80' %></td>
-					<td><%= link_to podcast.title, podcast %></td>
-					<td><%= podcast.author %></td>
-					<td>
-						<div>Website: <%= podcast.website %></div>
-						<div>Feed: <%= podcast.feed %></div>
-					</td>
-					<td>
-						<p><%= link_to edit_podcast_path(podcast) do %><i class="fa fa-edit"></i> <% end %>
-						<%= link_to podcast, method: :delete, data: { confirm: 'Are you sure?' } do %><i class="fa fa-trash-o"></i> <% end %></p>
-					</td>
-				</tr>
+		<div id="searchbar" class="row">
+			<div class="large-6 medium-9 small-centered columns">
+				<%= search_form_for @query, method: :get, remote: false do |f| %>
+					<div class="row collapse">
+						<div class="medium-10 columns">
+							<%= f.text_field :title_or_subtitle_cont, :placeholder => "Search Podcast", :id => "search-input-field" %>
+						</div>
+						<div class="medium-2 columns hide-for-small">
+							<%= f.submit "Search", :class => "prefix button" %>
+						</div>
+					</div>
 				<% end %>
-			</tbody>
-		</table>
+			</div>
+		</div>
+
+		<%= render 'podcasts_list' %>
 
 		<div class="pagination-centered">
 			<%= will_paginate @podcasts, :param_name => 'page',  renderer: FoundationPagination::Rails %> 
