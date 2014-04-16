@@ -4,6 +4,9 @@ App::Application.routes.draw do
 
   resources :jingles
 
+  get "schedule_controller/index"
+  get "schedule_controller/:channel_playlist/show", to: 'schedule#show'
+
   root to: 'podcasts#index'
 
   get "/directory", to: 'directory#index'
