@@ -16,8 +16,8 @@
 			<td><%= link_to podcast.title, podcast %></td>
 			<td><%= podcast.author %></td>
 			<td>
-				<div>Website: <%= podcast.website %></div>
-				<div>Feed: <%= podcast.feed %></div>
+				<div><strong>Website:</strong> <%= podcast.website %></div>
+				<div><strong>Feed:</strong> <%= podcast.feed %></div>
 			</td>
 			<td>
 				<p><%= link_to edit_podcast_path(podcast) do %><i class="fa fa-edit"></i> <% end %>
