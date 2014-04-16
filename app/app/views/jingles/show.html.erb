@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Title:</strong>
+  <%= @jingle.title %>
+</p>
+
+<p>
+  <strong>Duration:</strong>
+  <%= @jingle.duration %>
+</p>
+
+<p>
+  <strong>Audio path:</strong>
+  <%= @jingle.audio_path %>
+</p>
+
+<%= link_to 'Edit', edit_jingle_path(@jingle) %> |
+<%= link_to 'Back', jingles_path %>

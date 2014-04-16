@@ -1,0 +1,31 @@
+<h1>Listing jingles</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Duration</th>
+      <th>Audio path</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @jingles.each do |jingle| %>
+      <tr>
+        <td><%= jingle.title %></td>
+        <td><%= jingle.duration %></td>
+        <td><%= jingle.audio_path %></td>
+        <td><%= link_to 'Show', jingle %></td>
+        <td><%= link_to 'Edit', edit_jingle_path(jingle) %></td>
+        <td><%= link_to 'Destroy', jingle, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Jingle', new_jingle_path %>

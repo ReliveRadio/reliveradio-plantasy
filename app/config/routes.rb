@@ -2,6 +2,8 @@ require 'sidekiq/web'
 
 App::Application.routes.draw do
 
+  resources :jingles
+
   root to: 'podcasts#index'
 
   get "/directory", to: 'directory#index'
