@@ -32,21 +32,6 @@ class EpisodesController < ApplicationController
     end
   end
 
-  def play
-    if @episode.cached?
-      mpd = MPD.new
-      mpd.connect
-      length = mpd.queue.length - 1
-      mpd.delete 1..length if length > 0
-      mpd.add File.basename(@episode.local_path)
-      mpd.play
-      mpd.disconnect
-      redirect_to @episode.podcast, notice: @episode.title + ' was added to the playlist'
-    else
-      redirect_to @episode.podcast, :flash => { :error => 'Can not add this episode to the playlist as it is not cached. Please download it first.' }
-    end
-  end
-
   # POST /episodes
   # POST /episodes.json
   def create
