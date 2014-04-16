@@ -76,7 +76,7 @@
 				<%= search_form_for @query, url: podcast_path(id: @podcast.id), method: :get, remote: false do |f| %>
 					<div class="row collapse">
 						<div class="medium-10 columns">
-							<%= f.text_field :title_or_subtitle_cont, :placeholder => "Search Podcast", :id => "search-input-field" %>
+							<%= f.text_field :title_or_subtitle_cont, :placeholder => "Search Episode of this Podcast", :id => "search-input-field" %>
 						</div>
 						<%= f.hidden_field :podcast_id_eq, value: @podcast.id %>
 						<div class="medium-2 columns hide-for-small">
