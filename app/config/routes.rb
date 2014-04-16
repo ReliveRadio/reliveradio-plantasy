@@ -35,7 +35,7 @@ App::Application.routes.draw do
   
 
   authenticate :admin do
-    mount Sidekiq::Web => '/sidekiq'
+    mount Sidekiq::Web => '/sidekiq', as: 'sidekiq'
   end
 
   # The priority is based upon order of creation: first created -> highest priority.
