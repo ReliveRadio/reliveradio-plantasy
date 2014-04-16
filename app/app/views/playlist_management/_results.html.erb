@@ -10,7 +10,7 @@
 			<th><%= sort_link @query, :title, {}, { :remote => true, :method => :get } %></th>
 			<th><%= sort_link @query, :duration, {}, { :remote => true, :method => :get } %></th>
 			<th><%= sort_link @query, :pub_date, {}, { :remote => true, :method => :get } %></th>
-			<th>Playcount</th>
+			<th><i class="fa fa-play"></i></th>
 			<th>Last played</th>
 			<th></th>
 		</tr>
@@ -19,16 +19,16 @@
 		<% @episodes.each do |episode| %>
 		<tr>
 			<td width="80"><%= image_tag episode.icon_url_podcast_fallback, size: '80' %></td>
-			<td><%= episode.title %></td>
+			<td><%= link_to episode.title, episode %></td>
 			<td><%= episode.duration %></td>
 			<td><%= episode.pub_date %></td>
 			<td><%= episode.playcount %></td>
 			<td><%= episode.last_played %></td>
 			<td>
 				<% if episode.cached? %>
-				<%= link_to 'Add', {controller: 'playlist_management', action: 'create_entry', remote: true, episode_id: episode.id, channel_playlist: @channel_playlist.id}, class: 'button tiny'%>
+				<%= link_to controller: 'playlist_management', action: 'create_entry', remote: true, episode_id: episode.id, channel_playlist: @channel_playlist.id do%><i class="fa fa-plus-circle"></i><% end %>
 				<% else %>
-				<%= link_to 'Download', {controller: 'episodes', action: 'download', id: episode.id, remote: true}, class: 'button tiny success' %>
+				<%= link_to controller: 'episodes', action: 'download', id: episode.id, remote: true do %><i class="fa fa-download"></i><% end %>
 				<% end %>
 			</td>
 		</tr>
