@@ -38,11 +38,11 @@ class Episode < ActiveRecord::Base
 	end
 
 	def playcount
-		PlaylistEntry.where(episode_id: self.id).count
+		self.playlist_entries.count
 	end
 
 	def last_played
-		PlaylistEntry.where(episode_id: self.id).maximum(:start_time)
+		self.playlist_entries.maximum(:start_time)
 	end
 
 end
