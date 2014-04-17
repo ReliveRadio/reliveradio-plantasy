@@ -63,6 +63,7 @@ Vagrant.configure("2") do |config|
         }
       },
       :nginx => {
+        :client_max_body_size => '50M',
         :source => {
           :modules => [
             "nginx::passenger"
