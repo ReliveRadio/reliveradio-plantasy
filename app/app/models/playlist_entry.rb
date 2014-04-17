@@ -28,7 +28,8 @@ class PlaylistEntry < ActiveRecord::Base
 	end
 
 	def duration
-		self.episode.duration
+		episode.duration if is_episode?
+		jingle.duration if is_jingle?
 	end
 
 	def time_left
