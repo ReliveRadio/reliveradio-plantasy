@@ -71,6 +71,6 @@ class JinglesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def jingle_params
-      params.require(:jingle).permit(:title, :duration, :audio_path)
+      params.require(:jingle).permit(:title, :duration, :audio, :remove_audio)
     end
 end
