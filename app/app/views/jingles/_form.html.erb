@@ -16,14 +16,10 @@
     <%= f.text_field :title %>
   </div>
   <div class="field">
-    <%= f.label :duration %><br>
-    <%= f.number_field :duration %>
-  </div>
-  <div class="field">
-    <%= f.label :audio_path %><br>
-    <%= f.text_field :audio_path %>
+    <%= f.label 'Audio' %><br>
+    <%= f.file_field :audio %>
   </div>
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit 'Save', class: 'button' %>
   </div>
 <% end %>
