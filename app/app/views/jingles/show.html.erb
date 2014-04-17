@@ -12,7 +12,7 @@
 
 <p>
   <strong>Audio:</strong>
-  <%= @jingle.audio_url %>
+  <%= @jingle.audio_url.to_s %>
 </p>
 
 <%= link_to 'Edit', edit_jingle_path(@jingle) %> |

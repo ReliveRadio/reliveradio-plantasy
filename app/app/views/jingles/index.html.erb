@@ -17,7 +17,7 @@
       <tr>
         <td><%= jingle.title %></td>
         <td><%= jingle.duration %></td>
-        <td><%= jingle.audio_url %></td>
+        <td><%= jingle.audio_url.to_s %></td>
         <td><%= link_to 'Show', jingle %></td>
         <td><%= link_to 'Edit', edit_jingle_path(jingle) %></td>
         <td><%= link_to 'Destroy', jingle, method: :delete, data: { confirm: 'Are you sure?' } %></td>

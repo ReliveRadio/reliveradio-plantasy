@@ -1,4 +1,4 @@
-<%= form_for(@jingle) do |f| %>
+<%= form_for @jingle, :html => {:multipart => true} do |f| %>
   <% if @jingle.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@jingle.errors.count, "error") %> prohibited this jingle from being saved:</h2>
@@ -16,7 +16,7 @@
     <%= f.text_field :title %>
   </div>
   <div class="field">
-    <%= f.label 'Audio' %><br>
+    <%= f.label :audio %><br>
     <%= f.file_field :audio %>
   </div>
   <div class="actions">

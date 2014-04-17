@@ -1,8 +1,8 @@
 # encoding: utf-8
 
-#require 'audioinfo'
+require 'audioinfo'
 
-class JingleUploader < CarrierWave::Uploader::Base
+class AudioUploader < CarrierWave::Uploader::Base
 
   # Include RMagick or MiniMagick support:
   # include CarrierWave::RMagick
@@ -33,18 +33,18 @@ class JingleUploader < CarrierWave::Uploader::Base
   #   # do something
   # end
 
-  #process :calc_duration
+  process :calc_duration
 
-  # def calc_duration
-  #   # read duration from audio file
-  #   AudioInfo.open(model.audio_file) do |info|
-  #     #info.artist   # or info["artist"]
-  #     #info.title    # or info["title"]
-  #     model.duration = info.length   # playing time of the file
-  #     #info.bitrate  # average bitrate
-  #     #info.to_h     # { "artist" => "artist", "title" => "title", etc... }
-  #   end
-  # end
+  def calc_duration
+    # read duration from audio file
+    AudioInfo.open(current_path) do |info|
+      #info.artist   # or info["artist"]
+      #info.title    # or info["title"]
+      model.duration = info.length   # playing time of the file
+      #info.bitrate  # average bitrate
+      #info.to_h     # { "artist" => "artist", "title" => "title", etc... }
+    end
+  end
 
   # Create different versions of your uploaded files:
   # version :thumb do
