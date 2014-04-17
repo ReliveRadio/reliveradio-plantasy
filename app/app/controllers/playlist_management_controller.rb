@@ -195,8 +195,8 @@ class PlaylistManagementController < ApplicationController
 
 		# add remaining entries to the mpd playlist		
 		playlist_entries.each do |entry|
-			mpd.add File.basename(entry.episode.local_path) if !entry.episode.blank?
-			mpd.add File.basename(entry.jingle.audio_url) if !entry.jingle.blank?
+			mpd.add File.basename(entry.episode.local_path) if entry.is_episode?
+			mpd.add File.basename(entry.jingle.audio_url) if entry.is_jingle?
 		end		
 		mpd.play # ensure mpd is playing
 		mpd.disconnect
