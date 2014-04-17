@@ -7,6 +7,8 @@ class PlaylistManagementController < ApplicationController
     @query.sorts = 'title asc' if @query.sorts.empty? # sort by title asc default. otherwise sorts is already set by form
     @episodes = @query.result.paginate(:per_page => 15, :page => params[:page])
 
+    @jingles = Jingle.all
+
   	fetch_playlist_entries_and_offset
     respond_to do |format|
       format.js { render 'search' }
