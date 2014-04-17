@@ -11,10 +11,10 @@
 		<% @jingles.each do |jingle| %>
 		<tr>
 			<td><%= link_to jingle.title, jingle %></td>
-			<td><%= episode.duration %></td>
+			<td><%= jingle.duration %></td>
 			<td><%= jingle.playcount %></td>
 			<td>
-				<%= link_to controller: 'playlist_management', action: 'create_entry', remote: true, episode_id: episode.id, channel_playlist: @channel_playlist.id do%><i class="fa fa-plus-circle"></i><% end %>
+				<%= link_to controller: 'playlist_management', action: 'append_jingle', remote: true, jingle_id: jingle.id, channel_playlist: @channel_playlist.id do%><i class="fa fa-plus-circle"></i><% end %>
 			</td>
 		</tr>
 		<% end %>

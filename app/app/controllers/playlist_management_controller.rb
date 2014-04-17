@@ -23,7 +23,7 @@ class PlaylistManagementController < ApplicationController
     end
   end
 
-  def create_entry
+  def append_episode
   	@episode = Episode.find(params[:episode_id])
 
   	# calc start time for new playlist entry
@@ -45,6 +45,10 @@ class PlaylistManagementController < ApplicationController
     respond_to do |format|
       format.js { render 'playlist_update' }
     end
+  end
+
+  def append_jingle
+    @jingle = Episode.find(params[:jingle_id])
   end
 
   def destroy_entry
