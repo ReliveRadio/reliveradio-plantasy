@@ -66,7 +66,7 @@ ActiveRecord::Schema.define(version: 20140417125551) do
   create_table "jingles", force: true do |t|
     t.string   "title"
     t.integer  "duration"
-    t.string   "audio_path"
+    t.string   "audio"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
