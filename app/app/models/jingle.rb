@@ -3,6 +3,6 @@ class Jingle < ActiveRecord::Base
 	mount_uploader :audio, JingleUploader
 	
 	def playcount
-		PlaylistEntry.where(jingle_id: self.id).count
+		self.playlist_entries.count
 	end
 end
