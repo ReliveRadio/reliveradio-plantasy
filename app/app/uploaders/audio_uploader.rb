@@ -1,6 +1,7 @@
 # encoding: utf-8
 
 require 'audioinfo'
+require 'ruby-mpd'
 
 class AudioUploader < CarrierWave::Uploader::Base
 
@@ -34,6 +35,7 @@ class AudioUploader < CarrierWave::Uploader::Base
   # end
 
   process :calc_duration
+  process :update_mpd
 
   def calc_duration
     # read duration from audio file
@@ -44,6 +46,13 @@ class AudioUploader < CarrierWave::Uploader::Base
       #info.bitrate  # average bitrate
       #info.to_h     # { "artist" => "artist", "title" => "title", etc... }
     end
+  end
+
+  def update_mpd
+    mpd = MPD.new
+    mpd.connect
+    mpd.update
+    mpd.disconnect
   end
 
   # Create different versions of your uploaded files:
