@@ -19,6 +19,14 @@ class PlaylistEntry < ActiveRecord::Base
 		((start_time < Time.now) && (end_time > Time.now))
 	end
 
+	def is_episode?
+		!episode_id.blank?
+	end
+
+	def is_jingle?
+		!jingle_id.blank?
+	end
+
 	def duration
 		self.episode.duration
 	end
