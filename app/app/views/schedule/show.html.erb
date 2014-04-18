@@ -1,0 +1,12 @@
+<div class="row">
+	<div class="medium-12 columns">
+		
+		<h1><%= @channel_playlist.name %> <small><%= @channel_playlist.description %></small></h1>
+
+		<% if @playlist_entries.blank? %>
+			<p>No episodes scheduled.</p>
+		<% else %>
+			<div id="episodes"> <%= render 'episodes' %></div>
+		<% end %>
+	</div>
+</div>

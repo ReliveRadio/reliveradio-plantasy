@@ -1,4 +1,4 @@
-class ScheduleControllerController < ApplicationController
+class ScheduleController < ApplicationController
   before_action :set_channel_playlist, only: [:show]
 
   def index

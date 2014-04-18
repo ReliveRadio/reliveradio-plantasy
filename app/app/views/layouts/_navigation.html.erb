@@ -22,6 +22,14 @@
 		<ul class="left">
 			<li><%= link_to 'Directory', :directory %></li>
 			<li class="has-dropdown">
+				<%= link_to 'Schedule', schedule_path %>
+				<ul class="dropdown">
+					<% ChannelPlaylist.all.each do |channel_playlist| %>
+						<li><%= link_to channel_playlist.name, schedule_show_path(channel_playlist: channel_playlist.id) %></li>
+					<% end %>
+				</ul>
+			</li>
+			<li class="has-dropdown">
 				<%= link_to 'Channel Management', channel_playlists_path %>
 				<ul class="dropdown">
 					<% ChannelPlaylist.all.each do |channel_playlist| %>
