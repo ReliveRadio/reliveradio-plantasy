@@ -23,8 +23,12 @@ class PlaylistManagementController < ApplicationController
 		end
 	end
 
-	def append_episode
-		@episode = Episode.find(params[:episode_id])
+	def append_entry
+		if params[:jingle_id]
+			@jingle = Jingle.find(params[:jingle_id])
+		elsif params[:episode_id]
+			@episode = Episode.find(params[:episode_id])
+		end
 
 		# calc start time for new playlist entry
 		@playlist_entries = @channel_playlist.playlist_entries.where("end_time >= :now", {now: Time.now}).order(:position)
@@ -34,33 +38,14 @@ class PlaylistManagementController < ApplicationController
 		else
 			start_time = @playlist_entries.last.end_time
 		end
-		end_time = start_time + @episode.duration.seconds
 
-		PlaylistEntry.create(channel_playlist: @channel_playlist, episode: @episode, start_time: start_time, end_time: end_time)
-
-		update_mpd @channel_playlist
-
-		# update playlist html element via JS response
-		fetch_playlist_entries_and_offset
-		respond_to do |format|
-			format.js { render 'playlist_update' }
+		if @jingle
+			end_time = start_time + @jingle.duration.seconds
+			PlaylistEntry.create(channel_playlist: @channel_playlist, jingle: @jingle, start_time: start_time, end_time: end_time)
+		elsif @episode
+			end_time = start_time + @episode.duration.seconds
+			PlaylistEntry.create(channel_playlist: @channel_playlist, episode: @episode, start_time: start_time, end_time: end_time)
 		end
-	end
-
-	def append_jingle
-		@jingle = Jingle.find(params[:jingle_id])
-
-		# calc start time for new playlist entry
-		@playlist_entries = @channel_playlist.playlist_entries.where("end_time >= :now", {now: Time.now}).order(:position)
-
-		if @playlist_entries.blank?
-			start_time = Time.now
-		else
-			start_time = @playlist_entries.last.end_time
-		end
-		end_time = start_time + @jingle.duration.seconds
-
-		PlaylistEntry.create(channel_playlist: @channel_playlist, jingle: @jingle, start_time: start_time, end_time: end_time)
 
 		update_mpd @channel_playlist
 
