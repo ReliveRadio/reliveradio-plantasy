@@ -52,7 +52,7 @@ class AudioUploader < CarrierWave::Uploader::Base
   def update_mpd
     mpd = MPD.new
     mpd.connect
-    mpd.update
+    mpd.update rescue false
     mpd.disconnect
   end
 
