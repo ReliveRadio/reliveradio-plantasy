@@ -1,67 +1,70 @@
-<p>
-  <strong>Title:</strong>
-  <%= @episode.title %>
-</p>
+<div class="row">
+	<div class="medium-12 columns">
+		
+		<p>
+			<strong>Title:</strong>
+			<%= @episode.title %>
+		</p>
 
-<p>
-  <strong>Link:</strong>
-  <%= @episode.link %>
-</p>
+		<p>
+			<strong>Subtitle:</strong>
+			<%= @episode.subtitle %>
+		</p>
+		<p>
+			<strong>Link:</strong>
+			<%= @episode.link %>
+		</p>
 
-<p>
-  <strong>Pub date:</strong>
-  <%= @episode.pub_date %>
-</p>
+		<p>
+			<strong>Pub date:</strong>
+			<%= @episode.pub_date %>
+		</p>
 
-<p>
-  <strong>Guid:</strong>
-  <%= @episode.guid %>
-</p>
+		<p>
+			<strong>Guid:</strong>
+			<%= @episode.guid %>
+		</p>
 
-<p>
-  <strong>Subtitle:</strong>
-  <%= @episode.subtitle %>
-</p>
+		<p>
+			<strong>Duration:</strong>
+			<%= @episode.duration %>
+		</p>
 
-<p>
-  <strong>Content:</strong>
-  <%= @episode.content %>
-</p>
+		<p>
+			<strong>Flattr url:</strong>
+			<%= @episode.flattr_url %>
+		</p>
 
-<p>
-  <strong>Duration:</strong>
-  <%= @episode.duration %>
-</p>
+		<p>
+			<strong>Tags:</strong>
+			<%= @episode.tags %>
+		</p>
 
-<p>
-  <strong>Flattr url:</strong>
-  <%= @episode.flattr_url %>
-</p>
+		<p>
+			<strong>Icon url:</strong>
+			<%= @episode.icon_url_podcast_fallback %>
+		</p>
 
-<p>
-  <strong>Tags:</strong>
-  <%= @episode.tags %>
-</p>
+		<p>
+			<strong>Audio file url:</strong>
+			<%= @episode.audio_file_url %>
+		</p>
 
-<p>
-  <strong>Icon url:</strong>
-  <%= @episode.icon_url_podcast_fallback %>
-</p>
+		<p>
+			<strong>Cached:</strong>
+			<%= @episode.cached %>
+		</p>
 
-<p>
-  <strong>Audio file url:</strong>
-  <%= @episode.audio_file_url %>
-</p>
+		<p>
+			<strong>Local path:</strong>
+			<%= @episode.local_path %>
+		</p>
+		<%= link_to 'Edit', edit_episode_path(@episode), class: 'button' %>
 
-<p>
-  <strong>Cached:</strong>
-  <%= @episode.cached %>
-</p>
+		<h2>Content:</h2>
+		<hr />
+		<%= raw @episode.content %>
 
-<p>
-  <strong>Local path:</strong>
-  <%= @episode.local_path %>
-</p>
-
-<%= link_to 'Edit', edit_episode_path(@episode) %> |
-<%= link_to 'Back', episodes_path %>
+		
+	</div>
+</div>
