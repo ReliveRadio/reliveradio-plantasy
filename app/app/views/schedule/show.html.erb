@@ -3,10 +3,8 @@
 		
 		<h1><%= @channel_playlist.name %> <small><%= @channel_playlist.description %></small></h1>
 
-		<% if @playlist_entries.blank? %>
-			<p>No episodes scheduled.</p>
-		<% else %>
-			<div id="episodes"> <%= render 'episodes' %></div>
-		<% end %>
+		<div id="episodes" data-update-url="<%= schedule_show_url(channel_playlist: @channel_playlist.id) %>">
+			<%= render 'episodes' %>
+		</div>
 	</div>
 </div>
