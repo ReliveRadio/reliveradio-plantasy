@@ -66,7 +66,8 @@ class PlaylistManagementController < ApplicationController
 			# update all after entries play times
 			@playlist_entry.lower_items.each do |entry|
 				entry.start_time = temp_start_time
-				entry.end_time = temp_start_time + entry.episode.duration.seconds
+				entry.end_time = temp_start_time + entry.episode.duration.seconds if entry.is_episode?
+				entry.end_time = temp_start_time + entry.jingle.duration.seconds if entry.is_jingle?
 				entry.save
 				temp_start_time = entry.end_time
 			end
@@ -98,7 +99,8 @@ class PlaylistManagementController < ApplicationController
 		params[:playlist_entry].each do |id|
 			entry = PlaylistEntry.find(id)
 			entry.start_time = temp_start_time
-			entry.end_time = temp_start_time + entry.episode.duration.seconds
+			entry.end_time = temp_start_time + entry.episode.duration.seconds if entry.is_episode?
+			entry.end_time = temp_start_time + entry.jingle.duration.seconds if entry.is_jingle?
 			entry.save
 			temp_start_time = entry.end_time
 		end
