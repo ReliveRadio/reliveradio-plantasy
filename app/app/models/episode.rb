@@ -17,11 +17,6 @@ class Episode < ActiveRecord::Base
 
 			# delete file from disk
 			File.delete(local_path) rescue false
-			# update mpd database     
-			mpd = MPD.new
-			mpd.connect
-			mpd.update rescue false
-			mpd.disconnect
 			# update database entry
 			self.cached = false
 			self.local_path = nil

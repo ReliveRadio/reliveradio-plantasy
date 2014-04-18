@@ -17,10 +17,5 @@ class Jingle < ActiveRecord::Base
 	  def remove_uploaded_audio
 		# delete file from disk
 		remove_audio!
-		# update mpd database
-		mpd = MPD.new
-		mpd.connect
-		mpd.update rescue false
-		mpd.disconnect
 	  end
 end
