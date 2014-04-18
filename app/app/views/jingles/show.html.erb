@@ -1,19 +1,25 @@
-<p id="notice"><%= notice %></p>
+<div class="row">
+	<div class="medium-12 colums">
+		<p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Title:</strong>
-  <%= @jingle.title %>
-</p>
+		<p>
+			<strong>Title:</strong>
+			<%= @jingle.title %>
+		</p>
 
-<p>
-  <strong>Duration:</strong>
-  <%= @jingle.duration %>
-</p>
+		<p>
+			<strong>Duration:</strong>
+			<%= @jingle.duration %>
+		</p>
 
-<p>
-  <strong>Audio:</strong>
-  <%= @jingle.audio_url.to_s %>
-</p>
+		<p>
+			<strong>Audio:</strong>
+			<%= @jingle.audio_url.to_s %>
+		</p>
 
-<%= link_to 'Edit', edit_jingle_path(@jingle) %> |
-<%= link_to 'Back', jingles_path %>
+
+		<%= link_to 'Edit', edit_jingle_path(@jingle), class: 'button' %>
+		
+	</div>
+</div>
+
