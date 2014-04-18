@@ -40,6 +40,8 @@ gem 'wavefile'
 gem 'chronic_duration'
 gem 'humantime'
 
+gem 'carrierwave'
+
 gem 'devise'
 gem "devise-async"
 gem 'sidekiq'

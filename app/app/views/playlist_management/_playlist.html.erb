@@ -10,16 +10,36 @@
 	<% else %>
 	  	<% @playlist_entries.each do |entry| %>
 		    <%= content_tag_for :tr, entry do %>
-		      <td style="vertical-align: top"><%= image_tag entry.episode.icon_url_podcast_fallback, size: '50', class: 'handle' %></td>
-		      <td>
-		      	<h6><%= entry.episode.title %></h6>
-				<div><%= entry.start_time %></div>
-				<div><%= entry.end_time %></div>
-				<div>Time left: <%= entry.time_left_human %></div>
-				<% if !entry.isLive? %>
-					<div><%= link_to 'Remove', {controller: 'playlist_management', action: 'destroy_entry', remote: true, playlist_entry_id: entry.id, channel_playlist: @channel_playlist.id}, class: 'button alert tiny'%></div>
-				<% end %>		
-		      </td>
+
+
+
+		      <% if entry.is_episode? %>
+			      <td style="vertical-align: top"><%= image_tag entry.episode.icon_url_podcast_fallback, size: '50', class: 'handle' %></td>
+			      <td>
+			      	<h6><%= entry.episode.title %></h6>
+					<div><%= entry.start_time %></div>
+					<div><%= entry.end_time %></div>
+					<div>Time left: <%= entry.time_left_human %></div>
+					<% if !entry.isLive? %>
+						<div><%= link_to 'Remove', {controller: 'playlist_management', action: 'destroy_entry', remote: true, playlist_entry_id: entry.id, channel_playlist: @channel_playlist.id}, class: 'button alert tiny'%></div>
+					<% end %>
+			      </td>
+
+
+			   <% else %>
+			   	<td> <i class="fa fa-music handle"></i> </td>
+			   	<td>
+			      	<h6><%= entry.jingle.title %></h6>
+					<div><%= entry.start_time %></div>
+					<div><%= entry.end_time %></div>
+					<div>Time left: <%= entry.time_left_human %></div>
+					<% if !entry.isLive? %>
+						<div><%= link_to 'Remove', {controller: 'playlist_management', action: 'destroy_entry', remote: true, playlist_entry_id: entry.id, channel_playlist: @channel_playlist.id}, class: 'button alert tiny'%></div>
+					<% end %>
+			   	</td>
+			   <% end %>
+
+
 		    <% end %>
 		<% end %>
     <% end %>

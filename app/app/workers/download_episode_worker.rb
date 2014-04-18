@@ -26,10 +26,5 @@ class DownloadEpisodeWorker
 		end
 
     	episode.save
-
-		mpd = MPD.new
-		mpd.connect
-		mpd.update
-		mpd.disconnect
 	end
 end

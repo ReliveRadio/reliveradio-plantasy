@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140412102536) do
+ActiveRecord::Schema.define(version: 20140417125551) do
 
   create_table "admins", force: true do |t|
     t.string   "email",                  default: "",    null: false
@@ -63,6 +63,14 @@ ActiveRecord::Schema.define(version: 20140412102536) do
 
   add_index "episodes", ["guid"], name: "index_episodes_on_guid", unique: true
 
+  create_table "jingles", force: true do |t|
+    t.string   "title"
+    t.integer  "duration"
+    t.string   "audio"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "playlist_entries", force: true do |t|
     t.datetime "start_time"
     t.datetime "end_time"
@@ -72,6 +80,7 @@ ActiveRecord::Schema.define(version: 20140412102536) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "position"
+    t.integer  "jingle_id"
   end
 
   create_table "podcasts", force: true do |t|
