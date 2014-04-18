@@ -1,9 +1,6 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-# do not fogert to install omnibus plugin
-# 'vagrant plugin install vagrant-omnibus'
-
 Vagrant.configure("2") do |config|
   config.vm.box = "ubuntu-12.04"
   config.vm.box_url = "http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_ubuntu-12.04_chef-provisionerless.box"
@@ -12,8 +9,24 @@ Vagrant.configure("2") do |config|
     v.memory = 1024
     v.cpus = 1
   end
+  # Provider-specific configuration so you can fine-tune various
+  # backing providers for Vagrant. These expose provider-specific options.
+  # Example for VirtualBox:
+  #
+  # config.vm.provider "virtualbox" do |vb|
+  #   # Don't boot with headless mode
+  #   vb.gui = true
+  #
+  #   # Use VBoxManage to customize the VM. For example to change memory:
+  #   vb.customize ["modifyvm", :id, "--memory", "1024"]
+  # end
+  #
+  # View the documentation for the provider you're using for more
+  # information on available options.
 
   # Set the version of chef to install using the vagrant-omnibus plugin
+  # do not fogert to install omnibus plugin
+  # 'vagrant plugin install vagrant-omnibus'
   config.omnibus.chef_version = :latest
 
   config.vm.network "forwarded_port", guest: 3000, host: 3000 #rails, thin
@@ -37,6 +50,8 @@ Vagrant.configure("2") do |config|
     chef.add_recipe "icecast2"
     chef.add_recipe "nginx::source"
     chef.add_recipe "nginx::passenger"
+    chef.add_recipe "redisio::install"
+    chef.add_recipe "redisio::enable"
 
     chef.add_recipe "nodejs::install_from_package"
 
@@ -48,6 +63,7 @@ Vagrant.configure("2") do |config|
         }
       },
       :nginx => {
+        :client_max_body_size => '50M',
         :source => {
           :modules => [
             "nginx::passenger"
@@ -58,6 +74,9 @@ Vagrant.configure("2") do |config|
           :ruby => "/usr/local/rvm/rubies/ruby-2.1.1/bin/ruby",
           :root => "/usr/local/rvm/gems/ruby-2.1.1/gems/passenger-4.0.38"
         }
+      },
+      :mpd => {
+        :bind => "0.0.0.0"
       }
     })
   end

@@ -1,0 +1,38 @@
+<nav class="top-bar" data-topbar>
+	<ul class="title-area">
+		<li class="name">
+			<h1><a href="#">ReliveRadio</a></h1>
+		</li>
+		<li class="toggle-topbar menu-icon"><a href="#">Menu</a></li>
+	</ul>
+
+	<section class="top-bar-section">
+		<!-- Right Nav Section -->
+		<ul class="right">
+			<li class="has-dropdown">
+				<a href="#">Account</a>
+				<ul class="dropdown">
+					<%= render 'devise/menu/registration_items' %>
+					<%= render 'devise/menu/login_items' %>
+				</ul>
+			</li>
+		</ul>
+
+		<!-- Left Nav Section -->
+		<ul class="left">
+			<li><%= link_to 'Directory', :directory %></li>
+			<li class="has-dropdown">
+				<%= link_to 'Channel Management', channel_playlists_path %>
+				<ul class="dropdown">
+					<% ChannelPlaylist.all.each do |channel_playlist| %>
+						<li><%= link_to channel_playlist.name, playlist_management_path(channel_playlist: channel_playlist.id) %></li>
+					<% end %>
+					<li><%= link_to 'New Channel', new_channel_playlist_path %></li>
+				</ul>
+			</li>
+			<li><%= link_to 'Podcast Management', podcasts_path %></li>
+			<li><%= link_to 'Jingle Management', jingles_path %></li>
+			<li><%= link_to 'Background Jobs', sidekiq_path %></li>
+		</ul>
+	</section>
+</nav>

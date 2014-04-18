@@ -1,14 +1,40 @@
 <!DOCTYPE html>
-<html>
-<head>
-  <title>App</title>
-  <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
-  <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
-  <%= csrf_meta_tags %>
-</head>
-<body>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<%= yield %>
+		<title><%= content_for?(:title) ? yield(:title) : "foundation-rails" %></title>
 
-</body>
+		<%= stylesheet_link_tag    "application" %>
+		<%= javascript_include_tag "vendor/modernizr" %>
+		<%= csrf_meta_tags %>
+	</head>
+
+	<body>
+
+	<%= render 'layouts/navigation' %>	
+
+		<!-- FLASH MESSAGES -->
+		<% if !flash.blank? %>
+		<div class="row">
+			<div class="medium-12 columns">
+				<!-- TODO add alert and notice for devise -->
+				<% if flash[:error] %>
+					<div class="alert-box alert"><%= flash[:error] %></div>
+				<% end %>
+				<% if flash[:success] %>
+					<div class="alert-box success"><%= flash[:success] %></div>
+				<% end %>
+				<% if flash[:notice] %>
+					<div class="alert-box"><%= flash[:notice] %></div>
+				<% end %>
+			</div>
+		</div>
+		<% end %>
+
+		<%= yield %>
+		<%= javascript_include_tag "application" %>
+		<%= javascript_include_tag params[:controller] %>
+	</body>
 </html>

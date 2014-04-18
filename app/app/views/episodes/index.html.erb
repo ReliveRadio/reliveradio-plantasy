@@ -1,0 +1,51 @@
+<h1>Listing episodes</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Link</th>
+      <th>Pub date</th>
+      <th>Guid</th>
+      <th>Subtitle</th>
+      <th>Content</th>
+      <th>Duration</th>
+      <th>Flattr url</th>
+      <th>Tags</th>
+      <th>Icon url</th>
+      <th>Audio file url</th>
+      <th>Cached</th>
+      <th>Local path</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @episodes.each do |episode| %>
+      <tr>
+        <td><%= episode.title %></td>
+        <td><%= episode.link %></td>
+        <td><%= episode.pub_date %></td>
+        <td><%= episode.guid %></td>
+        <td><%= episode.subtitle %></td>
+        <td><%= episode.content %></td>
+        <td><%= episode.duration %></td>
+        <td><%= episode.flattr_url %></td>
+        <td><%= episode.tags %></td>
+        <td><%= episode.icon_url_podcast_fallback %></td>
+        <td><%= episode.audio_file_url %></td>
+        <td><%= episode.cached %></td>
+        <td><%= episode.local_path %></td>
+        <td><%= link_to 'Show', episode %></td>
+        <td><%= link_to 'Edit', edit_episode_path(episode) %></td>
+        <td><%= link_to 'Destroy', episode, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Episode', new_episode_path %>
