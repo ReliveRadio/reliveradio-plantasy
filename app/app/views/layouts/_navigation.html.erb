@@ -22,11 +22,12 @@
 		<ul class="left">
 			<li><%= link_to 'Directory', :directory %></li>
 			<li class="has-dropdown">
-				<%= link_to 'Playlist Management', channel_playlists_path %>
+				<%= link_to 'Channel Management', channel_playlists_path %>
 				<ul class="dropdown">
 					<% ChannelPlaylist.all.each do |channel_playlist| %>
 						<li><%= link_to channel_playlist.name, playlist_management_path(channel_playlist: channel_playlist.id) %></li>
 					<% end %>
+					<li><%= link_to 'New Channel', new_channel_playlist_path %></li>
 				</ul>
 			</li>
 			<li><%= link_to 'Podcast Management', podcasts_path %></li>
