@@ -6,10 +6,11 @@ class Jingle < ActiveRecord::Base
 	validates :duration, presence: true
 
 	mount_uploader :audio, AudioUploader
+	
 	before_destroy :remove_uploaded_audio
 	
 	def playcount
-		self.playlist_entries.count
+		playlist_entries.count
 	end
 
 	private
