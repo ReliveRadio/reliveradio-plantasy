@@ -20,5 +20,10 @@
   <%= @channel_playlist.language %>
 </p>
 
+<p>
+  <strong>Stream URL:</strong>
+  <%= @channel_playlist.stream_url %>
+</p>
+
 <%= link_to 'Edit', edit_channel_playlist_path(@channel_playlist) %> |
 <%= link_to 'Back', channel_playlists_path %>

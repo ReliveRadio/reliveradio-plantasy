@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140417125551) do
+ActiveRecord::Schema.define(version: 20140419114216) do
 
   create_table "admins", force: true do |t|
     t.string   "email",                  default: "",    null: false
@@ -39,6 +39,8 @@ ActiveRecord::Schema.define(version: 20140417125551) do
     t.string   "language"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "mpd_socket_path"
+    t.string   "stream_url"
   end
 
   create_table "episodes", force: true do |t|

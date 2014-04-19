@@ -7,6 +7,7 @@
       <th>Name</th>
       <th>Description</th>
       <th>Language</th>
+      <th>Stream URL</th>
       <th></th>
       <th></th>
       <th></th>
@@ -20,6 +21,7 @@
         <td><%= channel_playlist.name %></td>
         <td><%= channel_playlist.description %></td>
         <td><%= channel_playlist.language %></td>
+        <td><%= channel_playlist.stream_url %></td>
         <td><%= link_to 'Show', channel_playlist %></td>
         <td><%= link_to 'Edit', edit_channel_playlist_path(channel_playlist) %></td>
         <td><%= link_to 'Destroy', channel_playlist, method: :delete, data: { confirm: 'Are you sure?' } %></td>

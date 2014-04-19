@@ -70,6 +70,6 @@ class ChannelPlaylistsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def channel_playlist_params
-      params.require(:channel_playlist).permit(:author, :name, :description, :language)
+      params.require(:channel_playlist).permit(:author, :name, :description, :language, :stream_url)
     end
 end
