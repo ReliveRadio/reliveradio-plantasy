@@ -157,7 +157,6 @@ class PlaylistManagementController < ApplicationController
 
 		mpd = MPD.new channel_playlist.mpd_socket_path
 		mpd.connect
-		mpd.update
 
 		# delete all mpd entries but not the currently playling one
 		status = mpd.status
