@@ -155,9 +155,8 @@ class PlaylistManagementController < ApplicationController
 		playlist_entries = channel_playlist.playlist_entries.where("end_time >= :now", {now: Time.now}).order(start_time: :asc)
 
 
-		mpd = MPD.new
+		mpd = MPD.new channel_playlist.mpd_socket_path
 		mpd.connect
-		mpd.update
 
 		# delete all mpd entries but not the currently playling one
 		status = mpd.status
@@ -183,8 +182,8 @@ class PlaylistManagementController < ApplicationController
 
 		# add remaining entries to the mpd playlist		
 		playlist_entries.each do |entry|
-			mpd.add File.basename(entry.episode.local_path) if entry.is_episode?
-			mpd.add File.basename(entry.jingle.audio_url) if entry.is_jingle?
+			mpd.add "file://" + entry.episode.local_path if entry.is_episode?
+			mpd.add "file://" + entry.jingle.audio_url if entry.is_jingle?
 		end		
 		mpd.play # ensure mpd is playing
 		mpd.disconnect
