@@ -22,7 +22,7 @@ FactoryGirl.define do
     podcast
   end
 
-  factory :episode_cached do
+  factory :episode_cached, class: Episode do
     title Faker::Lorem.paragraph(1)
     link Faker::Internet.url
     pub_date Faker::Business.credit_card_expiry_date

@@ -73,4 +73,11 @@ RSpec.configure do |config|
     end
   end
 
+  # clear carrierwave uploads after each test
+  config.after(:each) do
+    if Rails.env.test? || Rails.env.cucumber?
+      FileUtils.rm_rf(Dir["#{Rails.root}/spec/support/uploads"])
+    end 
+  end
+
 end
