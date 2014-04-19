@@ -16,8 +16,7 @@ class AudioUploader < CarrierWave::Uploader::Base
   # Override the directory where uploaded files will be stored.
   # This is a sensible default for uploaders that are meant to be mounted:
   def store_dir
-    # "/home/vagrant/music/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
-    "/home/vagrant/music/"
+    Rails.root.to_s + "/audio/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
   end
 
   # Provide a default URL as a default if there hasn't been a file uploaded:

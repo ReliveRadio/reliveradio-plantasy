@@ -2,6 +2,7 @@ require 'open-uri'
 require 'uri'
 require 'ruby-mpd'
 require 'audioinfo'
+require 'fileutils'
 
 class DownloadEpisodeWorker
 	include Sidekiq::Worker
@@ -10,7 +11,12 @@ class DownloadEpisodeWorker
 		episode = Episode.find(episode_id)
 		uri = URI.parse(episode.audio_file_url)
 		filename = File.basename(uri.path)
-    	episode.local_path = '/home/vagrant/music/' + filename
+    	episode.local_path = Rails.root.join('audio', episode.podcast.title, filename).to_s
+    	
+    	dirname = File.dirname(episode.local_path)
+    	unless File.directory?(dirname)
+    		FileUtils.mkdir_p(dirname)
+    	end
 		open(episode.local_path, 'wb') do |file|
       		file << open(episode.audio_file_url).read
     	end

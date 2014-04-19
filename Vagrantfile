@@ -35,7 +35,6 @@ Vagrant.configure("2") do |config|
   config.vm.network "forwarded_port", guest: 6600, host: 6600 #mpd
 
   config.vm.synced_folder "app/", "/home/vagrant/app", :create => true
-  config.vm.synced_folder "music/", "/home/vagrant/music", :create => true
 
   config.vm.provision :chef_solo do |chef|
     chef.cookbooks_path = ["cookbooks"]
