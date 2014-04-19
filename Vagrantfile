@@ -76,7 +76,8 @@ Vagrant.configure("2") do |config|
         }
       },
       :mpd => {
-        :bind => "0.0.0.0"
+        :bind => "0.0.0.0",
+        :bind_2 => "/home/vagrant/.mpd/socket/mix" # you have to create /home/vagrant/.mpd/socket/ manually!
       }
     })
   end

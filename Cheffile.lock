@@ -19,16 +19,16 @@ SITE
       yum (~> 3.0)
       yum-epel (>= 0.0.0)
     ulimit (0.3.2)
-    yum (3.1.4)
-    yum-epel (0.3.4)
+    yum (3.2.0)
+    yum-epel (0.3.6)
       yum (~> 3.0)
 
 GIT
   remote: git://github.com/fnichol/chef-rvm.git
   ref: master
-  sha: 87f58d428c160337c1581ed1130a1a53d94e5126
+  sha: dd58087e7399097a9b9df4e2e7235908aace2afd
   specs:
-    rvm (0.9.1)
+    rvm (0.9.2)
       chef_gem (>= 0.0.0)
 
 GIT
@@ -49,9 +49,9 @@ GIT
 GIT
   remote: https://github.com/i42n/chef-cookbook-mpd
   ref: master
-  sha: d2d176041b6d3e5147bdaab8d2183872558550aa
+  sha: 3c83f8d26517d9eae21f6c2138a8ee16d22173c4
   specs:
-    mpd (0.0.1)
+    mpd (0.0.2)
 
 GIT
   remote: https://github.com/i42n/nginx
