@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe ScheduleControllerController do
+describe ScheduleController do
 
   describe "GET 'index'" do
     it "returns http success" do
@@ -11,7 +11,8 @@ describe ScheduleControllerController do
 
   describe "GET 'show'" do
     it "returns http success" do
-      get 'show'
+      channel_playlist = create(:channel_playlist)
+      get 'show', channel_playlist: channel_playlist.id
       response.should be_success
     end
   end
