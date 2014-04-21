@@ -2,12 +2,12 @@ require 'sidekiq/web'
 
 App::Application.routes.draw do
 
+  root to: 'schedule#index'
+
   resources :jingles
 
   get "channel/", to: 'schedule#index', as: 'schedule'
   get "channel/:channel_playlist/show", to: 'schedule#show', as: 'schedule_show'
-
-  root to: 'podcasts#index'
 
   get "/directory", to: 'directory#index'
   get "/directory/show_podcast/:id", to: 'directory#show_podcast', as: 'directory_show_podcast'
