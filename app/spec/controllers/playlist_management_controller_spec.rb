@@ -1,8 +1,25 @@
 require 'spec_helper'
+require 'ruby-mpd'
 
 describe PlaylistManagementController do
 
-	login_admin	
+	login_admin
+
+	# clear mpd playlist before each test
+	before(:each) do
+      mpd = MPD.new "/home/vagrant/.mpd/socket/mix"
+      mpd.connect
+      mpd.clear
+      mpd.disconnect
+    end
+
+    # clear after all tests
+    after(:all) do
+      mpd = MPD.new "/home/vagrant/.mpd/socket/mix"
+      mpd.connect
+      mpd.clear
+      mpd.disconnect
+    end
 
 	describe "GET 'index'" do
 		it "returns http success" do
@@ -38,6 +55,15 @@ describe PlaylistManagementController do
 					expect {
 						xhr :get, :append_entry, {episode_id: episode.id, channel_playlist: channel_playlist.id}
 					}.to change(PlaylistEntry, :count).by(1)
+				end
+				it "sets the playlist entry start_time and end_time correctly if there is no playing playlist_entry" do
+					channel_playlist = create(:channel_playlist)
+					episode = create(:episode_cached)
+					Timecop.freeze(Time.zone.now)
+					xhr :get, :append_entry, {episode_id: episode.id, channel_playlist: channel_playlist.id}
+					entry = PlaylistEntry.first
+					expect(entry.start_time.to_i).to eq(Time.zone.now.to_i) # calling to_i because nanoseconds not stored in databse
+					expect(entry.end_time.to_i).to eq((entry.start_time + entry.episode.duration.seconds).to_i)
 				end
 			end
 		end

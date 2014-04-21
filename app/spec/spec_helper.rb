@@ -48,6 +48,9 @@ RSpec.configure do |config|
   config.extend DeviseMacros
 
   config.before(:each) do |example_method|
+
+    Timecop.return # reset timecop for each test
+
     # Clears out the jobs for tests using the fake testing
     Sidekiq::Worker.clear_all
     # Get the current example from the example_method object
