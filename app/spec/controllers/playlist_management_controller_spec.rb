@@ -34,9 +34,9 @@ describe PlaylistManagementController do
 			describe "with valid params" do
 				it "creates a new PlaylistEntry" do
 					channel_playlist = create(:channel_playlist)
-					episode = create(:episode)
+					episode = create(:episode_cached)
 					expect {
-						get :append_entry, {episode_id: episode.id, channel_playlist: channel_playlist.id}
+						xhr :get, :append_entry, {episode_id: episode.id, channel_playlist: channel_playlist.id}
 					}.to change(PlaylistEntry, :count).by(1)
 				end
 			end
