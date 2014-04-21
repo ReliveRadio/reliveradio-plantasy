@@ -20,43 +20,35 @@ require 'spec_helper'
 
 describe ChannelPlaylistsController do
 
-  # This should return the minimal set of attributes required to create a valid
-  # ChannelPlaylist. As you add validations to ChannelPlaylist, be sure to
-  # adjust the attributes here as well.
-  let(:valid_attributes) { { "author" => "MyString" } }
-
-  # This should return the minimal set of values that should be in the session
-  # in order to pass any filters (e.g. authentication) defined in
-  # ChannelPlaylistsController. Be sure to keep this updated too.
-  let(:valid_session) { {} }
+  login_admin
 
   describe "GET index" do
     it "assigns all channel_playlists as @channel_playlists" do
-      channel_playlist = ChannelPlaylist.create! valid_attributes
-      get :index, {}, valid_session
+      channel_playlist = create(:channel_playlist)
+      get :index, {}
       assigns(:channel_playlists).should eq([channel_playlist])
     end
   end
 
   describe "GET show" do
     it "assigns the requested channel_playlist as @channel_playlist" do
-      channel_playlist = ChannelPlaylist.create! valid_attributes
-      get :show, {:id => channel_playlist.to_param}, valid_session
+      channel_playlist = create(:channel_playlist)
+      get :show, {:id => channel_playlist.to_param}
       assigns(:channel_playlist).should eq(channel_playlist)
     end
   end
 
   describe "GET new" do
     it "assigns a new channel_playlist as @channel_playlist" do
-      get :new, {}, valid_session
+      get :new, {}
       assigns(:channel_playlist).should be_a_new(ChannelPlaylist)
     end
   end
 
   describe "GET edit" do
     it "assigns the requested channel_playlist as @channel_playlist" do
-      channel_playlist = ChannelPlaylist.create! valid_attributes
-      get :edit, {:id => channel_playlist.to_param}, valid_session
+      channel_playlist = create(:channel_playlist)
+      get :edit, {:id => channel_playlist.to_param}
       assigns(:channel_playlist).should eq(channel_playlist)
     end
   end
@@ -65,18 +57,18 @@ describe ChannelPlaylistsController do
     describe "with valid params" do
       it "creates a new ChannelPlaylist" do
         expect {
-          post :create, {:channel_playlist => valid_attributes}, valid_session
+          post :create, {:channel_playlist => attributes_for(:channel_playlist)}
         }.to change(ChannelPlaylist, :count).by(1)
       end
 
       it "assigns a newly created channel_playlist as @channel_playlist" do
-        post :create, {:channel_playlist => valid_attributes}, valid_session
+        post :create, {:channel_playlist => attributes_for(:channel_playlist)}
         assigns(:channel_playlist).should be_a(ChannelPlaylist)
         assigns(:channel_playlist).should be_persisted
       end
 
       it "redirects to the created channel_playlist" do
-        post :create, {:channel_playlist => valid_attributes}, valid_session
+        post :create, {:channel_playlist => attributes_for(:channel_playlist)}
         response.should redirect_to(ChannelPlaylist.last)
       end
     end
@@ -85,14 +77,14 @@ describe ChannelPlaylistsController do
       it "assigns a newly created but unsaved channel_playlist as @channel_playlist" do
         # Trigger the behavior that occurs when invalid params are submitted
         ChannelPlaylist.any_instance.stub(:save).and_return(false)
-        post :create, {:channel_playlist => { "author" => "invalid value" }}, valid_session
+        post :create, {:channel_playlist => { "author" => "" }}
         assigns(:channel_playlist).should be_a_new(ChannelPlaylist)
       end
 
       it "re-renders the 'new' template" do
         # Trigger the behavior that occurs when invalid params are submitted
         ChannelPlaylist.any_instance.stub(:save).and_return(false)
-        post :create, {:channel_playlist => { "author" => "invalid value" }}, valid_session
+        post :create, {:channel_playlist => { "author" => "" }}
         response.should render_template("new")
       end
     end
@@ -101,42 +93,42 @@ describe ChannelPlaylistsController do
   describe "PUT update" do
     describe "with valid params" do
       it "updates the requested channel_playlist" do
-        channel_playlist = ChannelPlaylist.create! valid_attributes
+        channel_playlist = create(:channel_playlist)
         # Assuming there are no other channel_playlists in the database, this
         # specifies that the ChannelPlaylist created on the previous line
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
         ChannelPlaylist.any_instance.should_receive(:update).with({ "author" => "MyString" })
-        put :update, {:id => channel_playlist.to_param, :channel_playlist => { "author" => "MyString" }}, valid_session
+        put :update, {:id => channel_playlist.to_param, :channel_playlist => { "author" => "MyString" }}
       end
 
       it "assigns the requested channel_playlist as @channel_playlist" do
-        channel_playlist = ChannelPlaylist.create! valid_attributes
-        put :update, {:id => channel_playlist.to_param, :channel_playlist => valid_attributes}, valid_session
+        channel_playlist = create(:channel_playlist)
+        put :update, {:id => channel_playlist.to_param, :channel_playlist => attributes_for(:channel_playlist)}
         assigns(:channel_playlist).should eq(channel_playlist)
       end
 
       it "redirects to the channel_playlist" do
-        channel_playlist = ChannelPlaylist.create! valid_attributes
-        put :update, {:id => channel_playlist.to_param, :channel_playlist => valid_attributes}, valid_session
+        channel_playlist = create(:channel_playlist)
+        put :update, {:id => channel_playlist.to_param, :channel_playlist => attributes_for(:channel_playlist)}
         response.should redirect_to(channel_playlist)
       end
     end
 
     describe "with invalid params" do
       it "assigns the channel_playlist as @channel_playlist" do
-        channel_playlist = ChannelPlaylist.create! valid_attributes
+        channel_playlist = create(:channel_playlist)
         # Trigger the behavior that occurs when invalid params are submitted
         ChannelPlaylist.any_instance.stub(:save).and_return(false)
-        put :update, {:id => channel_playlist.to_param, :channel_playlist => { "author" => "invalid value" }}, valid_session
+        put :update, {:id => channel_playlist.to_param, :channel_playlist => { "author" => "" }}
         assigns(:channel_playlist).should eq(channel_playlist)
       end
 
       it "re-renders the 'edit' template" do
-        channel_playlist = ChannelPlaylist.create! valid_attributes
+        channel_playlist = create(:channel_playlist)
         # Trigger the behavior that occurs when invalid params are submitted
         ChannelPlaylist.any_instance.stub(:save).and_return(false)
-        put :update, {:id => channel_playlist.to_param, :channel_playlist => { "author" => "invalid value" }}, valid_session
+        put :update, {:id => channel_playlist.to_param, :channel_playlist => { "author" => "" }}
         response.should render_template("edit")
       end
     end
@@ -144,15 +136,15 @@ describe ChannelPlaylistsController do
 
   describe "DELETE destroy" do
     it "destroys the requested channel_playlist" do
-      channel_playlist = ChannelPlaylist.create! valid_attributes
+      channel_playlist = create(:channel_playlist)
       expect {
-        delete :destroy, {:id => channel_playlist.to_param}, valid_session
+        delete :destroy, {:id => channel_playlist.to_param}
       }.to change(ChannelPlaylist, :count).by(-1)
     end
 
     it "redirects to the channel_playlists list" do
-      channel_playlist = ChannelPlaylist.create! valid_attributes
-      delete :destroy, {:id => channel_playlist.to_param}, valid_session
+      channel_playlist = create(:channel_playlist)
+      delete :destroy, {:id => channel_playlist.to_param}
       response.should redirect_to(channel_playlists_url)
     end
   end

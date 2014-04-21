@@ -8,5 +8,7 @@ FactoryGirl.define do
     name Faker::Lorem.paragraph(1)
     description Faker::Lorem.paragraph(5)
     language "Deutsch"
+    stream_url Faker::Internet.url
+    mpd_socket_path "/home/vagrant/.mpd/socket/mix"
   end
 end
