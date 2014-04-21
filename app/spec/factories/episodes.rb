@@ -35,7 +35,7 @@ FactoryGirl.define do
     icon_url Faker::Internet.url
     audio_file_url Faker::Internet.url
     cached true
-    local_path Faker::Internet.url
+    local_path File.join(Rails.root, '/spec/fixtures/audio.mp3')
     filesize Faker::Number.number(6)
     podcast
   end
