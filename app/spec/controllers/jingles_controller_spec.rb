@@ -20,43 +20,35 @@ require 'spec_helper'
 
 describe JinglesController do
 
-  # This should return the minimal set of attributes required to create a valid
-  # Jingle. As you add validations to Jingle, be sure to
-  # adjust the attributes here as well.
-  let(:valid_attributes) { { "title" => "MyString" } }
-
-  # This should return the minimal set of values that should be in the session
-  # in order to pass any filters (e.g. authentication) defined in
-  # JinglesController. Be sure to keep this updated too.
-  let(:valid_session) { {} }
+  login_admin
 
   describe "GET index" do
     it "assigns all jingles as @jingles" do
-      jingle = Jingle.create! valid_attributes
-      get :index, {}, valid_session
+      jingle = create(:jingle)
+      get :index, {}
       assigns(:jingles).should eq([jingle])
     end
   end
 
   describe "GET show" do
     it "assigns the requested jingle as @jingle" do
-      jingle = Jingle.create! valid_attributes
-      get :show, {:id => jingle.to_param}, valid_session
+      jingle = create(:jingle)
+      get :show, {:id => jingle.to_param}
       assigns(:jingle).should eq(jingle)
     end
   end
 
   describe "GET new" do
     it "assigns a new jingle as @jingle" do
-      get :new, {}, valid_session
+      get :new, {}
       assigns(:jingle).should be_a_new(Jingle)
     end
   end
 
   describe "GET edit" do
     it "assigns the requested jingle as @jingle" do
-      jingle = Jingle.create! valid_attributes
-      get :edit, {:id => jingle.to_param}, valid_session
+      jingle = create(:jingle)
+      get :edit, {:id => jingle.to_param}
       assigns(:jingle).should eq(jingle)
     end
   end
@@ -65,18 +57,18 @@ describe JinglesController do
     describe "with valid params" do
       it "creates a new Jingle" do
         expect {
-          post :create, {:jingle => valid_attributes}, valid_session
+          post :create, {:jingle => attributes_for(:jingle)}
         }.to change(Jingle, :count).by(1)
       end
 
       it "assigns a newly created jingle as @jingle" do
-        post :create, {:jingle => valid_attributes}, valid_session
+        post :create, {:jingle => attributes_for(:jingle)}
         assigns(:jingle).should be_a(Jingle)
         assigns(:jingle).should be_persisted
       end
 
       it "redirects to the created jingle" do
-        post :create, {:jingle => valid_attributes}, valid_session
+        post :create, {:jingle => attributes_for(:jingle)}
         response.should redirect_to(Jingle.last)
       end
     end
@@ -85,14 +77,14 @@ describe JinglesController do
       it "assigns a newly created but unsaved jingle as @jingle" do
         # Trigger the behavior that occurs when invalid params are submitted
         Jingle.any_instance.stub(:save).and_return(false)
-        post :create, {:jingle => { "title" => "invalid value" }}, valid_session
+        post :create, {:jingle => { "title" => "" }}
         assigns(:jingle).should be_a_new(Jingle)
       end
 
       it "re-renders the 'new' template" do
         # Trigger the behavior that occurs when invalid params are submitted
         Jingle.any_instance.stub(:save).and_return(false)
-        post :create, {:jingle => { "title" => "invalid value" }}, valid_session
+        post :create, {:jingle => { "title" => "" }}
         response.should render_template("new")
       end
     end
@@ -101,42 +93,42 @@ describe JinglesController do
   describe "PUT update" do
     describe "with valid params" do
       it "updates the requested jingle" do
-        jingle = Jingle.create! valid_attributes
+        jingle = create(:jingle)
         # Assuming there are no other jingles in the database, this
         # specifies that the Jingle created on the previous line
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
         Jingle.any_instance.should_receive(:update).with({ "title" => "MyString" })
-        put :update, {:id => jingle.to_param, :jingle => { "title" => "MyString" }}, valid_session
+        put :update, {:id => jingle.to_param, :jingle => { "title" => "MyString" }}
       end
 
       it "assigns the requested jingle as @jingle" do
-        jingle = Jingle.create! valid_attributes
-        put :update, {:id => jingle.to_param, :jingle => valid_attributes}, valid_session
+        jingle = create(:jingle)
+        put :update, {:id => jingle.to_param, :jingle => attributes_for(:jingle)}
         assigns(:jingle).should eq(jingle)
       end
 
       it "redirects to the jingle" do
-        jingle = Jingle.create! valid_attributes
-        put :update, {:id => jingle.to_param, :jingle => valid_attributes}, valid_session
+        jingle = create(:jingle)
+        put :update, {:id => jingle.to_param, :jingle => attributes_for(:jingle)}
         response.should redirect_to(jingle)
       end
     end
 
     describe "with invalid params" do
       it "assigns the jingle as @jingle" do
-        jingle = Jingle.create! valid_attributes
+        jingle = create(:jingle)
         # Trigger the behavior that occurs when invalid params are submitted
         Jingle.any_instance.stub(:save).and_return(false)
-        put :update, {:id => jingle.to_param, :jingle => { "title" => "invalid value" }}, valid_session
+        put :update, {:id => jingle.to_param, :jingle => { "title" => "" }}
         assigns(:jingle).should eq(jingle)
       end
 
       it "re-renders the 'edit' template" do
-        jingle = Jingle.create! valid_attributes
+        jingle = create(:jingle)
         # Trigger the behavior that occurs when invalid params are submitted
         Jingle.any_instance.stub(:save).and_return(false)
-        put :update, {:id => jingle.to_param, :jingle => { "title" => "invalid value" }}, valid_session
+        put :update, {:id => jingle.to_param, :jingle => { "title" => "" }}
         response.should render_template("edit")
       end
     end
@@ -144,15 +136,15 @@ describe JinglesController do
 
   describe "DELETE destroy" do
     it "destroys the requested jingle" do
-      jingle = Jingle.create! valid_attributes
+      jingle = create(:jingle)
       expect {
-        delete :destroy, {:id => jingle.to_param}, valid_session
+        delete :destroy, {:id => jingle.to_param}
       }.to change(Jingle, :count).by(-1)
     end
 
     it "redirects to the jingles list" do
-      jingle = Jingle.create! valid_attributes
-      delete :destroy, {:id => jingle.to_param}, valid_session
+      jingle = create(:jingle)
+      delete :destroy, {:id => jingle.to_param}
       response.should redirect_to(jingles_url)
     end
   end

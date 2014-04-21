@@ -20,43 +20,35 @@ require 'spec_helper'
 
 describe PlaylistEntriesController do
 
-  # This should return the minimal set of attributes required to create a valid
-  # PlaylistEntry. As you add validations to PlaylistEntry, be sure to
-  # adjust the attributes here as well.
-  let(:valid_attributes) { { "start_time" => "2014-03-22 10:42:36" } }
-
-  # This should return the minimal set of values that should be in the session
-  # in order to pass any filters (e.g. authentication) defined in
-  # PlaylistEntriesController. Be sure to keep this updated too.
-  let(:valid_session) { {} }
+  login_admin
 
   describe "GET index" do
     it "assigns all playlist_entries as @playlist_entries" do
-      playlist_entry = PlaylistEntry.create! valid_attributes
-      get :index, {}, valid_session
+      playlist_entry = create(:playlist_entry_episode)
+      get :index, {}
       assigns(:playlist_entries).should eq([playlist_entry])
     end
   end
 
   describe "GET show" do
     it "assigns the requested playlist_entry as @playlist_entry" do
-      playlist_entry = PlaylistEntry.create! valid_attributes
-      get :show, {:id => playlist_entry.to_param}, valid_session
+      playlist_entry = create(:playlist_entry_episode)
+      get :show, {:id => playlist_entry.to_param}
       assigns(:playlist_entry).should eq(playlist_entry)
     end
   end
 
   describe "GET new" do
     it "assigns a new playlist_entry as @playlist_entry" do
-      get :new, {}, valid_session
+      get :new, {}
       assigns(:playlist_entry).should be_a_new(PlaylistEntry)
     end
   end
 
   describe "GET edit" do
     it "assigns the requested playlist_entry as @playlist_entry" do
-      playlist_entry = PlaylistEntry.create! valid_attributes
-      get :edit, {:id => playlist_entry.to_param}, valid_session
+      playlist_entry = create(:playlist_entry_episode)
+      get :edit, {:id => playlist_entry.to_param}
       assigns(:playlist_entry).should eq(playlist_entry)
     end
   end
@@ -65,18 +57,18 @@ describe PlaylistEntriesController do
     describe "with valid params" do
       it "creates a new PlaylistEntry" do
         expect {
-          post :create, {:playlist_entry => valid_attributes}, valid_session
+          post :create, {:playlist_entry => attributes_for(:playlist_entry_episode)}
         }.to change(PlaylistEntry, :count).by(1)
       end
 
       it "assigns a newly created playlist_entry as @playlist_entry" do
-        post :create, {:playlist_entry => valid_attributes}, valid_session
+        post :create, {:playlist_entry => attributes_for(:playlist_entry_episode)}
         assigns(:playlist_entry).should be_a(PlaylistEntry)
         assigns(:playlist_entry).should be_persisted
       end
 
       it "redirects to the created playlist_entry" do
-        post :create, {:playlist_entry => valid_attributes}, valid_session
+        post :create, {:playlist_entry => attributes_for(:playlist_entry_episode)}
         response.should redirect_to(PlaylistEntry.last)
       end
     end
@@ -85,14 +77,14 @@ describe PlaylistEntriesController do
       it "assigns a newly created but unsaved playlist_entry as @playlist_entry" do
         # Trigger the behavior that occurs when invalid params are submitted
         PlaylistEntry.any_instance.stub(:save).and_return(false)
-        post :create, {:playlist_entry => { "start_time" => "invalid value" }}, valid_session
+        post :create, {:playlist_entry => { "start_time" => "" }}
         assigns(:playlist_entry).should be_a_new(PlaylistEntry)
       end
 
       it "re-renders the 'new' template" do
         # Trigger the behavior that occurs when invalid params are submitted
         PlaylistEntry.any_instance.stub(:save).and_return(false)
-        post :create, {:playlist_entry => { "start_time" => "invalid value" }}, valid_session
+        post :create, {:playlist_entry => { "start_time" => "" }}
         response.should render_template("new")
       end
     end
@@ -101,42 +93,42 @@ describe PlaylistEntriesController do
   describe "PUT update" do
     describe "with valid params" do
       it "updates the requested playlist_entry" do
-        playlist_entry = PlaylistEntry.create! valid_attributes
+        playlist_entry = create(:playlist_entry_episode)
         # Assuming there are no other playlist_entries in the database, this
         # specifies that the PlaylistEntry created on the previous line
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
         PlaylistEntry.any_instance.should_receive(:update).with({ "start_time" => "2014-03-22 10:42:36" })
-        put :update, {:id => playlist_entry.to_param, :playlist_entry => { "start_time" => "2014-03-22 10:42:36" }}, valid_session
+        put :update, {:id => playlist_entry.to_param, :playlist_entry => { "start_time" => "2014-03-22 10:42:36" }}
       end
 
       it "assigns the requested playlist_entry as @playlist_entry" do
-        playlist_entry = PlaylistEntry.create! valid_attributes
-        put :update, {:id => playlist_entry.to_param, :playlist_entry => valid_attributes}, valid_session
+        playlist_entry = create(:playlist_entry_episode)
+        put :update, {:id => playlist_entry.to_param, :playlist_entry => attributes_for(:playlist_entry_episode)}
         assigns(:playlist_entry).should eq(playlist_entry)
       end
 
       it "redirects to the playlist_entry" do
-        playlist_entry = PlaylistEntry.create! valid_attributes
-        put :update, {:id => playlist_entry.to_param, :playlist_entry => valid_attributes}, valid_session
+        playlist_entry = create(:playlist_entry_episode)
+        put :update, {:id => playlist_entry.to_param, :playlist_entry => attributes_for(:playlist_entry_episode)}
         response.should redirect_to(playlist_entry)
       end
     end
 
     describe "with invalid params" do
       it "assigns the playlist_entry as @playlist_entry" do
-        playlist_entry = PlaylistEntry.create! valid_attributes
+        playlist_entry = create(:playlist_entry_episode)
         # Trigger the behavior that occurs when invalid params are submitted
         PlaylistEntry.any_instance.stub(:save).and_return(false)
-        put :update, {:id => playlist_entry.to_param, :playlist_entry => { "start_time" => "invalid value" }}, valid_session
+        put :update, {:id => playlist_entry.to_param, :playlist_entry => { "start_time" => "" }}
         assigns(:playlist_entry).should eq(playlist_entry)
       end
 
       it "re-renders the 'edit' template" do
-        playlist_entry = PlaylistEntry.create! valid_attributes
+        playlist_entry = create(:playlist_entry_episode)
         # Trigger the behavior that occurs when invalid params are submitted
         PlaylistEntry.any_instance.stub(:save).and_return(false)
-        put :update, {:id => playlist_entry.to_param, :playlist_entry => { "start_time" => "invalid value" }}, valid_session
+        put :update, {:id => playlist_entry.to_param, :playlist_entry => { "start_time" => "" }}
         response.should render_template("edit")
       end
     end
@@ -144,15 +136,15 @@ describe PlaylistEntriesController do
 
   describe "DELETE destroy" do
     it "destroys the requested playlist_entry" do
-      playlist_entry = PlaylistEntry.create! valid_attributes
+      playlist_entry = create(:playlist_entry_episode)
       expect {
-        delete :destroy, {:id => playlist_entry.to_param}, valid_session
+        delete :destroy, {:id => playlist_entry.to_param}
       }.to change(PlaylistEntry, :count).by(-1)
     end
 
     it "redirects to the playlist_entries list" do
-      playlist_entry = PlaylistEntry.create! valid_attributes
-      delete :destroy, {:id => playlist_entry.to_param}, valid_session
+      playlist_entry = create(:playlist_entry_episode)
+      delete :destroy, {:id => playlist_entry.to_param}
       response.should redirect_to(playlist_entries_url)
     end
   end
