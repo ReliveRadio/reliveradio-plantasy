@@ -1,5 +1,5 @@
 class ChannelPlaylist < ActiveRecord::Base
-	has_many :playlist_entries
+	has_many :playlist_entries, :dependent => :destroy
 
     validates :author, presence: true
     validates :name, presence: true
