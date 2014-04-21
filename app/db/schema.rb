@@ -64,6 +64,7 @@ ActiveRecord::Schema.define(version: 20140419114216) do
   end
 
   add_index "episodes", ["guid"], name: "index_episodes_on_guid", unique: true
+  add_index "episodes", ["podcast_id"], name: "index_episodes_on_podcast_id"
 
   create_table "jingles", force: true do |t|
     t.string   "title"
@@ -84,6 +85,10 @@ ActiveRecord::Schema.define(version: 20140419114216) do
     t.integer  "position"
     t.integer  "jingle_id"
   end
+
+  add_index "playlist_entries", ["channel_playlist_id"], name: "index_playlist_entries_on_channel_playlist_id"
+  add_index "playlist_entries", ["episode_id"], name: "index_playlist_entries_on_episode_id"
+  add_index "playlist_entries", ["jingle_id"], name: "index_playlist_entries_on_jingle_id"
 
   create_table "podcasts", force: true do |t|
     t.string   "title"

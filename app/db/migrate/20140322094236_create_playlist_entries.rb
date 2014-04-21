@@ -10,5 +10,7 @@ class CreatePlaylistEntries < ActiveRecord::Migration
 
       t.timestamps
     end
+    add_index :playlist_entries, [:channel_playlist_id]
+    add_index :playlist_entries, [:episode_id]
   end
 end
