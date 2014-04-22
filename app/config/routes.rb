@@ -28,16 +28,22 @@ App::Application.routes.draw do
   post 'playlist_management/:channel_playlist/sort', to: 'playlist_management#sort' , as: 'sort_playlist_entries'
   get 'playlist_management/:channel_playlist/update_playlist', to: 'playlist_management#update_playlist' , as: 'update_playlist_entries'
 
-  get '/podcasts/:id/update', to: 'podcasts#update_feed'
-  get '/podcasts/update_all', to: 'podcasts#update_all_feeds'
-  get '/podcasts/delete_all_episodes', to: 'podcasts#delete_all_episodes'
-  get '/podcasts/download_all_episodes', to: 'podcasts#download_all_episodes'
-  resources :podcasts
+  # shallow routing:
+  # resources :posts do
+  #   resources :comments, only: [:index, :new, :create]
+  # end
+  # resources :comments, only: [:show, :edit, :update, :destroy]
 
-  get '/episodes/:id/download', to: 'episodes#download'
-  get '/episodes/:id/delete_cached_file', to: 'episodes#delete_cached_file'
-  resources :episodes
-  
+  resources :podcasts do 
+    get 'update', on: :member, as: 'update'
+    get 'delete_all_episodes', on: :member
+    get 'download_all_episodes', on: :member
+    get 'update_all', on: :collection
+    resources :episodes, shallow: true do
+      get 'download', on: :member
+      get 'delete_cached_file', on: :member
+    end
+  end
 
   authenticate :admin do
     mount Sidekiq::Web => '/sidekiq', as: 'sidekiq'

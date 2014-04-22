@@ -33,7 +33,7 @@ class PodcastsController < ApplicationController
   def edit
   end
 
-  def update_feed
+  def update
     # reload episodes in the background with sidekiq
     UpdateFeedWorker.perform_async(@podcast.id)
 
@@ -42,7 +42,7 @@ class PodcastsController < ApplicationController
     end
   end
 
-  def update_all_feeds
+  def update_all
     UpdateAllFeedsWorker.perform_async
 
     respond_to do |format|
