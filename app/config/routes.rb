@@ -18,7 +18,7 @@ App::Application.routes.draw do
   get 'admins/:id/approve', to: 'admins#approve', as: 'approve_user'
 
   resources :channel_playlists do
-    resources :playlist_entries
+    resources :playlist_entries, shallow: true
   end
 
   get "playlist_management/:channel_playlist", to: "playlist_management#index", as: 'playlist_management'
