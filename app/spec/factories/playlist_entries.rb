@@ -4,7 +4,7 @@ require 'faker'
 
 FactoryGirl.define do
   factory :playlist_entry_episode, class: PlaylistEntry do
-    start_time Faker::Business.credit_card_expiry_date
+    start_time Time.zone.now
     episode
     premiere false
     channel_playlist
@@ -15,7 +15,7 @@ FactoryGirl.define do
   end
 
   factory :playlist_entry_jingle, class: PlaylistEntry do
-    start_time Faker::Business.credit_card_expiry_date
+    start_time Time.zone.now
     jingle
     premiere false
     channel_playlist
