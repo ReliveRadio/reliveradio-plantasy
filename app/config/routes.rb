@@ -35,10 +35,10 @@ App::Application.routes.draw do
   # resources :comments, only: [:show, :edit, :update, :destroy]
 
   resources :podcasts do 
-    get 'update', on: :member, as: 'update'
+    get 'update_feed', on: :member
     get 'delete_all_episodes', on: :member
     get 'download_all_episodes', on: :member
-    get 'update_all', on: :collection
+    get 'update_all_feeds', on: :collection
     resources :episodes, shallow: true do
       get 'download', on: :member
       get 'delete_cached_file', on: :member
