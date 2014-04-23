@@ -4,12 +4,6 @@ class EpisodesController < ApplicationController
   before_action :set_episode, only: [:show, :edit, :update, :destroy, :download, :play, :delete_cached_file]
   before_filter :authenticate_admin!
 
-  # GET /episodes
-  # GET /episodes.json
-  def index
-    @episodes = Episode.all
-  end
-
   # GET /episodes/1
   # GET /episodes/1.json
   def show

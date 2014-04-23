@@ -39,7 +39,7 @@ App::Application.routes.draw do
     get 'delete_all_episodes', on: :member
     get 'download_all_episodes', on: :member
     get 'update_all_feeds', on: :collection
-    resources :episodes, shallow: true do
+    resources :episodes, except: :index, shallow: true do
       get 'download', on: :member
       get 'delete_cached_file', on: :member
     end

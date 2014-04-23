@@ -4,14 +4,6 @@ describe EpisodesController do
 
   login_admin
 
-  describe "GET index" do
-    it "assigns all episodes as @episodes" do
-      episode = create(:episode)
-      get :index, {}
-      assigns(:episodes).should eq([episode])
-    end
-  end
-
   describe "GET show" do
     it "assigns the requested episode as @episode" do
       episode = create(:episode)
