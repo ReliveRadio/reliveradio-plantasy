@@ -11,7 +11,7 @@ class EpisodesController < ApplicationController
 
   # GET /episodes/new
   def new
-    @episode = Episode.new
+    @episode = Episode.new(podcast_id: params[:podcast_id])
   end
 
   # GET /episodes/1/edit
@@ -72,9 +72,10 @@ class EpisodesController < ApplicationController
   # DELETE /episodes/1
   # DELETE /episodes/1.json
   def destroy
+    podcast = @episode.podcast
     @episode.destroy
     respond_to do |format|
-      format.html { redirect_to episodes_url }
+      format.html { redirect_to podcast }
       format.json { head :no_content }
     end
   end

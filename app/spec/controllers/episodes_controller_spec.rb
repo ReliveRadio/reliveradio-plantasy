@@ -14,8 +14,14 @@ describe EpisodesController do
 
   describe "GET new" do
     it "assigns a new episode as @episode" do
-      get :new, {}
+      podcast = create(:podcast)
+      get :new, {podcast_id: podcast.id}
       assigns(:episode).should be_a_new(Episode)
+    end
+    it "assigns a new episode with correct podcast_id from params" do
+      podcast = create(:podcast)
+      get :new, {podcast_id: podcast.id}
+      assigns(:episode).podcast.should eq(podcast)
     end
   end
 
@@ -32,20 +38,20 @@ describe EpisodesController do
       it "creates a new Episode" do
         podcast = create(:podcast)
         expect {
-          post :create, {:episode => attributes_for(:episode, podcast_id: podcast.id)}
+          post :create, {:episode => attributes_for(:episode, podcast_id: podcast.id), podcast_id: podcast.id}
         }.to change(Episode, :count).by(1)
       end
 
       it "assigns a newly created episode as @episode" do
         podcast = create(:podcast)
-        post :create, {:episode => attributes_for(:episode, podcast_id: podcast.id)}
+        post :create, {:episode => attributes_for(:episode, podcast_id: podcast.id), podcast_id: podcast.id}
         assigns(:episode).should be_a(Episode)
         assigns(:episode).should be_persisted
       end
 
       it "redirects to the created episode" do
         podcast = create(:podcast)
-        post :create, {:episode => attributes_for(:episode, podcast_id: podcast.id)}
+        post :create, {:episode => attributes_for(:episode, podcast_id: podcast.id), podcast_id: podcast.id}
         response.should redirect_to(Episode.last)
       end
     end
@@ -55,14 +61,16 @@ describe EpisodesController do
         # Trigger the behavior that occurs when invalid params are submitted
         # https://stackoverflow.com/questions/3760691/what-is-the-use-of-any-instance-method-in-rails
         Episode.any_instance.stub(:save).and_return(false)
-        post :create, {:episode => { "audio_file_url" => "" }}
+        podcast = create(:podcast)
+        post :create, {:episode => { "audio_file_url" => "" }, podcast_id: podcast.id}
         assigns(:episode).should be_a_new(Episode)
       end
 
       it "re-renders the 'new' template" do
         # Trigger the behavior that occurs when invalid params are submitted
         Episode.any_instance.stub(:save).and_return(false)
-        post :create, {:episode => { "audio_file_url" => "" }}
+        podcast = create(:podcast)
+        post :create, {:episode => { "audio_file_url" => "" }, podcast_id: podcast.id}
         response.should render_template("new")
       end
     end
@@ -120,10 +128,11 @@ describe EpisodesController do
       }.to change(Episode, :count).by(-1)
     end
 
-    it "redirects to the episodes list" do
+    it "redirects to the podcast" do
       episode = create(:episode)
+      podcast = episode.podcast
       delete :destroy, {:id => episode.to_param}
-      response.should redirect_to(episodes_url)
+      response.should redirect_to(podcast)
     end
   end
 
