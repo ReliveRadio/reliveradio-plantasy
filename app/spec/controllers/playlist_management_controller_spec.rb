@@ -118,11 +118,27 @@ describe PlaylistManagementController do
 	end
 
 	describe "remove playlist entries" do
+		
+		it "destroys the playlist entry" do
+		  
+		end
 
+		it "updates the playtimes of the following playlist entries" do
+		  
+		end
+
+		it "updates the position of the playlist entries" do
+		  
+		end
+
+		# danger zone: end_time < Time.now + 30.minutes
+		it "does not remove playlist entries that are in danger zone" do
+		  
+		end
 	end
 
 	describe "sort playlist entries" do
 
 	end
 
-	end
+end
