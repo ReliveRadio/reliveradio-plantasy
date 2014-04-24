@@ -141,7 +141,7 @@ class PlaylistManagementController < ApplicationController
 
 	private
 		def set_channel_playlist
-			@channel_playlist = ChannelPlaylist.find(params[:channel_playlist])
+			@channel_playlist = ChannelPlaylist.find(params[:channel_playlist_id])
 		end
 
 		def fetch_playlist_entries_and_offset

@@ -7,7 +7,7 @@ App::Application.routes.draw do
   resources :jingles
 
   get "channel/", to: 'schedule#index', as: 'schedule'
-  get "channel/:channel_playlist/show", to: 'schedule#show', as: 'schedule_show'
+  get "channel/:channel_playlist_id/show", to: 'schedule#show', as: 'schedule_show'
 
   get "/directory", to: 'directory#index'
   get "/directory/show_podcast/:id", to: 'directory#show_podcast', as: 'directory_show_podcast'
@@ -19,12 +19,12 @@ App::Application.routes.draw do
 
   resources :channel_playlists
 
-  get "playlist_management/:channel_playlist", to: "playlist_management#index", as: 'playlist_management'
-  get 'playlist_management/:channel_playlist/append_episode/:episode_id', to: 'playlist_management#append_entry'
-  get 'playlist_management/:channel_playlist/append_jingle/:jingle_id', to: 'playlist_management#append_entry'
-  get 'playlist_management/:channel_playlist/destroy_entry/:playlist_entry_id', to: 'playlist_management#destroy_entry'
-  post 'playlist_management/:channel_playlist/sort', to: 'playlist_management#sort' , as: 'sort_playlist_entries'
-  get 'playlist_management/:channel_playlist/update_playlist', to: 'playlist_management#update_playlist' , as: 'update_playlist_entries'
+  get "playlist_management/:channel_playlist_id", to: "playlist_management#index", as: 'playlist_management'
+  get 'playlist_management/:channel_playlist_id/append_episode/:episode_id', to: 'playlist_management#append_entry'
+  get 'playlist_management/:channel_playlist_id/append_jingle/:jingle_id', to: 'playlist_management#append_entry'
+  get 'playlist_management/:channel_playlist_id/destroy_entry/:playlist_entry_id', to: 'playlist_management#destroy_entry'
+  post 'playlist_management/:channel_playlist_id/sort', to: 'playlist_management#sort' , as: 'sort_playlist_entries'
+  get 'playlist_management/:channel_playlist_id/update_playlist', to: 'playlist_management#update_playlist' , as: 'update_playlist_entries'
 
   # shallow routing:
   # resources :posts do

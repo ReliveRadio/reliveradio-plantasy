@@ -1,8 +1,8 @@
 
 <table>
   <tbody 	id="playlist-entry-list"
-			data-update-url="<%= sort_playlist_entries_url(offset: @offset, channel_playlist: @channel_playlist.id) %>"
-			data-fetch-url="<%= update_playlist_entries_url(channel_playlist: @channel_playlist.id) %>">
+			data-update-url="<%= sort_playlist_entries_url(offset: @offset, channel_playlist_id: @channel_playlist.id) %>"
+			data-fetch-url="<%= update_playlist_entries_url(channel_playlist_id: @channel_playlist.id) %>">
 	<% if @playlist_entries.blank? %>
 		<tr><td>
 		No episodes scheduled. Select episodes on the right to add them to the playlist.
@@ -21,7 +21,7 @@
 					<div><%= entry.end_time %></div>
 					<div>Time left: <%= entry.time_left_human %></div>
 					<% if !entry.isLive? %>
-						<div><%= link_to 'Remove', {controller: 'playlist_management', action: 'destroy_entry', remote: true, playlist_entry_id: entry.id, channel_playlist: @channel_playlist.id}, class: 'button alert tiny'%></div>
+						<div><%= link_to 'Remove', {controller: 'playlist_management', action: 'destroy_entry', remote: true, playlist_entry_id: entry.id, channel_playlist_id: @channel_playlist.id}, class: 'button alert tiny'%></div>
 					<% end %>
 			      </td>
 
@@ -34,7 +34,7 @@
 					<div><%= entry.end_time %></div>
 					<div>Time left: <%= entry.time_left_human %></div>
 					<% if !entry.isLive? %>
-						<div><%= link_to 'Remove', {controller: 'playlist_management', action: 'destroy_entry', remote: true, playlist_entry_id: entry.id, channel_playlist: @channel_playlist.id}, class: 'button alert tiny'%></div>
+						<div><%= link_to 'Remove', {controller: 'playlist_management', action: 'destroy_entry', remote: true, playlist_entry_id: entry.id, channel_playlist_id: @channel_playlist.id}, class: 'button alert tiny'%></div>
 					<% end %>
 			   	</td>
 			   <% end %>

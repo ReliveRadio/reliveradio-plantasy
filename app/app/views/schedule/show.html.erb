@@ -3,7 +3,7 @@
 		
 		<h1><%= @channel_playlist.name %> <small><%= @channel_playlist.description %></small></h1>
 
-		<div id="episodes" data-update-url="<%= schedule_show_url(channel_playlist: @channel_playlist.id) %>">
+		<div id="episodes" data-update-url="<%= schedule_show_url(channel_playlist_id: @channel_playlist.id) %>">
 			<%= render 'episodes' %>
 		</div>
 	</div>

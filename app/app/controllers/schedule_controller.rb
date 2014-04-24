@@ -15,6 +15,6 @@ class ScheduleController < ApplicationController
 
   private
     def set_channel_playlist
-      @channel_playlist = ChannelPlaylist.find(params[:channel_playlist])
+      @channel_playlist = ChannelPlaylist.find(params[:channel_playlist_id])
     end
 end

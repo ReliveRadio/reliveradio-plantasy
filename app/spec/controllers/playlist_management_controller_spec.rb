@@ -29,27 +29,32 @@ describe PlaylistManagementController do
 	describe "GET 'index'" do
 		it "returns http success" do
 			channel_playlist = create(:channel_playlist)
-			get 'index', channel_playlist: channel_playlist.id
+			get 'index', channel_playlist_id: channel_playlist.id
 			response.should be_success
 		end
 
 		it "assigns jingles" do
 			channel_playlist = create(:channel_playlist)
 			jingle = create(:jingle)
-			get 'index', channel_playlist: channel_playlist.id
+			get 'index', channel_playlist_id: channel_playlist.id
 			assigns(:jingles).should eq([jingle])
 		end
 
 		it "assigns playlist_entries" do
 			playlist_entry = create(:playlist_entry_episode)
-			get 'index', channel_playlist: playlist_entry.channel_playlist.id
+			get 'index', channel_playlist_id: playlist_entry.channel_playlist.id
 			assigns(:playlist_entries).should eq([playlist_entry])
+		end
+
+		it "sets correct offset for playlist" do
+		  pending
 		end
 	end
 
 	describe "add playlist entries" do
 		describe "add jingle" do
 			# same as adding episodes but with jingles
+			pending
 		end
 
 		describe "add episode" do
@@ -58,14 +63,14 @@ describe PlaylistManagementController do
 					channel_playlist = create(:channel_playlist)
 					episode = create(:episode_cached)
 					expect {
-						xhr :get, :append_entry, {episode_id: episode.id, channel_playlist: channel_playlist.id}
+						xhr :get, :append_entry, {episode_id: episode.id, channel_playlist_id: channel_playlist.id}
 					}.to change(PlaylistEntry, :count).by(1)
 				end
 				it "sets the playlist entry start_time and end_time correctly if there is no other playlist_entry " do
 					channel_playlist = create(:channel_playlist)
 					episode = create(:episode_cached)
 					Timecop.freeze(Time.zone.now)
-					xhr :get, :append_entry, {episode_id: episode.id, channel_playlist: channel_playlist.id}
+					xhr :get, :append_entry, {episode_id: episode.id, channel_playlist_id: channel_playlist.id}
 					entry = PlaylistEntry.first
 					expect(entry.start_time.to_i).to eq(Time.zone.now.to_i) # calling to_i because nanoseconds not stored in databse
 					expect(entry.end_time.to_i).to eq((entry.start_time + entry.episode.duration.seconds).to_i)
@@ -78,7 +83,7 @@ describe PlaylistManagementController do
 					# create older entry that is in the past!
 					old_entry = create(:playlist_entry_episode, episode: episode, channel_playlist: channel_playlist, start_time: (Time.zone.now - episode.duration - 10.minutes))
 
-					xhr :get, :append_entry, {episode_id: episode.id, channel_playlist: channel_playlist.id}
+					xhr :get, :append_entry, {episode_id: episode.id, channel_playlist_id: channel_playlist.id}
 					entry = assigns(:playlist_entry)
 					expect(entry.start_time.to_i).to eq(Time.zone.now.to_i) # calling to_i because nanoseconds not stored in databse
 					expect(entry.end_time.to_i).to eq((entry.start_time + entry.episode.duration.seconds).to_i)
@@ -93,7 +98,7 @@ describe PlaylistManagementController do
 					entry1 = create(:playlist_entry_episode, episode: episode, channel_playlist: channel_playlist, start_time: Time.zone.now)
 					entry2 = create(:playlist_entry_episode, episode: episode, channel_playlist: channel_playlist, start_time: entry1.end_time)
 
-					xhr :get, :append_entry, {episode_id: episode.id, channel_playlist: channel_playlist.id}
+					xhr :get, :append_entry, {episode_id: episode.id, channel_playlist_id: channel_playlist.id}
 					entry = assigns(:playlist_entry)
 					expect(entry.start_time.to_i).to eq(entry2.end_time.to_i) # calling to_i because nanoseconds not stored in databse
 					expect(entry.end_time.to_i).to eq((entry.start_time + entry.episode.duration.seconds).to_i)
@@ -106,7 +111,7 @@ describe PlaylistManagementController do
 					channel_playlist = create(:channel_playlist)
 					episode = create(:episode)
 					expect {
-						xhr :get, :append_entry, {episode_id: episode.id, channel_playlist: channel_playlist.id}
+						xhr :get, :append_entry, {episode_id: episode.id, channel_playlist_id: channel_playlist.id}
 					}.not_to change(PlaylistEntry, :count).by(1)
 				end
 			end
@@ -114,31 +119,40 @@ describe PlaylistManagementController do
 	end
 
 	describe "update mpd" do
-
+		pending
 	end
 
 	describe "remove playlist entries" do
+		# danger zone: end_time < Time.now + 30.minutes
 		
 		it "destroys the playlist entry" do
-		  
+			# create entry that is NOT in danger zone
+			Timecop.freeze(Time.zone.now)
+			channel_playlist = create(:channel_playlist)
+			episode = create(:episode_cached, duration: 1.hour)
+
+			live_entry = create(:playlist_entry_episode, start_time: Time.zone.now, episode: episode, channel_playlist: channel_playlist)
+			entry = create(:playlist_entry_episode, channel_playlist: channel_playlist, start_time: live_entry.end_time, episode: episode)
+			expect {
+				xhr :get, :destroy_entry, {channel_playlist_id: entry.channel_playlist.id, playlist_entry_id: entry.id}
+			}.to change(PlaylistEntry, :count).by(-1)
 		end
 
 		it "updates the playtimes of the following playlist entries" do
-		  
+		  pending
 		end
 
 		it "updates the position of the playlist entries" do
-		  
+		  pending
 		end
 
-		# danger zone: end_time < Time.now + 30.minutes
 		it "does not remove playlist entries that are in danger zone" do
-		  
+		  pending
 		end
 	end
 
 	describe "sort playlist entries" do
-
+		pending
 	end
 
 end
