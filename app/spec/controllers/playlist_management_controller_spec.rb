@@ -47,7 +47,23 @@ describe PlaylistManagementController do
 		end
 
 		it "sets correct offset for playlist" do
-			pending
+			Timecop.freeze(Time.zone.now)
+			channel_playlist = create(:channel_playlist)
+			episode = create(:episode_cached, duration: 1.hour)
+
+			# create two playlist entries in the past
+			create(:playlist_entry_episode, start_time: Time.zone.now - 3.hours, episode: episode, channel_playlist: channel_playlist)
+			create(:playlist_entry_episode, start_time: Time.zone.now - 2.hours, episode: episode, channel_playlist: channel_playlist)
+
+			# create some playlist entries that are live and future
+			entry = create(:playlist_entry_episode, start_time: Time.zone.now, episode: episode, channel_playlist: channel_playlist)
+			for i in 0..10 do
+				entry = create(:playlist_entry_episode, channel_playlist: channel_playlist, episode: episode, start_time: entry.end_time)
+			end
+
+			# check if offset is set correctly
+			get 'index', channel_playlist_id: channel_playlist.id
+			expect(assigns(:offset)).to eq(assigns(:playlist_entries).first.position)
 		end
 
 		it "only assigns playlist entries that are live and future" do
