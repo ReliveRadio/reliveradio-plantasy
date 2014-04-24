@@ -15,6 +15,7 @@ class PlaylistEntry < ActiveRecord::Base
     validates_numericality_of :jingle_id, allow_nil: true
     validate :episode_or_jingle # ensure that this is either an episode OR a jingle. Never both.
 
+    # do not change playlist entries that are live or have < 30 minutes playtime left
     def isInDangerZone?
     	(end_time < Time.now + 30.minutes) || isLive?
     end
