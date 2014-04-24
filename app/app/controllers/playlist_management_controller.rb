@@ -92,25 +92,40 @@ class PlaylistManagementController < ApplicationController
 	# their index in the list is their new position
 	# their id in the list is the playlist entry id
 	# offset parameter is the position of the first playlist entry returned by index action
+	# danger zone: end_time < Time.now + 30.minutes
 	def sort
 		offset = params[:offset].to_i # position of the first entry in the list that was rendered in the view
+
+		# check if changes were made in danger zone
+		save_change = true;
 		params[:playlist_entry].each_with_index do |id, index|
-			PlaylistEntry.where(id: id).update_all(position: index + offset)
-		end
-
-		# update start and end times
-		temp_start_time = PlaylistEntry.find(params[:playlist_entry][0]).start_time
-		params[:playlist_entry].each do |id|
+			position = index + offset
 			entry = PlaylistEntry.find(id)
-			entry.start_time = temp_start_time
-			entry.end_time = temp_start_time + entry.episode.duration.seconds if entry.is_episode?
-			entry.end_time = temp_start_time + entry.jingle.duration.seconds if entry.is_jingle?
-			entry.save
-			temp_start_time = entry.end_time
+			# check if entry was swapped to new position
+			if entry.position != position
+				if entry.end_time < Time.now + 30.minutes
+					save_change = false
+					break
+				end
+			end
 		end
 
-		# update mpd
-		update_mpd @channel_playlist
+		if save_change
+			# update positions and start and end times
+			temp_start_time = PlaylistEntry.find(params[:playlist_entry][0]).start_time
+			params[:playlist_entry].each_with_index do |id, index|
+				entry = PlaylistEntry.find(id)
+				entry.position = index + offset
+				entry.start_time = temp_start_time
+				entry.end_time = temp_start_time + entry.episode.duration.seconds if entry.is_episode?
+				entry.end_time = temp_start_time + entry.jingle.duration.seconds if entry.is_jingle?
+				entry.save
+				temp_start_time = entry.end_time
+			end
+
+			# update mpd
+			update_mpd @channel_playlist
+		end
 
 		# update playlist html element via JS response
 		fetch_playlist_entries_and_offset
