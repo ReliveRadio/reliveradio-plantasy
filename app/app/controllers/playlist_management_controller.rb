@@ -62,7 +62,8 @@ class PlaylistManagementController < ApplicationController
 	def destroy_entry
 		@playlist_entry = PlaylistEntry.find(params[:playlist_entry_id])
 		# do not remove just playling entry
-		if !@playlist_entry.blank? && !@playlist_entry.isLive?
+		# ensure buffer: end_time > Time.now + 30.minutes
+		if !@playlist_entry.blank? && (@playlist_entry.end_time > Time.now + 30.minutes)
 			# adjust all start and end times of all episodes after the entry
 			# start time for the entry AFTER the deleted one has to be end time of the entry BEFORE the deleted one
 			temp_start_time = @playlist_entry.higher_item.end_time

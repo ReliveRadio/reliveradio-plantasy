@@ -131,23 +131,70 @@ describe PlaylistManagementController do
 			channel_playlist = create(:channel_playlist)
 			episode = create(:episode_cached, duration: 1.hour)
 
-			live_entry = create(:playlist_entry_episode, start_time: Time.zone.now, episode: episode, channel_playlist: channel_playlist)
-			entry = create(:playlist_entry_episode, channel_playlist: channel_playlist, start_time: live_entry.end_time, episode: episode)
+			entry = create(:playlist_entry_episode, start_time: Time.zone.now, episode: episode, channel_playlist: channel_playlist)
+			for i in 0..10 do
+				entry = create(:playlist_entry_episode, channel_playlist: channel_playlist, episode: episode, start_time: entry.end_time)
+				entry_to_destroy = entry if i == 5
+			end
+
 			expect {
-				xhr :get, :destroy_entry, {channel_playlist_id: entry.channel_playlist.id, playlist_entry_id: entry.id}
+				xhr :get, :destroy_entry, {channel_playlist_id: entry.channel_playlist.id, playlist_entry_id: entry_to_destroy.id}
 			}.to change(PlaylistEntry, :count).by(-1)
 		end
 
 		it "updates the playtimes of the following playlist entries" do
-		  pending
+			Timecop.freeze(Time.zone.now)
+			channel_playlist = create(:channel_playlist)
+			episode = create(:episode_cached, duration: 1.hour)
+
+			entry = create(:playlist_entry_episode, start_time: Time.zone.now, episode: episode, channel_playlist: channel_playlist)
+			for i in 0..10 do
+				entry = create(:playlist_entry_episode, channel_playlist: channel_playlist, episode: episode, start_time: entry.end_time)
+				entry_to_destroy = entry if i == 5
+			end
+
+			xhr :get, :destroy_entry, {channel_playlist_id: entry.channel_playlist.id, playlist_entry_id: entry_to_destroy.id}
+			playlist_entries = assigns(:playlist_entries)
+
+			for i in 1..10 do
+				expect(playlist_entries[i].start_time.to_i).to eq(playlist_entries[i-1].end_time.to_i)
+			end
 		end
 
 		it "updates the position of the playlist entries" do
-		  pending
+			Timecop.freeze(Time.zone.now)
+			channel_playlist = create(:channel_playlist)
+			episode = create(:episode_cached, duration: 1.hour)
+
+			entry = create(:playlist_entry_episode, start_time: Time.zone.now, episode: episode, channel_playlist: channel_playlist)
+			for i in 0..10 do
+				entry = create(:playlist_entry_episode, channel_playlist: channel_playlist, episode: episode, start_time: entry.end_time)
+				entry_to_destroy = entry if i == 5
+			end
+
+			xhr :get, :destroy_entry, {channel_playlist_id: entry.channel_playlist.id, playlist_entry_id: entry_to_destroy.id}
+			playlist_entries = assigns(:playlist_entries)
+
+			for i in 1..10 do
+				expect(playlist_entries[i].position).to eq(playlist_entries[i-1].position + 1)
+			end
 		end
 
+		#end_time < Time.now + 30.minutes
 		it "does not remove playlist entries that are in danger zone" do
-		  pending
+			Timecop.freeze(Time.zone.now)
+			channel_playlist = create(:channel_playlist)
+			episode = create(:episode_cached, duration: 10.minutes)
+
+			entry = create(:playlist_entry_episode, start_time: Time.zone.now, episode: episode, channel_playlist: channel_playlist)
+			for i in 0..10 do
+				entry = create(:playlist_entry_episode, channel_playlist: channel_playlist, episode: episode, start_time: entry.end_time)
+				entry_to_destroy = entry if i == 0
+			end
+
+			expect {
+				xhr :get, :destroy_entry, {channel_playlist_id: entry_to_destroy.channel_playlist.id, playlist_entry_id: entry_to_destroy.id}
+			}.not_to change(PlaylistEntry, :count)	
 		end
 	end
 
