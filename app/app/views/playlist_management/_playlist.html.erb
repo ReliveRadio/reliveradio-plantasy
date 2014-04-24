@@ -20,7 +20,7 @@
 					<div><%= entry.start_time %></div>
 					<div><%= entry.end_time %></div>
 					<div>Time left: <%= entry.time_left_human %></div>
-					<% if !entry.isLive? %>
+					<% if !entry.isInDangerZone? %>
 						<div><%= link_to 'Remove', {controller: 'playlist_management', action: 'destroy_entry', remote: true, playlist_entry_id: entry.id, channel_playlist_id: @channel_playlist.id}, class: 'button alert tiny'%></div>
 					<% end %>
 			      </td>
@@ -33,7 +33,7 @@
 					<div><%= entry.start_time %></div>
 					<div><%= entry.end_time %></div>
 					<div>Time left: <%= entry.time_left_human %></div>
-					<% if !entry.isLive? %>
+					<% if !entry.isInDangerZone? %>
 						<div><%= link_to 'Remove', {controller: 'playlist_management', action: 'destroy_entry', remote: true, playlist_entry_id: entry.id, channel_playlist_id: @channel_playlist.id}, class: 'button alert tiny'%></div>
 					<% end %>
 			   	</td>

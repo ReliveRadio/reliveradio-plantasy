@@ -63,7 +63,7 @@ class PlaylistManagementController < ApplicationController
 		@playlist_entry = PlaylistEntry.find(params[:playlist_entry_id])
 		# do not remove just playling entry
 		# ensure buffer: end_time > Time.now + 30.minutes
-		if !@playlist_entry.blank? && (@playlist_entry.end_time > Time.now + 30.minutes)
+		if (!@playlist_entry.blank? && !@playlist_entry.isInDangerZone?)
 			# adjust all start and end times of all episodes after the entry
 			# start time for the entry AFTER the deleted one has to be end time of the entry BEFORE the deleted one
 			temp_start_time = @playlist_entry.higher_item.end_time
@@ -103,7 +103,7 @@ class PlaylistManagementController < ApplicationController
 			entry = PlaylistEntry.find(id)
 			# check if entry was swapped to new position
 			if entry.position != position
-				if entry.end_time < Time.now + 30.minutes
+				if entry.isInDangerZone?
 					save_change = false
 					break
 				end
