@@ -102,7 +102,7 @@ describe PlaylistManagementController do
 			end
 
 			describe "with invalid params" do
-				it "does not create a new PlaylistEntry" do
+				it "does not create a new PlaylistEntry if episode not cached" do
 					channel_playlist = create(:channel_playlist)
 					episode = create(:episode)
 					expect {
