@@ -21,6 +21,11 @@ describe PlaylistManagementController do
       mpd.disconnect
     end
 
+
+
+
+
+
 	describe "GET 'index'" do
 		it "returns http success" do
 			channel_playlist = create(:channel_playlist)
@@ -44,7 +49,7 @@ describe PlaylistManagementController do
 
 	describe "add playlist entries" do
 		describe "add jingle" do
-
+			# same as adding episodes but with jingles
 		end
 
 		describe "add episode" do
@@ -56,7 +61,7 @@ describe PlaylistManagementController do
 						xhr :get, :append_entry, {episode_id: episode.id, channel_playlist: channel_playlist.id}
 					}.to change(PlaylistEntry, :count).by(1)
 				end
-				it "sets the playlist entry start_time and end_time correctly if there is no playing playlist_entry" do
+				it "sets the playlist entry start_time and end_time correctly if there is no other playlist_entry " do
 					channel_playlist = create(:channel_playlist)
 					episode = create(:episode_cached)
 					Timecop.freeze(Time.zone.now)
@@ -106,6 +111,10 @@ describe PlaylistManagementController do
 				end
 			end
 		end
+	end
+
+	describe "update mpd" do
+
 	end
 
 	describe "remove playlist entries" do
