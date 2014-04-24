@@ -296,7 +296,45 @@ describe PlaylistManagementController do
 		end
 
 		it "updates all playtimes" do
-			pending
+			Timecop.freeze(Time.zone.now)
+			channel_playlist = create(:channel_playlist)
+			episode = create(:episode_cached, duration: 10.minutes)
+
+			# create entries
+			entry = create(:playlist_entry_episode, start_time: Time.zone.now, episode: episode, channel_playlist: channel_playlist)
+			for i in 0..5 do
+				entry = create(:playlist_entry_episode, channel_playlist: channel_playlist, episode: episode, start_time: entry.end_time)
+			end
+
+			# request index to get entries and offset
+			get 'index', channel_playlist_id: channel_playlist.id
+			offset = assigns(:offset)
+			entries = assigns(:playlist_entries)
+
+			# create array with current order
+			new_order = Array.new
+			entries.each_with_index do |entry, index| 
+				new_order[index] = entry.id
+			end
+
+			swap_a = 3
+			swap_b = 5
+			changed_entry_1 = entries[swap_a]
+			changed_entry_2 = entries[swap_b]
+
+			# swap two entries
+			tmp = new_order[swap_a]
+			new_order[swap_a] = new_order[swap_b]
+			new_order[swap_b] = tmp
+
+			xhr :post, :sort, {channel_playlist_id: channel_playlist.id, offset: offset, playlist_entry: new_order}
+			
+			# check if start_times are updated
+			get 'index', channel_playlist_id: channel_playlist.id
+			entries = assigns(:playlist_entries)
+			for i in 1...entries.length do
+				expect(entries[i].start_time.to_i).to eq(entries[i-1].end_time.to_i)
+			end
 		end
 
 		it "updates all positions" do
