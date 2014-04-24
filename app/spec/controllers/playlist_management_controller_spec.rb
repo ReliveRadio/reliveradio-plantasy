@@ -65,6 +65,15 @@ describe PlaylistManagementController do
 					expect(entry.start_time.to_i).to eq(Time.zone.now.to_i) # calling to_i because nanoseconds not stored in databse
 					expect(entry.end_time.to_i).to eq((entry.start_time + entry.episode.duration.seconds).to_i)
 				end
+
+			describe "with invalid params" do
+				it "does not create a new PlaylistEntry" do
+					channel_playlist = create(:channel_playlist)
+					episode = create(:episode)
+					expect {
+						xhr :get, :append_entry, {episode_id: episode.id, channel_playlist: channel_playlist.id}
+					}.not_to change(PlaylistEntry, :count).by(1)
+				end
 			end
 		end
 	end

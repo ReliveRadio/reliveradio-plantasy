@@ -30,24 +30,27 @@ class PlaylistManagementController < ApplicationController
 			@episode = Episode.find(params[:episode_id])
 		end
 
-		# calc start time for new playlist entry
-		@playlist_entries = @channel_playlist.playlist_entries.where("end_time >= :now", {now: Time.now}).order(:position)
+		# only create new playlist entry if episode is cached. jingles are always cached
+		if ((@episode && @episode.cached?) || @jingle)
+			# calc start time for new playlist entry
+			@playlist_entries = @channel_playlist.playlist_entries.where("end_time >= :now", {now: Time.now}).order(:position)
 
-		if @playlist_entries.blank?
-			start_time = Time.now
-		else
-			start_time = @playlist_entries.last.end_time
+			if @playlist_entries.blank?
+				start_time = Time.now
+			else
+				start_time = @playlist_entries.last.end_time
+			end
+
+			if @jingle
+				end_time = start_time + @jingle.duration.seconds
+				@playlist_entry = PlaylistEntry.create(channel_playlist: @channel_playlist, jingle: @jingle, start_time: start_time, end_time: end_time)
+			elsif @episode
+				end_time = start_time + @episode.duration.seconds
+				@playlist_entry = PlaylistEntry.create(channel_playlist: @channel_playlist, episode: @episode, start_time: start_time, end_time: end_time)
+			end
+
+			update_mpd @channel_playlist
 		end
-
-		if @jingle
-			end_time = start_time + @jingle.duration.seconds
-			PlaylistEntry.create(channel_playlist: @channel_playlist, jingle: @jingle, start_time: start_time, end_time: end_time)
-		elsif @episode
-			end_time = start_time + @episode.duration.seconds
-			PlaylistEntry.create(channel_playlist: @channel_playlist, episode: @episode, start_time: start_time, end_time: end_time)
-		end
-
-		update_mpd @channel_playlist
 
 		# update playlist html element via JS response
 		fetch_playlist_entries_and_offset
