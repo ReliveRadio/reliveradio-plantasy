@@ -67,7 +67,25 @@ describe PlaylistManagementController do
 		end
 
 		it "only assigns playlist entries that are live and future" do
-			pending
+			Timecop.freeze(Time.zone.now)
+			channel_playlist = create(:channel_playlist)
+			episode = create(:episode_cached, duration: 1.hour)
+
+			# create two playlist entries in the past
+			create(:playlist_entry_episode, start_time: Time.zone.now - 3.hours, episode: episode, channel_playlist: channel_playlist)
+			create(:playlist_entry_episode, start_time: Time.zone.now - 2.hours, episode: episode, channel_playlist: channel_playlist)
+
+			# create some playlist entries that are live and future
+			entry = create(:playlist_entry_episode, start_time: Time.zone.now, episode: episode, channel_playlist: channel_playlist)
+			for i in 0..10 do
+				entry = create(:playlist_entry_episode, channel_playlist: channel_playlist, episode: episode, start_time: entry.end_time)
+			end
+
+			# check if live or future => end_time > now
+			get 'index', channel_playlist_id: channel_playlist.id
+			assigns(:playlist_entries).each do |entry|
+				expect(entry.end_time.to_i).to be >= Time.zone.now.to_i
+			end
 		end
 	end
 
