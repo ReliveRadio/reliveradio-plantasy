@@ -65,6 +65,36 @@ describe PlaylistManagementController do
 					expect(entry.start_time.to_i).to eq(Time.zone.now.to_i) # calling to_i because nanoseconds not stored in databse
 					expect(entry.end_time.to_i).to eq((entry.start_time + entry.episode.duration.seconds).to_i)
 				end
+				it "sets the playlist entry start_time and end_time correctly if there are past playlist_entries" do
+					channel_playlist = create(:channel_playlist)
+					episode = create(:episode_cached)
+					Timecop.freeze(Time.zone.now)
+
+					# create older entry that is in the past!
+					old_entry = create(:playlist_entry_episode, episode: episode, channel_playlist: channel_playlist, start_time: (Time.zone.now - episode.duration - 10.minutes))
+
+					xhr :get, :append_entry, {episode_id: episode.id, channel_playlist: channel_playlist.id}
+					entry = assigns(:playlist_entry)
+					expect(entry.start_time.to_i).to eq(Time.zone.now.to_i) # calling to_i because nanoseconds not stored in databse
+					expect(entry.end_time.to_i).to eq((entry.start_time + entry.episode.duration.seconds).to_i)
+					expect(entry.position).to eq(old_entry.position + 1)
+				end
+				it "sets the playlist entry start_time and end_time correctly if there schedules playlist entries present" do
+					channel_playlist = create(:channel_playlist)
+					episode = create(:episode_cached)
+					Timecop.freeze(Time.zone.now)
+
+					# create older entry that is in the past!
+					entry1 = create(:playlist_entry_episode, episode: episode, channel_playlist: channel_playlist, start_time: Time.zone.now)
+					entry2 = create(:playlist_entry_episode, episode: episode, channel_playlist: channel_playlist, start_time: entry1.end_time)
+
+					xhr :get, :append_entry, {episode_id: episode.id, channel_playlist: channel_playlist.id}
+					entry = assigns(:playlist_entry)
+					expect(entry.start_time.to_i).to eq(entry2.end_time.to_i) # calling to_i because nanoseconds not stored in databse
+					expect(entry.end_time.to_i).to eq((entry.start_time + entry.episode.duration.seconds).to_i)
+					expect(entry.position).to eq(entry2.position + 1)
+				end
+			end
 
 			describe "with invalid params" do
 				it "does not create a new PlaylistEntry" do
