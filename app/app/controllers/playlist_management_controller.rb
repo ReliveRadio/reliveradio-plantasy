@@ -167,6 +167,11 @@ class PlaylistManagementController < ApplicationController
 			else
 				@offset = @playlist_entries.first.position
 			end
+
+			@immutable_entries = Array.new @playlist_entries
+			@immutable_entries.delete_if {|entry| !entry.isInDangerZone? }
+			@changeable_entries = Array.new @playlist_entries
+			@changeable_entries.delete_if {|entry| entry.isInDangerZone? }
 		end
 
 		def update_mpd(channel_playlist)
