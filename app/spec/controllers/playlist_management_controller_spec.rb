@@ -225,10 +225,6 @@ describe PlaylistManagementController do
 		end
 	end
 
-	describe "update mpd" do
-		pending
-	end
-
 	describe "remove playlist entries" do
 	# danger zone: end_time < Time.now + 30.minutes
 	
@@ -441,6 +437,10 @@ describe PlaylistManagementController do
 				expect(entry.position).to eq(index + offset)
 			end
 		end
+	end
+
+	describe "update mpd" do
+		pending
 	end
 
 end
