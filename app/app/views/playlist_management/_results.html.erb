@@ -26,7 +26,7 @@
 			<td><%= episode.last_played %></td>
 			<td>
 				<% if episode.cached? %>
-				<%= link_to controller: 'playlist_management', action: 'append_entry', remote: true, episode_id: episode.id, channel_playlist: @channel_playlist.id do%><i class="fa fa-plus-circle"></i><% end %>
+				<%= link_to controller: 'playlist_management', action: 'append_entry', remote: true, episode_id: episode.id, channel_playlist_id: @channel_playlist.id do%><i class="fa fa-plus-circle"></i><% end %>
 				<% else %>
 				<%= link_to controller: 'episodes', action: 'download', id: episode.id, remote: true do %><i class="fa fa-download"></i><% end %>
 				<% end %>

@@ -9,9 +9,18 @@ describe DirectoryController do
     end
   end
 
-  describe "GET 'show'" do
+  describe "GET 'show_podcast'" do
     it "returns http success" do
-      get 'show'
+      podcast = create(:podcast)
+      get 'show_podcast', id: podcast.id
+      response.should be_success
+    end
+  end
+
+  describe "GET 'show_episode'" do
+    it "returns http success" do
+      episode = create(:episode)
+      get 'show_podcast', id: episode.id
       response.should be_success
     end
   end

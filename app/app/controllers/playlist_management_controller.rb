@@ -30,24 +30,27 @@ class PlaylistManagementController < ApplicationController
 			@episode = Episode.find(params[:episode_id])
 		end
 
-		# calc start time for new playlist entry
-		@playlist_entries = @channel_playlist.playlist_entries.where("end_time >= :now", {now: Time.now}).order(:position)
+		# only create new playlist entry if episode is cached. jingles are always cached
+		if ((@episode && @episode.cached?) || @jingle)
+			# calc start time for new playlist entry
+			@playlist_entries = @channel_playlist.playlist_entries.where("end_time >= :now", {now: Time.now}).order(:position)
 
-		if @playlist_entries.blank?
-			start_time = Time.now
-		else
-			start_time = @playlist_entries.last.end_time
+			if @playlist_entries.blank?
+				start_time = Time.now
+			else
+				start_time = @playlist_entries.last.end_time
+			end
+
+			if @jingle
+				end_time = start_time + @jingle.duration.seconds
+				@playlist_entry = PlaylistEntry.create(channel_playlist: @channel_playlist, jingle: @jingle, start_time: start_time, end_time: end_time)
+			elsif @episode
+				end_time = start_time + @episode.duration.seconds
+				@playlist_entry = PlaylistEntry.create(channel_playlist: @channel_playlist, episode: @episode, start_time: start_time, end_time: end_time)
+			end
+
+			update_mpd @channel_playlist
 		end
-
-		if @jingle
-			end_time = start_time + @jingle.duration.seconds
-			PlaylistEntry.create(channel_playlist: @channel_playlist, jingle: @jingle, start_time: start_time, end_time: end_time)
-		elsif @episode
-			end_time = start_time + @episode.duration.seconds
-			PlaylistEntry.create(channel_playlist: @channel_playlist, episode: @episode, start_time: start_time, end_time: end_time)
-		end
-
-		update_mpd @channel_playlist
 
 		# update playlist html element via JS response
 		fetch_playlist_entries_and_offset
@@ -59,7 +62,8 @@ class PlaylistManagementController < ApplicationController
 	def destroy_entry
 		@playlist_entry = PlaylistEntry.find(params[:playlist_entry_id])
 		# do not remove just playling entry
-		if !@playlist_entry.blank? && !@playlist_entry.isLive?
+		# ensure buffer: end_time > Time.now + 30.minutes
+		if (!@playlist_entry.blank? && !@playlist_entry.isInDangerZone?)
 			# adjust all start and end times of all episodes after the entry
 			# start time for the entry AFTER the deleted one has to be end time of the entry BEFORE the deleted one
 			temp_start_time = @playlist_entry.higher_item.end_time
@@ -88,25 +92,40 @@ class PlaylistManagementController < ApplicationController
 	# their index in the list is their new position
 	# their id in the list is the playlist entry id
 	# offset parameter is the position of the first playlist entry returned by index action
+	# danger zone: end_time < Time.now + 30.minutes
 	def sort
 		offset = params[:offset].to_i # position of the first entry in the list that was rendered in the view
+
+		# check if changes were made in danger zone
+		save_change = true;
 		params[:playlist_entry].each_with_index do |id, index|
-			PlaylistEntry.where(id: id).update_all(position: index + offset)
-		end
-
-		# update start and end times
-		temp_start_time = PlaylistEntry.find(params[:playlist_entry][0]).start_time
-		params[:playlist_entry].each do |id|
+			position = index + offset
 			entry = PlaylistEntry.find(id)
-			entry.start_time = temp_start_time
-			entry.end_time = temp_start_time + entry.episode.duration.seconds if entry.is_episode?
-			entry.end_time = temp_start_time + entry.jingle.duration.seconds if entry.is_jingle?
-			entry.save
-			temp_start_time = entry.end_time
+			# check if entry was swapped to new position
+			if entry.position != position
+				if entry.isInDangerZone?
+					save_change = false
+					break
+				end
+			end
 		end
 
-		# update mpd
-		update_mpd @channel_playlist
+		if save_change
+			# update positions and start and end times
+			temp_start_time = PlaylistEntry.find(params[:playlist_entry][0]).start_time
+			params[:playlist_entry].each_with_index do |id, index|
+				entry = PlaylistEntry.find(id)
+				entry.position = index + offset
+				entry.start_time = temp_start_time
+				entry.end_time = temp_start_time + entry.episode.duration.seconds if entry.is_episode?
+				entry.end_time = temp_start_time + entry.jingle.duration.seconds if entry.is_jingle?
+				entry.save
+				temp_start_time = entry.end_time
+			end
+
+			# update mpd
+			update_mpd @channel_playlist
+		end
 
 		# update playlist html element via JS response
 		fetch_playlist_entries_and_offset
@@ -138,7 +157,7 @@ class PlaylistManagementController < ApplicationController
 
 	private
 		def set_channel_playlist
-			@channel_playlist = ChannelPlaylist.find(params[:channel_playlist])
+			@channel_playlist = ChannelPlaylist.find(params[:channel_playlist_id])
 		end
 
 		def fetch_playlist_entries_and_offset
@@ -148,6 +167,11 @@ class PlaylistManagementController < ApplicationController
 			else
 				@offset = @playlist_entries.first.position
 			end
+
+			@immutable_entries = Array.new @playlist_entries
+			@immutable_entries.delete_if {|entry| !entry.isInDangerZone? }
+			@changeable_entries = Array.new @playlist_entries
+			@changeable_entries.delete_if {|entry| entry.isInDangerZone? }
 		end
 
 		def update_mpd(channel_playlist)

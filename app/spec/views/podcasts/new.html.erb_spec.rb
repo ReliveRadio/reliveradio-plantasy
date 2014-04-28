@@ -2,15 +2,7 @@ require 'spec_helper'
 
 describe "podcasts/new" do
   before(:each) do
-    assign(:podcast, stub_model(Podcast,
-      :title => "MyString",
-      :description => "MyText",
-      :logo_url => "MyString",
-      :website => "MyString",
-      :feed => "MyString",
-      :tags => "MyString",
-      :category => "MyString"
-    ).as_new_record)
+    assign(:podcast, stub_model(Podcast,attributes_for(:podcast)).as_new_record)
   end
 
   it "renders new podcast form" do

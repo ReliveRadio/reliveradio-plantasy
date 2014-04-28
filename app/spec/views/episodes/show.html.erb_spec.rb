@@ -2,19 +2,7 @@ require 'spec_helper'
 
 describe "episodes/show" do
   before(:each) do
-    @episode = assign(:episode, stub_model(Episode,
-      :title => "Title",
-      :link => "Link",
-      :guid => "Guid",
-      :subtitle => "Subtitle",
-      :content => "MyText",
-      :duration => 1,
-      :flattr_url => "Flattr Url",
-      :tags => "Tags",
-      :icon_url => "Icon Url",
-      :audio_file_url => "Audio File Url",
-      :cached => false,
-      :local_path => "Local Path"
+    @episode = assign(:episode, stub_model(Episode,attributes_for(:episode)
     ))
   end
 

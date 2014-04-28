@@ -4,12 +4,6 @@ class EpisodesController < ApplicationController
   before_action :set_episode, only: [:show, :edit, :update, :destroy, :download, :play, :delete_cached_file]
   before_filter :authenticate_admin!
 
-  # GET /episodes
-  # GET /episodes.json
-  def index
-    @episodes = Episode.all
-  end
-
   # GET /episodes/1
   # GET /episodes/1.json
   def show
@@ -17,7 +11,7 @@ class EpisodesController < ApplicationController
 
   # GET /episodes/new
   def new
-    @episode = Episode.new
+    @episode = Episode.new(podcast_id: params[:podcast_id])
   end
 
   # GET /episodes/1/edit
@@ -78,9 +72,10 @@ class EpisodesController < ApplicationController
   # DELETE /episodes/1
   # DELETE /episodes/1.json
   def destroy
+    podcast = @episode.podcast
     @episode.destroy
     respond_to do |format|
-      format.html { redirect_to episodes_url }
+      format.html { redirect_to podcast }
       format.json { head :no_content }
     end
   end
@@ -93,6 +88,6 @@ class EpisodesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def episode_params
-      params.require(:episode).permit(:title, :link, :pub_date, :guid, :subtitle, :content, :duration, :flattr_url, :tags, :icon_url, :audio_file_url, :cached, :local_path)
+      params.require(:episode).permit(:title, :link, :pub_date, :guid, :subtitle, :content, :duration, :flattr_url, :tags, :icon_url, :audio_file_url, :cached, :local_path, :podcast_id, :filesize)
     end
 end

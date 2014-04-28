@@ -67,9 +67,9 @@
 
 		<h2>All episodes of this podcast</h2>
 
-		<%= link_to 'Check for new Episodes', {controller: 'podcasts', action: 'update_feed', id: @podcast.id}, class: 'button success'%>
-		<%= link_to 'Delete All Episodes', {controller: 'podcasts', action: 'delete_all_episodes', id: @podcast.id}, class: 'button alert' %>
-		<%= link_to 'Download All Episodes', {controller: 'podcasts', action: 'download_all_episodes', id: @podcast.id}, class: 'button' %>
+		<%= link_to 'Check for new Episodes', update_feed_podcast_path(@podcast), class: 'button success'%>
+		<%= link_to 'Delete All Episodes', delete_all_episodes_podcast_path(@podcast), class: 'button alert' %>
+		<%= link_to 'Download All Episodes', download_all_episodes_podcast_path(@podcast), class: 'button' %>
 		
 		<div id="searchbar" class="row">
 			<div class="large-6 medium-9 small-centered columns">

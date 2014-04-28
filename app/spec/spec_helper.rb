@@ -1,8 +1,9 @@
-# This file is copied to spec/ when you run 'rails generate rspec:install'
 ENV["RAILS_ENV"] ||= 'test'
 require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
 require 'rspec/autorun'
+
+require 'sidekiq/testing'
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
@@ -39,4 +40,47 @@ RSpec.configure do |config|
   # the seed, which is printed after each run.
   #     --seed 1234
   config.order = "random"
+
+  # call factory girl methods directly
+  config.include FactoryGirl::Syntax::Methods
+
+  config.include Devise::TestHelpers
+  config.extend DeviseMacros
+
+  config.before(:each) do |example_method|
+
+    Timecop.return # reset timecop for each test
+
+    # Clears out the jobs for tests using the fake testing
+    Sidekiq::Worker.clear_all
+    # Get the current example from the example_method object
+    example = example_method.example
+
+    # Usage
+    # describe SomeClass, sidekiq: :fake do
+    #   # tests
+    # end
+
+    # describe SomeOtherClass, sidekiq: :inline do
+    #   # tests
+    # end
+
+    if example.metadata[:sidekiq] == :fake
+      Sidekiq::Testing.fake!
+    elsif example.metadata[:sidekiq] == :inline
+      Sidekiq::Testing.inline!
+    elsif example.metadata[:type] == :acceptance
+      Sidekiq::Testing.inline!
+    else
+      Sidekiq::Testing.fake!
+    end
+  end
+
+  # clear carrierwave uploads after each test
+  config.after(:each) do
+    if Rails.env.test? || Rails.env.cucumber?
+      FileUtils.rm_rf(Dir["#{Rails.root}/spec/support/uploads"])
+    end 
+  end
+
 end

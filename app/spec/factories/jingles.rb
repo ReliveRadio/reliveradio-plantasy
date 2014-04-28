@@ -1,9 +1,10 @@
 # Read about factories at https://github.com/thoughtbot/factory_girl
+require 'faker'
 
 FactoryGirl.define do
   factory :jingle do
-    title "MyString"
-    duration 1
-    audio_path "MyString"
+    title Faker::Lorem.paragraph(1)
+    duration Faker::Number.number(6)
+    audio Rack::Test::UploadedFile.new(File.open(File.join(Rails.root, '/spec/fixtures/audio.mp3')))
   end
 end

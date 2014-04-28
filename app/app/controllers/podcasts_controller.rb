@@ -61,14 +61,22 @@ class PodcastsController < ApplicationController
   # POST /podcasts
   # POST /podcasts.json
   def create
-  	if !podcast_params['feed'].blank?
-    	NewFeedWorker.perform_async(podcast_params['feed'])
-    	respond_to do |format|
-    	  	format.html { redirect_to podcasts_url, notice: 'Podcast will be added in the background.' }
-    	end
-    else
+    feed_url = podcast_params['feed']
+  	if !feed_url.blank?
+      if !Podcast.exists? feed: feed_url
+    	  NewFeedWorker.perform_async(feed_url)
+    	  respond_to do |format|
+    	    	format.html { redirect_to podcasts_url, notice: 'Podcast will be added in the background.' }
+    	  end
+      else
+        @podcast = Podcast.find_by feed: feed_url
         respond_to do |format|
-    	  	format.html { redirect_to new_podcast_url, flash: {error: 'Invalid URL.'} }
+            format.html { redirect_to @podcast, notice: 'Podcast already in databse.' }
+        end
+      end
+    else
+      respond_to do |format|
+    	  format.html { redirect_to new_podcast_url, flash: {error: 'Invalid URL.'} }
     	end 
     end
   end
@@ -115,6 +123,6 @@ class PodcastsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def podcast_params
-      params.require(:podcast).permit(:title, :description, :logo_url, :website, :feed, :tags, :category)
+      params.require(:podcast).permit(:title, :description, :logo_url, :website, :feed, :tags, :category, :author, :subtitle, :language)
     end
 end
