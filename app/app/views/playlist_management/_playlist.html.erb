@@ -1,47 +1,26 @@
+<% if @immutable_entries.blank? %>
+	<div class="panel callout">	<p>No episodes scheduled. Select episodes on the right to add them to the playlist.</p></div>
+<% else %>
 
-<table>
-  <tbody 	id="playlist-entry-list"
+	<table id="immutable-entries-table">
+		<tbody>
+			<% @immutable_entries.each do |entry| %>
+				<%= content_tag_for :tr, entry do %>
+					<%= render 'playlist_entry', entry: entry %>
+				<% end %>
+			<% end %>
+		</tbody>
+	</table>
+
+	<table id="changeable-entries-table">
+		<tbody id="playlist-entry-list"
 			data-update-url="<%= sort_playlist_entries_url(offset: @offset, channel_playlist_id: @channel_playlist.id) %>"
 			data-fetch-url="<%= update_playlist_entries_url(channel_playlist_id: @channel_playlist.id) %>">
-	<% if @playlist_entries.blank? %>
-		<tr><td>
-		No episodes scheduled. Select episodes on the right to add them to the playlist.
-		</tr><td>
-	<% else %>
-	  	<% @playlist_entries.each do |entry| %>
-		    <%= content_tag_for :tr, entry do %>
-
-
-
-		      <% if entry.is_episode? %>
-			      <td style="vertical-align: top"><%= image_tag entry.episode.icon_url_podcast_fallback, size: '50', class: 'handle' %></td>
-			      <td>
-			      	<h6><%= entry.episode.title %></h6>
-					<div><%= entry.start_time %></div>
-					<div><%= entry.end_time %></div>
-					<div>Time left: <%= entry.time_left_human %></div>
-					<% if !entry.isInDangerZone? %>
-						<div><%= link_to 'Remove', {controller: 'playlist_management', action: 'destroy_entry', remote: true, playlist_entry_id: entry.id, channel_playlist_id: @channel_playlist.id}, class: 'button alert tiny'%></div>
+				<% @changeable_entries.each do |entry| %>
+					<%= content_tag_for :tr, entry do %>
+						<%= render 'playlist_entry', entry: entry %>
 					<% end %>
-			      </td>
-
-
-			   <% else %>
-			   	<td> <i class="fa fa-music handle"></i> </td>
-			   	<td>
-			      	<h6><%= entry.jingle.title %></h6>
-					<div><%= entry.start_time %></div>
-					<div><%= entry.end_time %></div>
-					<div>Time left: <%= entry.time_left_human %></div>
-					<% if !entry.isInDangerZone? %>
-						<div><%= link_to 'Remove', {controller: 'playlist_management', action: 'destroy_entry', remote: true, playlist_entry_id: entry.id, channel_playlist_id: @channel_playlist.id}, class: 'button alert tiny'%></div>
-					<% end %>
-			   	</td>
-			   <% end %>
-
-
-		    <% end %>
-		<% end %>
-    <% end %>
-  </tbody>
+				<% end %>
+		</tbody>
 </table>
+<% end %>
