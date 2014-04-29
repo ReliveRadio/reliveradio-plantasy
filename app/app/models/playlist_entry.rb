@@ -1,6 +1,8 @@
 require 'humantime'
 
 class PlaylistEntry < ActiveRecord::Base
+    before_destroy :ensure_save_destroy
+
 	belongs_to :episode
 	belongs_to :jingle
 	belongs_to :channel_playlist
@@ -55,4 +57,9 @@ class PlaylistEntry < ActiveRecord::Base
         errors.add(:base, "Specify an episode or a jingle, not both")
       end
     end
+
+    def ensure_save_destroy
+    	!isInDangerZone?
+    end
+    
 end

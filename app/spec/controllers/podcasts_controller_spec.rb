@@ -138,6 +138,17 @@ describe PodcastsController do
       delete :destroy, {:id => podcast.to_param}
       response.should redirect_to(podcasts_url)
     end
+
+    it "does not destroy podcast with episode in danger zone" do
+      Timecop.freeze
+      playlist_entry = create(:playlist_entry_episode, start_time: Time.zone.now)
+
+      Rails.logger.info playlist_entry.episode.podcast.episodes.inspect
+      expect(playlist_entry.isInDangerZone?).to be true
+      expect {
+        delete :destroy, {:id => playlist_entry.episode.podcast.to_param}
+      }.not_to change(Podcast, :count).by(-1)
+    end
   end
 
 end
