@@ -441,13 +441,54 @@ describe PlaylistManagementController do
 
 	describe "update mpd" do
 
+		before(:all) do
+			Timecop.freeze(Time.zone.now)
+			# use real socket path here
+			@channel_playlist = create(:channel_playlist, mpd_socket_path: '/home/vagrant/.mpd/socket/mix')
+			@episode = create(:episode_cached, duration: 10.minutes)
+
+			# create past entries
+			entry1 = create(:playlist_entry_episode, episode: @episode, channel_playlist: @channel_playlist, start_time: Time.zone.now - 20.minutes)
+			create(:playlist_entry_episode, episode: @episode, channel_playlist: @channel_playlist, start_time: entry1.end_time)
+
+			# create present and future entries
+			entry = create(:playlist_entry_episode, start_time: Time.zone.now, episode: @episode, channel_playlist: @channel_playlist)
+			for i in 0..9 do
+				entry = create(:playlist_entry_episode, channel_playlist: @channel_playlist, episode: @episode, start_time: entry.end_time)
+			end
+			
+		end
+
+		before(:each) do
+			Timecop.freeze(Time.zone.now)
+			@mpd = MPD.new @channel_playlist.mpd_socket_path
+			@mpd.connect
+			@mpd.clear
+		end
+
+		after(:each) do
+			@mpd.clear
+			@mpd.disconnect
+		end
+
 		describe "while playling" do
 			it "cuts off all past entries" do
-				pending
-			end
+				# add all entries
+				PlaylistEntry.order(:position).each do |entry|
+					@mpd.add "file://" + entry.episode.local_path if entry.is_episode?
+					@mpd.add "file://" + entry.jingle.audio_url if entry.is_jingle?
+				end
+				# skip first two entries as they should be in the past
+				@mpd.next
+				@mpd.next
+				@mpd.play # ensure mpd is playing
 
-			it "cuts off future entries" do
-				pending
+				status = @mpd.status
+				length_before = status[:playlistlength]
+				@controller.send(:update_mpd, @channel_playlist)
+				status = @mpd.status
+				expect(status[:playlistlength]).to eq(length_before - 2)
+
 			end
 
 			it "adds new entries after playling entry" do
