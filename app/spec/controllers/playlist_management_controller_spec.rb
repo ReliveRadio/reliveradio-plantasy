@@ -65,8 +65,8 @@ describe PlaylistManagementController do
 			assigns(:changeable_entries).each do |entry|
 				expect(entry.isInDangerZone?).to be false
 			end
-			expect(assigns(:immutable_entries).length).to eq 3
-			expect(assigns(:changeable_entries).length).to eq 9
+			expect(assigns(:immutable_entries).length).to eq 4
+			expect(assigns(:changeable_entries).length).to eq 8
 
 		end
 
@@ -356,7 +356,7 @@ describe PlaylistManagementController do
 
 			# create entries
 			entry = create(:playlist_entry_episode, start_time: Time.zone.now, episode: episode, channel_playlist: channel_playlist)
-			for i in 0..5 do
+			for i in 0..10 do
 				entry = create(:playlist_entry_episode, channel_playlist: channel_playlist, episode: episode, start_time: entry.end_time)
 			end
 
@@ -371,8 +371,8 @@ describe PlaylistManagementController do
 				new_order[index] = entry.id
 			end
 
-			swap_a = 3
-			swap_b = 5
+			swap_a = 5
+			swap_b = 8
 			changed_entry_1 = entries[swap_a]
 			changed_entry_2 = entries[swap_b]
 
@@ -398,7 +398,7 @@ describe PlaylistManagementController do
 
 			# create entries
 			entry = create(:playlist_entry_episode, start_time: Time.zone.now, episode: episode, channel_playlist: channel_playlist)
-			for i in 0..5 do
+			for i in 0..10 do
 				entry = create(:playlist_entry_episode, channel_playlist: channel_playlist, episode: episode, start_time: entry.end_time)
 			end
 
@@ -413,8 +413,8 @@ describe PlaylistManagementController do
 				new_order[index] = entry.id
 			end
 
-			swap_a = 3
-			swap_b = 5
+			swap_a = 5
+			swap_b = 8
 			changed_entry_1 = entries[swap_a]
 			changed_entry_2 = entries[swap_b]
 
