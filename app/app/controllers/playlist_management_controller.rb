@@ -175,42 +175,42 @@ class PlaylistManagementController < ApplicationController
 		end
 
 		def update_mpd(channel_playlist)
-		# collect all future entries
-		playlist_entries = channel_playlist.playlist_entries.where("end_time >= :now", {now: Time.now}).order(start_time: :asc)
+			# collect all future entries
+			playlist_entries = channel_playlist.playlist_entries.where("end_time >= :now", {now: Time.now}).order(start_time: :asc)
 
 
-		mpd = MPD.new channel_playlist.mpd_socket_path
-		mpd.connect
+			mpd = MPD.new channel_playlist.mpd_socket_path
+			mpd.connect
 
-		# delete all mpd entries but not the currently playling one
-		status = mpd.status
-		if status[:playlistlength] > 0 && status[:state] == :play
-			# remove live entry
-			playlist_entries.delete_if { |entry| entry.isLive? }
-
-			# delete all played entries
-			if status[:song] > 0
-				mpd.delete 0...status[:song]
-			end
-			# update status because positions changed
+			# delete all mpd entries but not the currently playling one
 			status = mpd.status
-			# delete all future entries
-			start = status[:song] + 1
-			if start < status[:playlistlength]
-				mpd.delete start...status[:playlistlength]
-			end
-		else
-			mpd.clear if status[:state] == :stop
-			#TODO seek!!!
-		end
+			if status[:playlistlength] > 0 && status[:state] == :play
+				# remove live entry
+				playlist_entries.delete_if { |entry| entry.isLive? }
 
-		# add remaining entries to the mpd playlist		
-		playlist_entries.each do |entry|
-			mpd.add "file://" + entry.episode.local_path if entry.is_episode?
-			mpd.add "file://" + entry.jingle.audio_url if entry.is_jingle?
-		end		
-		mpd.play # ensure mpd is playing
-		mpd.disconnect
-	end
+				# delete all played entries
+				if status[:song] > 0
+					mpd.delete 0...status[:song]
+				end
+				# update status because positions changed
+				status = mpd.status
+				# delete all future entries
+				start = status[:song] + 1
+				if start < status[:playlistlength]
+					mpd.delete start...status[:playlistlength]
+				end
+			else
+				mpd.clear if status[:state] == :stop
+				#TODO seek!!!
+			end
+
+			# add remaining entries to the mpd playlist		
+			playlist_entries.each do |entry|
+				mpd.add "file://" + entry.episode.local_path if entry.is_episode?
+				mpd.add "file://" + entry.jingle.audio_url if entry.is_jingle?
+			end		
+			mpd.play # ensure mpd is playing
+			mpd.disconnect
+		end
 
 end
