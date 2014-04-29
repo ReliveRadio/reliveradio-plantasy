@@ -440,7 +440,38 @@ describe PlaylistManagementController do
 	end
 
 	describe "update mpd" do
-		pending
+
+		describe "while playling" do
+			it "cuts off all past entries" do
+				pending
+			end
+
+			it "cuts off future entries" do
+				pending
+			end
+
+			it "adds new entries after playling entry" do
+				pending
+			end
+		end
+
+		describe "when stopped" do
+			it "clears the playlist when it contains past entries" do
+				pending
+			end
+
+			it "also adds live entry when playlist was empty or got cleared" do
+				pending
+			end
+
+			it "seeks the live entry to the correct playtime" do
+				pending
+			end
+
+			it "starts playling again" do
+				pending
+			end
+		end
 	end
 
 end
