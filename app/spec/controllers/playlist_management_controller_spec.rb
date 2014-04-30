@@ -7,6 +7,7 @@ describe PlaylistManagementController do
 
 	# clear mpd playlist before each test
 	before(:each) do
+		Timecop.freeze
 		mpd = MPD.new "/home/vagrant/.mpd/socket/mix"
 		mpd.connect
 		mpd.clear
@@ -47,7 +48,6 @@ describe PlaylistManagementController do
 		end
 
 		it "assigns immutable_entries and changeable_entries" do
-			Timecop.freeze(Time.zone.now)
 			channel_playlist = create(:channel_playlist)
 			episode = create(:episode_cached, duration: 10.minutes)
 
@@ -71,7 +71,6 @@ describe PlaylistManagementController do
 		end
 
 		it "sets correct offset for playlist" do
-			Timecop.freeze(Time.zone.now)
 			channel_playlist = create(:channel_playlist)
 			episode = create(:episode_cached, duration: 1.hour)
 
@@ -91,7 +90,6 @@ describe PlaylistManagementController do
 		end
 
 		it "only assigns playlist entries that are live and future" do
-			Timecop.freeze(Time.zone.now)
 			channel_playlist = create(:channel_playlist)
 			episode = create(:episode_cached, duration: 1.hour)
 
@@ -126,7 +124,6 @@ describe PlaylistManagementController do
 				it "sets the playlist entry start_time and end_time correctly if there is no other playlist_entry " do
 						channel_playlist = create(:channel_playlist)
 						jingle = create(:jingle)
-						Timecop.freeze(Time.zone.now)
 						xhr :get, :append_entry, {jingle_id: jingle.id, channel_playlist_id: channel_playlist.id}
 						entry = PlaylistEntry.first
 					expect(entry.start_time.to_i).to eq(Time.zone.now.to_i) # calling to_i because nanoseconds not stored in databse
@@ -135,8 +132,7 @@ describe PlaylistManagementController do
 				it "sets the playlist entry start_time and end_time correctly if there are past playlist_entries" do
 					channel_playlist = create(:channel_playlist)
 					jingle = create(:jingle)
-					Timecop.freeze(Time.zone.now)
-
+		
 					# create older entry that is in the past!
 					old_entry = create(:playlist_entry_jingle, jingle: jingle, channel_playlist: channel_playlist, start_time: (Time.zone.now - jingle.duration - 10.minutes))
 
@@ -149,8 +145,7 @@ describe PlaylistManagementController do
 				it "sets the playlist entry start_time and end_time correctly if there schedules playlist entries present" do
 					channel_playlist = create(:channel_playlist)
 					jingle = create(:jingle)
-					Timecop.freeze(Time.zone.now)
-
+		
 					# create older entry that is in the past!
 					entry1 = create(:playlist_entry_jingle, jingle: jingle, channel_playlist: channel_playlist, start_time: Time.zone.now)
 					entry2 = create(:playlist_entry_jingle, jingle: jingle, channel_playlist: channel_playlist, start_time: entry1.end_time)
@@ -177,7 +172,6 @@ describe PlaylistManagementController do
 			it "sets the playlist entry start_time and end_time correctly if there is no other playlist_entry " do
 				channel_playlist = create(:channel_playlist)
 				episode = create(:episode_cached)
-				Timecop.freeze(Time.zone.now)
 				xhr :get, :append_entry, {episode_id: episode.id, channel_playlist_id: channel_playlist.id}
 				entry = PlaylistEntry.first
 				expect(entry.start_time.to_i).to eq(Time.zone.now.to_i) # calling to_i because nanoseconds not stored in databse
@@ -186,7 +180,6 @@ describe PlaylistManagementController do
 			it "sets the playlist entry start_time and end_time correctly if there are past playlist_entries" do
 				channel_playlist = create(:channel_playlist)
 				episode = create(:episode_cached)
-				Timecop.freeze(Time.zone.now)
 
 				# create older entry that is in the past!
 				old_entry = create(:playlist_entry_episode, episode: episode, channel_playlist: channel_playlist, start_time: (Time.zone.now - episode.duration - 10.minutes))
@@ -200,7 +193,6 @@ describe PlaylistManagementController do
 			it "sets the playlist entry start_time and end_time correctly if there schedules playlist entries present" do
 				channel_playlist = create(:channel_playlist)
 				episode = create(:episode_cached)
-				Timecop.freeze(Time.zone.now)
 
 				# create older entry that is in the past!
 				entry1 = create(:playlist_entry_episode, episode: episode, channel_playlist: channel_playlist, start_time: Time.zone.now)
@@ -230,7 +222,6 @@ describe PlaylistManagementController do
 	
 		it "destroys the playlist entry" do
 			# create entry that is NOT in danger zone
-			Timecop.freeze(Time.zone.now)
 			channel_playlist = create(:channel_playlist)
 			episode = create(:episode_cached, duration: 1.hour)
 
@@ -246,7 +237,6 @@ describe PlaylistManagementController do
 		end
 
 		it "updates the playtimes of the following playlist entries" do
-			Timecop.freeze(Time.zone.now)
 			channel_playlist = create(:channel_playlist)
 			episode = create(:episode_cached, duration: 1.hour)
 
@@ -265,7 +255,6 @@ describe PlaylistManagementController do
 		end
 
 		it "updates the position of the playlist entries" do
-			Timecop.freeze(Time.zone.now)
 			channel_playlist = create(:channel_playlist)
 			episode = create(:episode_cached, duration: 1.hour)
 
@@ -285,7 +274,6 @@ describe PlaylistManagementController do
 
 		#end_time < Time.now + 30.minutes
 		it "does not remove playlist entries that are in danger zone" do
-			Timecop.freeze(Time.zone.now)
 			channel_playlist = create(:channel_playlist)
 			episode = create(:episode_cached, duration: 10.minutes)
 
@@ -303,7 +291,6 @@ describe PlaylistManagementController do
 
 	describe "sort playlist entries" do
 		it "does not allow changes in danger zone" do
-			Timecop.freeze(Time.zone.now)
 			channel_playlist = create(:channel_playlist)
 			episode = create(:episode_cached, duration: 10.minutes)
 
@@ -350,7 +337,6 @@ describe PlaylistManagementController do
 		end
 
 		it "updates all playtimes" do
-			Timecop.freeze(Time.zone.now)
 			channel_playlist = create(:channel_playlist)
 			episode = create(:episode_cached, duration: 10.minutes)
 
@@ -392,7 +378,6 @@ describe PlaylistManagementController do
 		end
 
 		it "updates all positions" do
-			Timecop.freeze(Time.zone.now)
 			channel_playlist = create(:channel_playlist)
 			episode = create(:episode_cached, duration: 10.minutes)
 
@@ -442,7 +427,6 @@ describe PlaylistManagementController do
 	describe "update mpd" do
 
 		before(:all) do
-			Timecop.freeze(Time.zone.now)
 			# use real socket path here
 			@channel_playlist = create(:channel_playlist, mpd_socket_path: '/home/vagrant/.mpd/socket/mix')
 			@episode = create(:episode_cached, duration: 10.minutes)
@@ -460,7 +444,6 @@ describe PlaylistManagementController do
 		end
 
 		before(:each) do
-			Timecop.freeze(Time.zone.now)
 			@mpd = MPD.new @channel_playlist.mpd_socket_path
 			@mpd.connect
 			@mpd.clear
