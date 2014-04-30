@@ -6,7 +6,7 @@ class ScheduleController < ApplicationController
   end
 
   def show
-  	@playlist_entries = @channel_playlist.playlist_entries.where("end_time >= :now", {now: Time.now}).order(:position)
+  	@playlist_entries = @channel_playlist.playlist_entries.where("end_time >= :now", {now: Time.zone.now}).order(:position)
     respond_to do |format|
       format.html { }
       format.js { }

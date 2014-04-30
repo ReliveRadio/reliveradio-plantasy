@@ -33,10 +33,10 @@ class PlaylistManagementController < ApplicationController
 		# only create new playlist entry if episode is cached. jingles are always cached
 		if ((@episode && @episode.cached?) || @jingle)
 			# calc start time for new playlist entry
-			@playlist_entries = @channel_playlist.playlist_entries.where("end_time >= :now", {now: Time.now}).order(:position)
+			@playlist_entries = @channel_playlist.playlist_entries.where("end_time >= :now", {now: Time.zone.now}).order(:position)
 
 			if @playlist_entries.blank?
-				start_time = Time.now
+				start_time = Time.zone.now
 			else
 				start_time = @playlist_entries.last.end_time
 			end
@@ -62,7 +62,7 @@ class PlaylistManagementController < ApplicationController
 	def destroy_entry
 		@playlist_entry = PlaylistEntry.find(params[:playlist_entry_id])
 		# do not remove just playling entry
-		# ensure buffer: end_time > Time.now + 30.minutes
+		# ensure buffer: end_time > Time.zone.now + 30.minutes
 		if (!@playlist_entry.blank? && !@playlist_entry.isInDangerZone?)
 			# adjust all start and end times of all episodes after the entry
 			# start time for the entry AFTER the deleted one has to be end time of the entry BEFORE the deleted one
@@ -92,7 +92,7 @@ class PlaylistManagementController < ApplicationController
 	# their index in the list is their new position
 	# their id in the list is the playlist entry id
 	# offset parameter is the position of the first playlist entry returned by index action
-	# danger zone: end_time < Time.now + 30.minutes
+	# danger zone: end_time < Time.zone.now + 30.minutes
 	def sort
 		offset = params[:offset].to_i # position of the first entry in the list that was rendered in the view
 
@@ -161,7 +161,7 @@ class PlaylistManagementController < ApplicationController
 		end
 
 		def fetch_playlist_entries_and_offset
-			@playlist_entries = @channel_playlist.playlist_entries.where("end_time >= :now", {now: Time.now}).order(:position)
+			@playlist_entries = @channel_playlist.playlist_entries.where("end_time >= :now", {now: Time.zone.now}).order(:position)
 			if @playlist_entries.blank?
 				@offset = 1
 			else
@@ -176,7 +176,7 @@ class PlaylistManagementController < ApplicationController
 
 		def update_mpd(channel_playlist)
 			# collect all future entries
-			playlist_entries = channel_playlist.playlist_entries.where("end_time >= :now", {now: Time.now}).order(start_time: :asc)
+			playlist_entries = channel_playlist.playlist_entries.where("end_time >= :now", {now: Time.zone.now}).order(start_time: :asc)
 
 
 			mpd = MPD.new channel_playlist.mpd_socket_path
@@ -212,7 +212,7 @@ class PlaylistManagementController < ApplicationController
 				# seek the live entry to the correct position
 				if seek && entry.isLive?
 					options = {pos: 0}
-					time_to_seek = (Time.now - entry.start_time).round
+					time_to_seek = (Time.zone.now - entry.start_time).round
 					mpd.seek(time_to_seek, options)
 				end
 			end

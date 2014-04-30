@@ -19,11 +19,11 @@ class PlaylistEntry < ActiveRecord::Base
 
     # do not change playlist entries that are live or have < 30 minutes playtime left
     def isInDangerZone?
-    	(start_time < Time.now + 30.minutes)
+    	(start_time < Time.zone.now + 30.minutes)
     end
 
 	def isLive?
-		((start_time < Time.now) && (end_time > Time.now))
+		((start_time < Time.zone.now) && (end_time > Time.zone.now))
 	end
 
 	def is_episode?
@@ -41,7 +41,7 @@ class PlaylistEntry < ActiveRecord::Base
 
 	def time_left
 		if isLive?
-			(end_time - Time.now).round
+			(end_time - Time.zone.now).round
 		else
 			(end_time - start_time).round
 		end

@@ -218,7 +218,7 @@ describe PlaylistManagementController do
 	end
 
 	describe "remove playlist entries" do
-	# danger zone: end_time < Time.now + 30.minutes
+	# danger zone: end_time < Time.zone.now + 30.minutes
 	
 		it "destroys the playlist entry" do
 			# create entry that is NOT in danger zone
@@ -272,7 +272,7 @@ describe PlaylistManagementController do
 			end
 		end
 
-		#end_time < Time.now + 30.minutes
+		#end_time < Time.zone.now + 30.minutes
 		it "does not remove playlist entries that are in danger zone" do
 			channel_playlist = create(:channel_playlist)
 			episode = create(:episode_cached, duration: 10.minutes)
