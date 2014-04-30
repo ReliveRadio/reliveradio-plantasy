@@ -47,9 +47,11 @@ RSpec.configure do |config|
   config.include Devise::TestHelpers
   config.extend DeviseMacros
 
-  config.before(:each) do |example_method|
-
+  config.before(:each) do
     Timecop.return # reset timecop for each test
+  end
+
+  config.before(:each) do |example_method|
 
     # Clears out the jobs for tests using the fake testing
     Sidekiq::Worker.clear_all
