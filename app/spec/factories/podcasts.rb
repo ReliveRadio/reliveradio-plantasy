@@ -4,7 +4,7 @@ require 'faker'
 
 FactoryGirl.define do
   factory :podcast do
-    title Faker::Lorem.paragraph(1)
+    sequence(:title){|n| "Title#{n}@podcast" }
     description Faker::Lorem.paragraph(5)
     logo_url Faker::Internet.url
     website Faker::Internet.url

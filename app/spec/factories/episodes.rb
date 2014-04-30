@@ -8,7 +8,7 @@ FactoryGirl.define do
     title Faker::Lorem.paragraph(1)
     link Faker::Internet.url
     pub_date Faker::Business.credit_card_expiry_date
-    guid Faker::Lorem.characters(10)
+    sequence(:guid){|n| "guid_episode_#{n}"}
     subtitle Faker::Lorem.paragraph(1)
     content Faker::Lorem.paragraph(5)
     duration Faker::Number.number(6)
@@ -26,7 +26,7 @@ FactoryGirl.define do
     title Faker::Lorem.paragraph(1)
     link Faker::Internet.url
     pub_date Faker::Business.credit_card_expiry_date
-    guid Faker::Lorem.characters(10)
+    sequence(:guid){|n| "guid_episode_cached_#{n}"}
     subtitle Faker::Lorem.paragraph(1)
     content Faker::Lorem.paragraph(5)
     duration Faker::Number.number(6)
