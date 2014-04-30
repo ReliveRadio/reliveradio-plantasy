@@ -122,10 +122,10 @@ describe PlaylistManagementController do
 					}.to change(PlaylistEntry, :count).by(1)
 				end
 				it "sets the playlist entry start_time and end_time correctly if there is no other playlist_entry " do
-						channel_playlist = create(:channel_playlist)
-						jingle = create(:jingle)
-						xhr :get, :append_entry, {jingle_id: jingle.id, channel_playlist_id: channel_playlist.id}
-						entry = PlaylistEntry.first
+					channel_playlist = create(:channel_playlist)
+					jingle = create(:jingle)
+					xhr :get, :append_entry, {jingle_id: jingle.id, channel_playlist_id: channel_playlist.id}
+					entry = PlaylistEntry.first
 					expect(entry.start_time.to_i).to eq(Time.zone.now.to_i) # calling to_i because nanoseconds not stored in databse
 					expect(entry.end_time.to_i).to eq((entry.start_time + entry.jingle.duration.seconds).to_i)
 				end
