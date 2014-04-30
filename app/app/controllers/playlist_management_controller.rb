@@ -204,11 +204,12 @@ class PlaylistManagementController < ApplicationController
 				seek = true
 			end
 
-			# add remaining entries to the mpd playlist		
+			# add remaining entries to the mpd playlist
 			playlist_entries.each do |entry|
 				mpd.add "file://" + entry.episode.local_path if entry.is_episode?
 				mpd.add "file://" + entry.jingle.audio_url if entry.is_jingle?
 
+				# seek the live entry to the correct position
 				if seek && entry.isLive?
 					options = {pos: 0}
 					time_to_seek = (Time.now - entry.start_time).round
