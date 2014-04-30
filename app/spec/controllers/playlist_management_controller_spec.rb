@@ -455,7 +455,7 @@ describe PlaylistManagementController do
 		end
 
 		describe "while playling" do
-			it "cuts off all past entries" do
+			it "cuts off all past entries and readds future entries" do
 				# add all entries
 				PlaylistEntry.order(:position).each do |entry|
 					@mpd.add "file://" + entry.episode.local_path if entry.is_episode?
@@ -468,32 +468,81 @@ describe PlaylistManagementController do
 
 				status = @mpd.status
 				length_before = status[:playlistlength]
+
 				@controller.send(:update_mpd, @channel_playlist)
+
 				status = @mpd.status
 				expect(status[:playlistlength]).to eq(length_before - 2)
-
+				expect(status[:state]).to eq(:play)
 			end
 
-			it "adds new entries after playling entry" do
-				pending
+			it "does not change currently playling entry" do
+				# add all entries
+				PlaylistEntry.order(:position).each do |entry|
+					@mpd.add "file://" + entry.episode.local_path if entry.is_episode?
+					@mpd.add "file://" + entry.jingle.audio_url if entry.is_jingle?
+				end
+				# skip first two entries as they should be in the past
+				@mpd.next
+				@mpd.next
+				@mpd.play # ensure mpd is playing
+
+				status = @mpd.status
+				songid = status[:songid]
+
+				@controller.send(:update_mpd, @channel_playlist)
+
+				status = @mpd.status
+				expect(status[:songid]).to eq(songid)
+				expect(status[:state]).to eq(:play)
 			end
 		end
 
 		describe "when stopped" do
-			it "clears the playlist when it contains past entries" do
-				pending
+
+			it "adds all future entries including live entry" do
+				# add all entries
+				playlist_entries = PlaylistEntry.order(:position)
+				playlist_entries.each do |entry|
+					@mpd.add "file://" + entry.episode.local_path if entry.is_episode?
+					@mpd.add "file://" + entry.jingle.audio_url if entry.is_jingle?
+				end
+				@mpd.stop
+
+				@controller.send(:update_mpd, @channel_playlist)
+
+				status = @mpd.status
+				expect(status[:playlistlength]).to eq(playlist_entries.length - 2) # because two entries in the past
+				expect(status[:state]).to eq(:play)
 			end
 
-			it "also adds live entry when playlist was empty or got cleared" do
-				pending
+			it "adds all future entries including live entry when playlist is empty" do
+				playlist_entries = PlaylistEntry.order(:position)
+				@mpd.stop
+
+				@controller.send(:update_mpd, @channel_playlist)
+
+				status = @mpd.status
+				expect(status[:playlistlength]).to eq(playlist_entries.length - 2) # because two entries in the past
+				expect(status[:state]).to eq(:play)
 			end
 
 			it "seeks the live entry to the correct playtime" do
-				pending
-			end
+				@mpd.stop
 
-			it "starts playling again" do
-				pending
+				# current live episode is already playling for 5 minutes
+				Timecop.travel(5.minutes)
+				Timecop.freeze
+
+				live_entry = PlaylistEntry.where("start_time < :now AND end_time > :now", {now: Time.zone.now}).first
+				expect(live_entry.isLive?).to be true
+				time_passed = (Time.zone.now - live_entry.start_time).round
+				expect(time_passed - 5.minutes.to_i).to be < 5
+
+				@controller.send(:update_mpd, @channel_playlist)
+
+				status = @mpd.status
+				expect(status[:elapsed].to_i.round - time_passed.to_i.round).to be < 5 # because two entries in the past
 			end
 		end
 	end

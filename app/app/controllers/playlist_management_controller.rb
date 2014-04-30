@@ -201,14 +201,21 @@ class PlaylistManagementController < ApplicationController
 				end
 			else
 				mpd.clear if status[:state] == :stop
-				#TODO seek!!!
+				seek = true
 			end
 
 			# add remaining entries to the mpd playlist		
 			playlist_entries.each do |entry|
 				mpd.add "file://" + entry.episode.local_path if entry.is_episode?
 				mpd.add "file://" + entry.jingle.audio_url if entry.is_jingle?
-			end		
+
+				if seek && entry.isLive?
+					options = {pos: 0}
+					time_to_seek = (Time.now - entry.start_time).round
+					mpd.seek(time_to_seek, options)
+				end
+			end
+
 			mpd.play # ensure mpd is playing
 			mpd.disconnect
 		end
