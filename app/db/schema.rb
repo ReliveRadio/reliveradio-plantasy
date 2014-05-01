@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140419114216) do
+ActiveRecord::Schema.define(version: 20140501142548) do
 
   create_table "admins", force: true do |t|
     t.string   "email",                  default: "",    null: false
@@ -61,6 +61,11 @@ ActiveRecord::Schema.define(version: 20140419114216) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "filesize"
+    t.string   "thumb_800"
+    t.string   "thumb_400"
+    t.string   "thumb_200"
+    t.string   "thumb_100"
+    t.string   "coverart"
   end
 
   add_index "episodes", ["guid"], name: "index_episodes_on_guid", unique: true
@@ -103,6 +108,11 @@ ActiveRecord::Schema.define(version: 20140419114216) do
     t.string   "author"
     t.string   "subtitle"
     t.string   "language"
+    t.string   "thumb_800"
+    t.string   "thumb_400"
+    t.string   "thumb_200"
+    t.string   "thumb_100"
+    t.string   "coverart"
   end
 
   add_index "podcasts", ["feed", "title"], name: "index_podcasts_on_feed_and_title", unique: true
