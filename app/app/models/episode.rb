@@ -1,6 +1,7 @@
 class Episode < ActiveRecord::Base
 	before_destroy :ensure_save_destroy
-	before_destroy :remove_cache
+	before_destroy :remove_audio_file_cache
+	before_destroy :remove_thumbs
 
 	belongs_to :podcast
 	has_many :playlist_entries, dependent: :destroy
@@ -28,7 +29,7 @@ class Episode < ActiveRecord::Base
 		self.playlist_entries.maximum(:start_time)
 	end
 
-	def remove_cache
+	def remove_audio_file_cache
 		if cached?
 			# TODO check if it is in any future playlist
 
@@ -49,6 +50,10 @@ private
 			save_to_destroy = false if entry.isInDangerZone?
 		end
 		return save_to_destroy
+	end
+
+	def remove_thumbs
+		remove_coverart!
 	end
 
 end
