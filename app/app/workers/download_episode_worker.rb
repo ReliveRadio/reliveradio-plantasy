@@ -8,15 +8,18 @@ class DownloadEpisodeWorker
 	include Sidekiq::Worker
 
 	def perform(episode_id)
+		# prepare download url and local path
 		episode = Episode.find(episode_id)
 		uri = URI.parse(episode.audio_file_url)
 		filename = File.basename(uri.path)
     	episode.local_path = Rails.root.join('audio', episode.podcast.title, filename).to_s
     	
+    	# ensure folder for the podcast exists
     	dirname = File.dirname(episode.local_path)
     	unless File.directory?(dirname)
     		FileUtils.mkdir_p(dirname)
     	end
+    	# download the file
 		open(episode.local_path, 'wb') do |file|
       		file << open(episode.audio_file_url).read
     	end
