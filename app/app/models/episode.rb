@@ -30,16 +30,6 @@ class Episode < ActiveRecord::Base
 		self.playlist_entries.maximum(:start_time)
 	end
 
-private
-	def ensure_save_destroy
-		save_to_destroy = true
-		# do not destroy episodes that are mapped to a playlist entry that is in danger zone
-		playlist_entries.each do |entry|
-			save_to_destroy = false if entry.isInDangerZone?
-		end
-		return save_to_destroy
-	end
-
 	def remove_cache
 		if cached?
 			# TODO check if it is in any future playlist
@@ -52,4 +42,15 @@ private
 			save
 		end
 	end
+
+private
+	def ensure_save_destroy
+		save_to_destroy = true
+		# do not destroy episodes that are mapped to a playlist entry that is in danger zone
+		playlist_entries.each do |entry|
+			save_to_destroy = false if entry.isInDangerZone?
+		end
+		return save_to_destroy
+	end
+
 end
