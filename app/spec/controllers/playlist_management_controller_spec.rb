@@ -458,8 +458,8 @@ describe PlaylistManagementController do
 			it "cuts off all past entries and readds future entries" do
 				# add all entries
 				PlaylistEntry.order(:position).each do |entry|
-					@mpd.add "file://" + entry.episode.local_path if entry.is_episode?
-					@mpd.add "file://" + entry.jingle.audio_url if entry.is_jingle?
+					@mpd.add "file://" + entry.episode.audio.url if entry.is_episode?
+					@mpd.add "file://" + entry.jingle.audio.url if entry.is_jingle?
 				end
 				# skip first two entries as they should be in the past
 				@mpd.next
@@ -479,8 +479,8 @@ describe PlaylistManagementController do
 			it "does not change currently playling entry" do
 				# add all entries
 				PlaylistEntry.order(:position).each do |entry|
-					@mpd.add "file://" + entry.episode.local_path if entry.is_episode?
-					@mpd.add "file://" + entry.jingle.audio_url if entry.is_jingle?
+					@mpd.add "file://" + entry.episode.audio.url if entry.is_episode?
+					@mpd.add "file://" + entry.jingle.audio.url if entry.is_jingle?
 				end
 				# skip first two entries as they should be in the past
 				@mpd.next
@@ -504,8 +504,8 @@ describe PlaylistManagementController do
 				# add all entries
 				playlist_entries = PlaylistEntry.order(:position)
 				playlist_entries.each do |entry|
-					@mpd.add "file://" + entry.episode.local_path if entry.is_episode?
-					@mpd.add "file://" + entry.jingle.audio_url if entry.is_jingle?
+					@mpd.add "file://" + entry.episode.audio.url if entry.is_episode?
+					@mpd.add "file://" + entry.jingle.audio.url if entry.is_jingle?
 				end
 				@mpd.stop
 
