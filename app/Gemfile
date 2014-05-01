@@ -21,6 +21,10 @@ gem 'coffee-rails', '~> 4.0.0'
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
+# webframgework
+gem 'foundation-rails', '~> 5.2'
+# nice icon font
+gem 'font-awesome-rails', '~> 4.0'
 
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 gem 'turbolinks'
@@ -34,31 +38,23 @@ gem 'will_paginate'
 gem 'will_paginate-foundation'
 gem 'ransack'
 gem 'feedjira'
-
-gem 'ruby-audioinfo'
-gem 'wavefile'
 gem 'chronic_duration'
 gem 'humantime'
-
 gem 'carrierwave'
-
 gem 'devise'
 gem "devise-async"
 gem 'sidekiq'
 gem 'figaro'
-
 gem 'acts_as_list'
-
 gem 'sinatra', require: false
 gem 'slim'
 
-# webframgework
-gem 'foundation-rails', '~> 5.2'
+# audio
+gem 'ruby-audioinfo'
+gem 'wavefile'
+gem 'ruby-mpd'
 
-# nice icon font
-gem 'font-awesome-rails', '~> 4.0'
-
-# testing gems
+# testing
 gem 'test-unit'
 gem 'rspec-rails'
 gem 'factory_girl_rails'
@@ -68,8 +64,6 @@ gem 'guard-rspec'
 gem 'database_cleaner'
 gem 'vcr'
 gem 'timecop'
-
-gem 'ruby-mpd'
 
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
