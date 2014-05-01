@@ -9,7 +9,7 @@
 		<% else %>
 			<a href="<%= directory_show_episode_url(result.id) %>">
 		<% end %>
-		<img src="<%= result.image_url %>" /></a>
+		<%= image_tag result.coverart('thumb_400') %>
 
 		<h5><%= result.title %></h5>
 		<p><%= first_x_words result.subtitle %></p>

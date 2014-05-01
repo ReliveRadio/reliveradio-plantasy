@@ -16,7 +16,7 @@
 	<tbody>
 		<% @podcasts.each do |podcast| %>
 		<tr>
-			<td><%= image_tag podcast.logo_url, size: '80' %></td>
+			<td><%= image_tag podcast.coverart.thumb_200, size: '80' %></td>
 			<td><%= link_to podcast.title, podcast %></td>
 			<td><%= podcast.author %></td>
 			<td>

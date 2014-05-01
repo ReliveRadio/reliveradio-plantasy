@@ -18,7 +18,7 @@
 	<tbody>
 		<% @episodes.each do |episode| %>
 		<tr>
-			<td><%= image_tag episode.icon_url_podcast_fallback, size: '80' %></td>
+			<td><%= image_tag episode.coverart.thumb_200, size: '80' %></td>
 			<td><%= link_to episode.title, episode %></td>
 			<td><%= link_to episode.link, episode.link %></td>
 			<td><%= episode.pub_date %></td>
