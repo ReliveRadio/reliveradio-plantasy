@@ -61,10 +61,6 @@ ActiveRecord::Schema.define(version: 20140501142548) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "filesize"
-    t.string   "thumb_800"
-    t.string   "thumb_400"
-    t.string   "thumb_200"
-    t.string   "thumb_100"
     t.string   "coverart"
   end
 
@@ -108,10 +104,6 @@ ActiveRecord::Schema.define(version: 20140501142548) do
     t.string   "author"
     t.string   "subtitle"
     t.string   "language"
-    t.string   "thumb_800"
-    t.string   "thumb_400"
-    t.string   "thumb_200"
-    t.string   "thumb_100"
     t.string   "coverart"
   end
 
