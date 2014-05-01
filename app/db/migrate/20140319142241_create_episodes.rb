@@ -13,7 +13,7 @@ class CreateEpisodes < ActiveRecord::Migration
       t.string :icon_url
       t.string :audio_file_url
       t.boolean :cached, default: false
-      t.string :local_path
+      t.string :audio
 
       t.integer :podcast_id
 
