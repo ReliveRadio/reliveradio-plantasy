@@ -7,12 +7,8 @@ class PodcastEpisodeWrapper
 		@object = podcast_or_episode
 	end
 
-	def image_url
-		if @object.is_a? Episode
-			@object.icon_url_podcast_fallback
-		else
-			@object.logo_url
-		end
+	def coverart(version)
+		@object.coverart.send(version)
 	end
 
 	def title

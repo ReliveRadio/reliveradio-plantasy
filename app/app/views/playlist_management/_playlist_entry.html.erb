@@ -1,5 +1,5 @@
 <% if entry.is_episode? %>
-	<td style="vertical-align: top"><%= image_tag entry.episode.icon_url_podcast_fallback, size: '50', class: 'handle' %></td>
+	<td style="vertical-align: top"><%= image_tag entry.episode.coverart.thumb_200, size: '50', class: 'handle' %></td>
 	<td>
 		<h6><%= entry.episode.title %></h6>
 		<div><%= entry.start_time %></div>

@@ -1,5 +1,6 @@
 class Podcast < ActiveRecord::Base
 	before_destroy :ensure_save_destroy
+	before_destroy :remove_thumbs
 
 	has_many :episodes, :dependent => :destroy
 
@@ -8,6 +9,7 @@ class Podcast < ActiveRecord::Base
 	validates :logo_url, presence: true
 	validates :website, presence: true
 
+	mount_uploader :coverart, CoverArtUploader
 
 	private
 		def ensure_save_destroy
@@ -18,5 +20,9 @@ class Podcast < ActiveRecord::Base
 					return false if entry.isInDangerZone?
 				end
 			end
+		end
+
+		def remove_thumbs
+			remove_coverart!
 		end
 end

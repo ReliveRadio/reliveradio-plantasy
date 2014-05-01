@@ -58,7 +58,7 @@ class EpisodesController < ApplicationController
 
   def delete_cached_file
     if @episode.cached?
-      @episode.remove_cache
+      @episode.remove_audio_file_cache
       respond_to do |format|
         format.html { redirect_to @episode, flash: {notice: 'File was deleted.'}}
       end
