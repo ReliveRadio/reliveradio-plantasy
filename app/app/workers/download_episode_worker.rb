@@ -17,6 +17,8 @@ class DownloadEpisodeWorker
 		filename = File.basename(uri.path)
 		episode.local_path = Rails.root.join('audio', podcast.title, filename).to_s
 		
+		# DOWNLOAD
+
 		# ensure folder for the podcast exists
 		dirname = File.dirname(episode.local_path)
 		unless File.directory?(dirname)
@@ -28,6 +30,8 @@ class DownloadEpisodeWorker
 		end
 		episode.cached = true
 
+		# EXTRACT DURATION
+
 		# read duration from audio file
 		AudioInfo.open(episode.local_path) do |info|
 		  #info.artist   # or info["artist"]
@@ -36,6 +40,8 @@ class DownloadEpisodeWorker
 		  #info.bitrate  # average bitrate
 		  #info.to_h     # { "artist" => "artist", "title" => "title", etc... }
 		end
+
+		# AUDIOFILE TAGGING
 
 		# Set tags of the file based on feed data
 		# this data is later used by mpd and transferred to icecast
@@ -54,7 +60,7 @@ class DownloadEpisodeWorker
 
 			fileref.save # store tags in file
 		  end
-		end # File is automatically closed at block end		
+		end # File is automatically closed at block end
 
 		episode.save
 	end
