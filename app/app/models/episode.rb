@@ -16,6 +16,7 @@ class Episode < ActiveRecord::Base
 	validates :audio_file_url, presence: true
 
 	mount_uploader :coverart, CoverArtUploader
+	mount_uploader :audio, AudioUploader
 
 	# def icon_url
 	# 	self[:icon_url] || podcast.logo_url
@@ -31,14 +32,7 @@ class Episode < ActiveRecord::Base
 
 	def remove_audio_file_cache
 		if cached?
-			# TODO check if it is in any future playlist
-
-			# delete file from disk
-			File.delete(local_path) rescue false
-			# update database entry
-			self.cached = false
-			self.local_path = nil
-			save
+			remove_audio!
 		end
 	end
 

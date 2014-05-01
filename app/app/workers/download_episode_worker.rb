@@ -1,7 +1,6 @@
 require 'open-uri'
 require 'uri'
 require 'ruby-mpd'
-require 'audioinfo'
 require 'fileutils'
 require 'taglib'
 
@@ -12,41 +11,18 @@ class DownloadEpisodeWorker
 		# prepare download url and local path
 		episode = Episode.find(episode_id)
 		podcast = episode.podcast
-
-		uri = URI.parse(episode.audio_file_url)
-		filename = File.basename(uri.path)
-		episode.local_path = Rails.root.join('audio', podcast.title, filename).to_s
 		
 		# DOWNLOAD
-
-		# ensure folder for the podcast exists
-		dirname = File.dirname(episode.local_path)
-		unless File.directory?(dirname)
-			FileUtils.mkdir_p(dirname)
-		end
-		# download the file
-		open(episode.local_path, 'wb') do |file|
-			file << open(episode.audio_file_url).read
-		end
-		episode.cached = true
-
-		# EXTRACT DURATION
-
-		# read duration from audio file
-		AudioInfo.open(episode.local_path) do |info|
-		  #info.artist   # or info["artist"]
-		  #info.title    # or info["title"]
-		  episode.duration = info.length   # playing time of the file
-		  #info.bitrate  # average bitrate
-		  #info.to_h     # { "artist" => "artist", "title" => "title", etc... }
-		end
+		episode.remote_audio_url = episode.audio_file_url
+		episode.save
+		episode.cached
 
 		# AUDIOFILE TAGGING
 
 		# Set tags of the file based on feed data
 		# this data is later used by mpd and transferred to icecast
 		# users of webradio see this data as currently played song
-		TagLib::FileRef.open(episode.local_path) do |fileref|
+		TagLib::FileRef.open(episode.audio.url) do |fileref|
 		  unless fileref.null?
 			tag = fileref.tag
 
