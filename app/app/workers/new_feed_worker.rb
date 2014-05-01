@@ -19,6 +19,9 @@ class NewFeedWorker
 				subtitle: feed.itunes_subtitle,
 				language: feed.language
 			)
+			# dowload coverart
+			podcast.remote_coverart_url = podcast.logo_url
+			podcast.save
 			# fetch episodes in the background with sidekiq
 	    	UpdateFeedWorker.perform_async(podcast.id)
 		end

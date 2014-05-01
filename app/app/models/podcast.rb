@@ -8,6 +8,7 @@ class Podcast < ActiveRecord::Base
 	validates :logo_url, presence: true
 	validates :website, presence: true
 
+	mount_uploader :coverart, CoverArtUploader
 
 	private
 		def ensure_save_destroy

@@ -14,13 +14,11 @@ class Episode < ActiveRecord::Base
 	validates :pub_date, presence: true
 	validates :audio_file_url, presence: true
 
+	mount_uploader :coverart, CoverArtUploader
+
 	# def icon_url
 	# 	self[:icon_url] || podcast.logo_url
 	# end
-
-	def icon_url_podcast_fallback
-		icon_url || podcast.try(:logo_url)
-	end
 
 	def playcount
 		self.playlist_entries.count

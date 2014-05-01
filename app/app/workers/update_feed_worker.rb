@@ -15,7 +15,7 @@ class UpdateFeedWorker
 					if !episode.itunes_duration.blank?
 						duration = ChronicDuration.parse(episode.itunes_duration)
 					end
-					Episode.create!(
+					new_episode = Episode.create!(
 						guid: episode.id,
 						podcast_id: podcast.id,
 
@@ -32,6 +32,11 @@ class UpdateFeedWorker
 						audio_file_url: episode.enclosure_url,
 						cached: false
 					)
+					# download coverart
+					if !new_episode.icon_url.blank?
+						new_episode.remote_coverart_url = new_episode.icon_url
+						new_episode.save
+					end
 				end
 			end
 		end
