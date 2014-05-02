@@ -432,7 +432,7 @@ describe PlaylistManagementController do
 			@episode = create(:episode_cached, duration: 10.minutes)
 
 			# create past entries
-			entry1 = create(:playlist_entry_episode, episode: @episode, channel_playlist: @channel_playlist, start_time: Time.zone.now - 20.minutes)
+			entry1 = create(:playlist_entry_episode, episode: @episode, channel_playlist: @channel_playlist, start_time: Time.zone.now - 30.minutes)
 			create(:playlist_entry_episode, episode: @episode, channel_playlist: @channel_playlist, start_time: entry1.end_time)
 
 			# create present and future entries
