@@ -15,7 +15,7 @@ class DownloadEpisodeWorker
 		# DOWNLOAD
 		episode.remote_audio_url = episode.audio_file_url
 		episode.save
-		episode.cached
+		episode.cached = true
 
 		# AUDIOFILE TAGGING
 
