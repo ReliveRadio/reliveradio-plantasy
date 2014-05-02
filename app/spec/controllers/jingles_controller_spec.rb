@@ -147,6 +147,15 @@ describe JinglesController do
       delete :destroy, {:id => jingle.to_param}
       response.should redirect_to(jingles_url)
     end
+
+    it "does not destroy the jingle if it is in playlist entry that is in danger zone" do
+      Timecop.freeze
+      playlist_entry = create(:playlist_entry_jingle, start_time: Time.zone.now)
+      expect(playlist_entry.isInDangerZone?).to be true
+      expect {
+        delete :destroy, {:id => playlist_entry.jingle.to_param}
+      }.not_to change(Jingle, :count).by(-1)
+    end
   end
 
 end
