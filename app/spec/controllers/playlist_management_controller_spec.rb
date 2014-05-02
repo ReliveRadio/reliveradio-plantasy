@@ -426,7 +426,7 @@ describe PlaylistManagementController do
 
 	describe "update mpd" do
 
-		before(:all) do
+		before(:each) do
 			# use real socket path here
 			@channel_playlist = create(:channel_playlist, mpd_socket_path: '/home/vagrant/.mpd/socket/mix')
 			@episode = create(:episode_cached, duration: 10.minutes)
@@ -440,10 +440,7 @@ describe PlaylistManagementController do
 			for i in 0..9 do
 				entry = create(:playlist_entry_episode, channel_playlist: @channel_playlist, episode: @episode, start_time: entry.end_time)
 			end
-			
-		end
 
-		before(:each) do
 			@mpd = MPD.new @channel_playlist.mpd_socket_path
 			@mpd.connect
 			@mpd.clear
