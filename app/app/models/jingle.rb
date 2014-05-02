@@ -17,5 +17,6 @@ class Jingle < ActiveRecord::Base
 	  def remove_uploaded_audio
 		# delete file from disk
 		remove_audio!
+		save
 	  end
 end

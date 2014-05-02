@@ -24,5 +24,6 @@ class Podcast < ActiveRecord::Base
 
 		def remove_thumbs
 			remove_coverart!
+			save
 		end
 end

@@ -33,6 +33,7 @@ class Episode < ActiveRecord::Base
 	def remove_audio_file_cache
 		if cached?
 			remove_audio!
+			save
 		end
 	end
 
@@ -48,6 +49,7 @@ private
 
 	def remove_thumbs
 		remove_coverart!
+		save
 	end
 
 end
