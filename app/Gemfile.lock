@@ -148,6 +148,7 @@ GEM
       mini_portile (~> 0.5.0)
     numerizer (0.1.1)
     orm_adapter (0.5.0)
+    pg (0.17.1)
     polyamorous (1.0.0)
       activerecord (>= 3.0)
     polyglot (0.3.4)
@@ -303,6 +304,7 @@ DEPENDENCIES
   jquery-ui-rails
   json
   mini_magick
+  pg
   rails (= 4.0.4)
   rake
   ransack
