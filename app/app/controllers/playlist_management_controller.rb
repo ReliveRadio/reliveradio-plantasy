@@ -136,6 +136,16 @@ class PlaylistManagementController < ApplicationController
 		end
 	end
 
+	# forces complete clear of mpd playlist and refill it with current database playlist status
+	# this will break the stream as mpd will stop playling for some time!
+	def reset_mpd
+		mpd = MPD.new @channel_playlist.mpd_socket_path
+		mpd.connect
+		mpd.stop
+		mpd.disconnect
+		update_mpd @channel_playlist
+	end
+
 
 
 
