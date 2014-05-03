@@ -1,9 +1,9 @@
-<div class="row">
-	<% if @playlist_entries.blank? %>
-		<p>No episodes scheduled.</p>
-	<% else %>
-		<% @playlist_entries.each do |entry| %>
-			<% if entry.is_episode? %>
+<% if @playlist_entries.blank? %>
+	<p>No episodes scheduled.</p>
+<% else %>
+	<% @playlist_entries.each do |entry| %>
+		<% if entry.is_episode? %>
+			<div class="row">
 				<div class="medium-3 columns">
 					<%= image_tag entry.episode.coverart.thumb_400%>
 					<div><%= entry.start_time %></div>
@@ -16,7 +16,7 @@
 					<p><%= entry.episode.subtitle %></p>
 
 				</div>
-			<% end %>
+			</div>
 		<% end %>
 	<% end %>
-</div>
+<% end %>
