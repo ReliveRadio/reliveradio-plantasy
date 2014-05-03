@@ -4,7 +4,7 @@ function apply_sortable() {
 		handle: '.handle',
 		cursor: 'move',
 		update: function() {
-			$.post($('#changeable-entries-table').data('update-url'), $(this).sortable('serialize'));
+			$.post($('#changeable-entries-table').data('post-sort-url'), $(this).sortable('serialize'));
 		}
 	});
 }
@@ -17,6 +17,9 @@ $(function() {
 	var intervalTime = 10 * 1000; // 10 seconds
 	// start timer
 	window.setInterval(function(){
-		$.get($('#playlist').data('fetch-url'), null, null, 'script');
+		update_url = $('#playlist').data('playlist-update-url');
+		if(typeof update_url != 'undefined') {
+			$.get(update_url, null, null, 'script');
+		}
 	}, intervalTime);
 });

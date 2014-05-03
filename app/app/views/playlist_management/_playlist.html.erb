@@ -12,7 +12,7 @@
 		</tbody>
 	</table>
 
-	<table id="changeable-entries-table" data-update-url="<%= sort_playlist_entries_url(offset: @offset, channel_playlist_id: @channel_playlist.id) %>">
+	<table id="changeable-entries-table" data-post-sort-url="<%= sort_playlist_entries_url(offset: @offset, channel_playlist_id: @channel_playlist.id) %>">
 		<tbody id="playlist-entry-list">
 				<% @changeable_entries.each do |entry| %>
 					<%= content_tag_for :tr, entry do %>
