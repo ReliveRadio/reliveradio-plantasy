@@ -3,3 +3,5 @@ cookbooks/
 tmp
 app/*cookbooks
 tmp
+app/public/uploads
+app/audio
