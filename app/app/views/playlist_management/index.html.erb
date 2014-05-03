@@ -7,9 +7,7 @@
 
 <div class="row">
 	<div class="medium-4 columns">
-		<div id="playlist"
-			data-update-url="<%= sort_playlist_entries_url(offset: @offset, channel_playlist_id: @channel_playlist.id) %>"
-			data-fetch-url="<%= update_playlist_entries_url(channel_playlist_id: @channel_playlist.id) %>">
+		<div id="playlist" data-fetch-url="<%= update_playlist_entries_url(channel_playlist_id: @channel_playlist.id) %>">
 			<%= render 'playlist' %>
 		</div>
 	</div>

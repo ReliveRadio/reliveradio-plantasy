@@ -4,7 +4,7 @@ function apply_sortable() {
 		handle: '.handle',
 		cursor: 'move',
 		update: function() {
-			$.post($('#playlist').data('update-url'), $(this).sortable('serialize'));
+			$.post($('#changeable-entries-table').data('update-url'), $(this).sortable('serialize'));
 		}
 	});
 }

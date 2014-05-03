@@ -112,7 +112,9 @@ class PlaylistManagementController < ApplicationController
 
 		if save_change
 			# update positions and start and end times
-			temp_start_time = PlaylistEntry.find(params[:playlist_entry][0]).start_time
+			# start time of the first entry in the new changeable entries list ist the end_time of the playlist entry before
+			# there always is an playlist entry before, because otherwise save_change would be false
+			temp_start_time = PlaylistEntry.where(position: offset - 1).first.end_time
 			params[:playlist_entry].each_with_index do |id, index|
 				entry = PlaylistEntry.find(id)
 				entry.position = index + offset
@@ -162,16 +164,18 @@ class PlaylistManagementController < ApplicationController
 
 		def fetch_playlist_entries_and_offset
 			@playlist_entries = @channel_playlist.playlist_entries.where("end_time >= :now", {now: Time.zone.now}).order(:position)
-			if @playlist_entries.blank?
-				@offset = 1
-			else
-				@offset = @playlist_entries.first.position
-			end
 
 			@immutable_entries = Array.new @playlist_entries
 			@immutable_entries.delete_if {|entry| !entry.isInDangerZone? }
+
 			@changeable_entries = Array.new @playlist_entries
 			@changeable_entries.delete_if {|entry| entry.isInDangerZone? }
+
+			if @changeable_entries.blank?
+				@offset = 1 # does not matter because of changeable entries are blank, nothing can be resorted
+			else
+				@offset = @changeable_entries.first.position
+			end
 		end
 
 		def update_mpd(channel_playlist)
