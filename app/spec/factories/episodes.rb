@@ -17,7 +17,6 @@ FactoryGirl.define do
     icon_url Faker::Internet.url
     audio_file_url Faker::Internet.url
     cached false
-    local_path ""
     filesize Faker::Number.number(6)
     podcast
   end
@@ -29,13 +28,13 @@ FactoryGirl.define do
     sequence(:guid){|n| "guid_episode_cached_#{n}"}
     subtitle Faker::Lorem.paragraph(1)
     content Faker::Lorem.paragraph(5)
+    audio Rack::Test::UploadedFile.new(File.open(File.join(Rails.root, '/spec/fixtures/audio.mp3')))
     duration Faker::Number.number(6)
     flattr_url Faker::Internet.url
     tags Faker::Lorem.paragraph(1)
     icon_url Faker::Internet.url
     audio_file_url Faker::Internet.url
     cached true
-    local_path File.join(Rails.root, '/spec/fixtures/audio.mp3')
     filesize Faker::Number.number(6)
     podcast
   end

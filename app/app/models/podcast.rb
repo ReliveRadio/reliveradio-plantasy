@@ -13,7 +13,6 @@ class Podcast < ActiveRecord::Base
 
 	private
 		def ensure_save_destroy
-			Rails.logger.info episodes.inspect
 			# ensure that non of the episodes of this podcast is in danger zone
 			episodes.each do |episode|
 				episode.playlist_entries.each do |entry|
@@ -24,5 +23,6 @@ class Podcast < ActiveRecord::Base
 
 		def remove_thumbs
 			remove_coverart!
+			save
 		end
 end

@@ -86,7 +86,7 @@ describe PlaylistManagementController do
 
 			# check if offset is set correctly
 			get 'index', channel_playlist_id: channel_playlist.id
-			expect(assigns(:offset)).to eq(assigns(:playlist_entries).first.position)
+			expect(assigns(:offset)).to eq(assigns(:changeable_entries).first.position)
 		end
 
 		it "only assigns playlist entries that are live and future" do
@@ -239,6 +239,7 @@ describe PlaylistManagementController do
 		it "updates the playtimes of the following playlist entries" do
 			channel_playlist = create(:channel_playlist)
 			episode = create(:episode_cached, duration: 1.hour)
+			jingle = create(:jingle, duration: 1.hour)
 
 			entry = create(:playlist_entry_episode, start_time: Time.zone.now, episode: episode, channel_playlist: channel_playlist)
 			for i in 0..10 do
@@ -248,6 +249,7 @@ describe PlaylistManagementController do
 
 			xhr :get, :destroy_entry, {channel_playlist_id: entry.channel_playlist.id, playlist_entry_id: entry_to_destroy.id}
 			playlist_entries = assigns(:playlist_entries)
+			expect(playlist_entries.first.start_time.to_i).to eq(Time.zone.now.to_i)
 
 			for i in 1..10 do
 				expect(playlist_entries[i].start_time.to_i).to eq(playlist_entries[i-1].end_time.to_i)
@@ -330,37 +332,42 @@ describe PlaylistManagementController do
 			# check if positions are in a row
 			get 'index', channel_playlist_id: channel_playlist.id
 			entries = assigns(:playlist_entries)
-			offset = assigns(:offset)
+			first_pos = entries.first.position
 			entries.each_with_index do |entry, index| 
-				expect(entry.position).to eq(index + offset)
+				expect(entry.position).to eq(index + first_pos)
 			end
 		end
 
 		it "updates all playtimes" do
 			channel_playlist = create(:channel_playlist)
 			episode = create(:episode_cached, duration: 10.minutes)
+			jingle = create(:jingle, duration: 10.minutes)
 
 			# create entries
 			entry = create(:playlist_entry_episode, start_time: Time.zone.now, episode: episode, channel_playlist: channel_playlist)
 			for i in 0..10 do
-				entry = create(:playlist_entry_episode, channel_playlist: channel_playlist, episode: episode, start_time: entry.end_time)
+				if i%2 == 0
+					entry = create(:playlist_entry_episode, channel_playlist: channel_playlist, episode: episode, start_time: entry.end_time)
+				else
+					entry = create(:playlist_entry_jingle, channel_playlist: channel_playlist, jingle: jingle, start_time: entry.end_time)					
+				end
 			end
 
 			# request index to get entries and offset
 			get 'index', channel_playlist_id: channel_playlist.id
 			offset = assigns(:offset)
-			entries = assigns(:playlist_entries)
+			changeable_entries = assigns(:changeable_entries)
 
 			# create array with current order
 			new_order = Array.new
-			entries.each_with_index do |entry, index| 
+			changeable_entries.each_with_index do |entry, index| 
 				new_order[index] = entry.id
 			end
 
-			swap_a = 5
-			swap_b = 8
-			changed_entry_1 = entries[swap_a]
-			changed_entry_2 = entries[swap_b]
+			swap_a = 3
+			swap_b = 5
+			changed_entry_1 = changeable_entries[swap_a]
+			changed_entry_2 = changeable_entries[swap_b]
 
 			# swap two entries
 			tmp = new_order[swap_a]
@@ -372,6 +379,7 @@ describe PlaylistManagementController do
 			# check if start_times are updated
 			get 'index', channel_playlist_id: channel_playlist.id
 			entries = assigns(:playlist_entries)
+			expect(entries.first.isLive?).to be true
 			for i in 1...entries.length do
 				expect(entries[i].start_time.to_i).to eq(entries[i-1].end_time.to_i)
 			end
@@ -380,28 +388,33 @@ describe PlaylistManagementController do
 		it "updates all positions" do
 			channel_playlist = create(:channel_playlist)
 			episode = create(:episode_cached, duration: 10.minutes)
+			jingle = create(:jingle, duration: 10.minutes)
 
 			# create entries
 			entry = create(:playlist_entry_episode, start_time: Time.zone.now, episode: episode, channel_playlist: channel_playlist)
 			for i in 0..10 do
-				entry = create(:playlist_entry_episode, channel_playlist: channel_playlist, episode: episode, start_time: entry.end_time)
+				if i%2 == 0
+					entry = create(:playlist_entry_episode, channel_playlist: channel_playlist, episode: episode, start_time: entry.end_time)
+				else
+					entry = create(:playlist_entry_jingle, channel_playlist: channel_playlist, jingle: jingle, start_time: entry.end_time)					
+				end
 			end
 
 			# request index to get entries and offset
 			get 'index', channel_playlist_id: channel_playlist.id
 			offset = assigns(:offset)
-			entries = assigns(:playlist_entries)
+			changeable_entries = assigns(:changeable_entries)
 
 			# create array with current order
 			new_order = Array.new
-			entries.each_with_index do |entry, index| 
+			changeable_entries.each_with_index do |entry, index| 
 				new_order[index] = entry.id
 			end
 
-			swap_a = 5
-			swap_b = 8
-			changed_entry_1 = entries[swap_a]
-			changed_entry_2 = entries[swap_b]
+			swap_a = 3
+			swap_b = 5
+			changed_entry_1 = changeable_entries[swap_a]
+			changed_entry_2 = changeable_entries[swap_b]
 
 			# swap two entries
 			tmp = new_order[swap_a]
@@ -417,22 +430,22 @@ describe PlaylistManagementController do
 			# check if positions are in a row
 			get 'index', channel_playlist_id: channel_playlist.id
 			entries = assigns(:playlist_entries)
-			offset = assigns(:offset)
+			start_pos = entries.first.position
 			entries.each_with_index do |entry, index| 
-				expect(entry.position).to eq(index + offset)
+				expect(entry.position).to eq(start_pos + index)
 			end
 		end
 	end
 
 	describe "update mpd" do
 
-		before(:all) do
+		before(:each) do
 			# use real socket path here
 			@channel_playlist = create(:channel_playlist, mpd_socket_path: '/home/vagrant/.mpd/socket/mix')
 			@episode = create(:episode_cached, duration: 10.minutes)
 
 			# create past entries
-			entry1 = create(:playlist_entry_episode, episode: @episode, channel_playlist: @channel_playlist, start_time: Time.zone.now - 20.minutes)
+			entry1 = create(:playlist_entry_episode, episode: @episode, channel_playlist: @channel_playlist, start_time: Time.zone.now - 30.minutes)
 			create(:playlist_entry_episode, episode: @episode, channel_playlist: @channel_playlist, start_time: entry1.end_time)
 
 			# create present and future entries
@@ -440,10 +453,7 @@ describe PlaylistManagementController do
 			for i in 0..9 do
 				entry = create(:playlist_entry_episode, channel_playlist: @channel_playlist, episode: @episode, start_time: entry.end_time)
 			end
-			
-		end
 
-		before(:each) do
 			@mpd = MPD.new @channel_playlist.mpd_socket_path
 			@mpd.connect
 			@mpd.clear
@@ -458,8 +468,8 @@ describe PlaylistManagementController do
 			it "cuts off all past entries and readds future entries" do
 				# add all entries
 				PlaylistEntry.order(:position).each do |entry|
-					@mpd.add "file://" + entry.episode.local_path if entry.is_episode?
-					@mpd.add "file://" + entry.jingle.audio_url if entry.is_jingle?
+					@mpd.add "file://" + entry.episode.audio.url if entry.is_episode?
+					@mpd.add "file://" + entry.jingle.audio.url if entry.is_jingle?
 				end
 				# skip first two entries as they should be in the past
 				@mpd.next
@@ -479,8 +489,8 @@ describe PlaylistManagementController do
 			it "does not change currently playling entry" do
 				# add all entries
 				PlaylistEntry.order(:position).each do |entry|
-					@mpd.add "file://" + entry.episode.local_path if entry.is_episode?
-					@mpd.add "file://" + entry.jingle.audio_url if entry.is_jingle?
+					@mpd.add "file://" + entry.episode.audio.url if entry.is_episode?
+					@mpd.add "file://" + entry.jingle.audio.url if entry.is_jingle?
 				end
 				# skip first two entries as they should be in the past
 				@mpd.next
@@ -504,8 +514,8 @@ describe PlaylistManagementController do
 				# add all entries
 				playlist_entries = PlaylistEntry.order(:position)
 				playlist_entries.each do |entry|
-					@mpd.add "file://" + entry.episode.local_path if entry.is_episode?
-					@mpd.add "file://" + entry.jingle.audio_url if entry.is_jingle?
+					@mpd.add "file://" + entry.episode.audio.url if entry.is_episode?
+					@mpd.add "file://" + entry.jingle.audio.url if entry.is_jingle?
 				end
 				@mpd.stop
 

@@ -56,7 +56,6 @@ class JinglesController < ApplicationController
   # DELETE /jingles/1
   # DELETE /jingles/1.json
   def destroy
-    # remove uploaded audio before destroy
     @jingle.destroy
     respond_to do |format|
       format.html { redirect_to jingles_url }
