@@ -52,9 +52,8 @@ Vagrant.configure("2") do |config|
     chef.add_recipe "nginx::passenger"
     chef.add_recipe "redisio::install"
     chef.add_recipe "redisio::enable"
-    chef.add_recipe "postgresql::server"
-
     chef.add_recipe "nodejs::install_from_package"
+    chef.add_recipe "postgresql::server"
 
     chef.json.merge!({
       :rvm => {
@@ -83,8 +82,15 @@ Vagrant.configure("2") do |config|
       },
       postgresql: {
         password: {
-          postgres: "hackme"
-        }
+          postgres: 'hackme'
+        },
+        pg_hba: [{
+          comment: '#https://stackoverflow.com/questions/5817301/rake-dbcreate-fails-authentication-problem-with-postgresql-8-4',
+          type: 'local',
+          db: 'all',
+          user: 'all',
+          method: 'trust'
+        }]
       }
     })
   end

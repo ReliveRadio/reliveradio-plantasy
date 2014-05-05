@@ -18,6 +18,7 @@ cookbook 'mpd',
 cookbook 'icecast2',
 	:git => 'https://github.com/i42n/chef-cookbook-icecast2'
 
+# use modified cookbook as it has the additional passenger setup included
 cookbook 'nginx',
 	:git => 'https://github.com/i42n/nginx',
 	:ref => 'master'
@@ -25,3 +26,4 @@ cookbook 'nginx',
 cookbook 'nodejs'
 cookbook 'redisio'
 cookbook 'postgresql'
+#cookbook 'database'
