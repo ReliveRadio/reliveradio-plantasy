@@ -1,7 +1,7 @@
 # encoding: utf-8
 
 require 'audioinfo'
-require 'ruby-mpd'
+require 'taglib'
 
 class AudioUploader < CarrierWave::Uploader::Base
 
@@ -36,6 +36,7 @@ class AudioUploader < CarrierWave::Uploader::Base
   # end
 
   process :calc_duration
+  process :tag_audiofile_process
 
   def calc_duration
     # read duration from audio file
@@ -46,6 +47,36 @@ class AudioUploader < CarrierWave::Uploader::Base
       #info.bitrate  # average bitrate
       #info.to_h     # { "artist" => "artist", "title" => "title", etc... }
     end
+  end
+
+  def tag_audiofile_process
+    if model.is_a? Episode
+      podcast = Podcast.find(model.podcast_id)
+      tag_audiofile(model.title, podcast.author, podcast.title, model.pub_date.year, podcast.category)
+    elsif model.is_a? Jingle
+      tag_audiofile("Jingle", "ReliveRadio", "ReliveRadio Jingles", Time.zone.now.year, "Jingle")
+    end
+  end
+
+  def tag_audiofile(title, artist, album, year, genre)
+    # Set tags of the file based on feed data
+    # this data is later used by mpd and transferred to icecast
+    # users of webradio see this data as currently played song
+    TagLib::FileRef.open(current_path) do |fileref|
+      unless fileref.null?
+        tag = fileref.tag
+
+        tag.title = title
+        tag.artist = artist
+        tag.album = album
+        tag.year = year
+        #tag.track   #=> 7
+        tag.genre = genre
+        #tag.comment #=> nil
+
+        fileref.save # store tags in file
+      end
+    end # File is automatically closed at block end
   end
 
   # Create different versions of your uploaded files:
