@@ -30,6 +30,10 @@ class Episode < ActiveRecord::Base
 		self.playlist_entries.maximum(:start_time)
 	end
 
+	def cached?
+		!audio.url.blank?
+	end
+
 	def remove_audio_file_cache
 		if cached?
 			remove_audio!

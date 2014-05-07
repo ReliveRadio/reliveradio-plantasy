@@ -30,7 +30,6 @@ class UpdateFeedWorker
 						tags: episode.itunes_keywords,
 						icon_url: episode.itunes_image,
 						audio_file_url: episode.enclosure_url,
-						cached: false
 					)
 					# download coverart
 					if !new_episode.icon_url.blank?
