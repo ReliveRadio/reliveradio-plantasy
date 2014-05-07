@@ -2,7 +2,9 @@ development:
   adapter: postgresql
   encoding: unicode
   database: development
-  pool: 5
+  port: 5432
+  pool: 30
+  reconnect: true
   username: postgres
   password: hackme
 
@@ -19,6 +21,8 @@ production:
   adapter: postgresql
   encoding: unicode
   database: production
-  pool: 5
+  port: 5432
+  pool: 30
+  reconnect: true
   username: postgres
   password: hackme
