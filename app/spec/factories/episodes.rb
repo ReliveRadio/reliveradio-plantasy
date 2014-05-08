@@ -16,7 +16,6 @@ FactoryGirl.define do
     tags Faker::Lorem.paragraph(1)
     icon_url Faker::Internet.url
     audio_file_url Faker::Internet.url
-    cached false
     filesize Faker::Number.number(6)
     podcast
   end
@@ -34,7 +33,6 @@ FactoryGirl.define do
     tags Faker::Lorem.paragraph(1)
     icon_url Faker::Internet.url
     audio_file_url Faker::Internet.url
-    cached true
     filesize Faker::Number.number(6)
     podcast
   end
