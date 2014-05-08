@@ -18,10 +18,6 @@ class Episode < ActiveRecord::Base
 	mount_uploader :coverart, CoverArtUploader
 	mount_uploader :audio, AudioUploader
 
-	# def icon_url
-	# 	self[:icon_url] || podcast.logo_url
-	# end
-
 	def playcount
 		self.playlist_entries.count
 	end
