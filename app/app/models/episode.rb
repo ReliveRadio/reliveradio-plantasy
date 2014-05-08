@@ -27,13 +27,13 @@ class Episode < ActiveRecord::Base
 	end
 
 	def cached?
-		!audio.url.blank?
+		!self.audio.url.blank?
 	end
 
 	def remove_audio_file_cache
 		if cached?
-			remove_audio!
-			save
+			self.remove_audio!
+			self.save
 		end
 	end
 
@@ -41,15 +41,15 @@ private
 	def ensure_save_destroy
 		save_to_destroy = true
 		# do not destroy episodes that are mapped to a playlist entry that is in danger zone
-		playlist_entries.each do |entry|
+		self.playlist_entries.each do |entry|
 			save_to_destroy = false if entry.isInDangerZone?
 		end
 		return save_to_destroy
 	end
 
 	def remove_thumbs
-		remove_coverart!
-		save
+		self.remove_coverart!
+		self.save
 	end
 
 end
