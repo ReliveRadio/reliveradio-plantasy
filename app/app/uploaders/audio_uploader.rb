@@ -84,7 +84,7 @@ class AudioUploader < CarrierWave::Uploader::Base
   # Add a white list of extensions which are allowed to be uploaded.
   # use here only what ruby-audioinfo supports
   def extension_white_list
-    %w(mp3 ogg mpc ape wma flac aac mp4 m4a)
+    %w(mp3 ogg flac mpc wav aiff mp4 m4a m4b asf)
   end
 
   # Override the filename of the uploaded files:
