@@ -1,6 +1,5 @@
 # encoding: utf-8
 
-require 'audioinfo'
 require 'taglib'
 
 class AudioUploader < CarrierWave::Uploader::Base
@@ -39,14 +38,12 @@ class AudioUploader < CarrierWave::Uploader::Base
   process :tag_audiofile_process
 
   def calc_duration
-    # read duration from audio file
-    AudioInfo.open(current_path) do |info|
-      #info.artist   # or info["artist"]
-      #info.title    # or info["title"]
-      model.duration = info.length   # playing time of the file
-      #info.bitrate  # average bitrate
-      #info.to_h     # { "artist" => "artist", "title" => "title", etc... }
-    end
+    TagLib::FileRef.open(current_path) do |fileref|
+      unless fileref.null?
+        properties = fileref.audio_properties
+        model.duration = properties.length
+      end
+    end # File is automatically closed at block end
   end
 
   def tag_audiofile_process

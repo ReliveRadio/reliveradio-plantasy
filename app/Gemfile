@@ -53,7 +53,6 @@ gem 'slim'
 gem 'mini_magick' # requires imagemagick package of the system distro to be installed. see: https://github.com/minimagick/minimagick
 
 # audio
-gem 'ruby-audioinfo'
 gem 'wavefile'
 gem 'ruby-mpd'
 gem 'taglib-ruby' # requires taglib package of the system distro installed! see: https://robinst.github.io/taglib-ruby/
