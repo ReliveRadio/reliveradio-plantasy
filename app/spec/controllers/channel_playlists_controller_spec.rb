@@ -59,9 +59,9 @@ describe ChannelPlaylistsController do
         assigns(:channel_playlist).should be_persisted
       end
 
-      it "redirects to the created channel_playlist" do
+      it "redirects to the channel_playlist overview" do
         post :create, {:channel_playlist => attributes_for(:channel_playlist)}
-        response.should redirect_to(ChannelPlaylist.last)
+        response.should redirect_to(channel_playlists_url)
       end
     end
 
@@ -103,7 +103,7 @@ describe ChannelPlaylistsController do
       it "redirects to the channel_playlist" do
         channel_playlist = create(:channel_playlist)
         put :update, {:id => channel_playlist.to_param, :channel_playlist => attributes_for(:channel_playlist)}
-        response.should redirect_to(channel_playlist)
+        response.should redirect_to(channel_playlists_url)
       end
     end
 
