@@ -19,31 +19,31 @@ class PlaylistEntry < ActiveRecord::Base
 
     # do not change playlist entries that are live or have < 30 minutes playtime left
     def isInDangerZone?
-    	(start_time < Time.zone.now + 30.minutes)
+    	(self.start_time < Time.zone.now + 30.minutes)
     end
 
 	def isLive?
-		((start_time < Time.zone.now) && (end_time > Time.zone.now))
+		((self.start_time < Time.zone.now) && (self.end_time > Time.zone.now))
 	end
 
 	def is_episode?
-		!episode_id.blank?
+		!self.episode_id.blank?
 	end
 
 	def is_jingle?
-		!jingle_id.blank?
+		!self.jingle_id.blank?
 	end
 
 	def duration
-		return episode.duration if is_episode?
-		return jingle.duration if is_jingle?
+		return self.episode.duration if is_episode?
+		return self.jingle.duration if is_jingle?
 	end
 
 	def time_left
 		if isLive?
-			(end_time - Time.zone.now).round
+			(self.end_time - Time.zone.now).round
 		else
-			(end_time - start_time).round
+			(self.end_time - self.start_time).round
 		end
 	end
 
@@ -53,7 +53,7 @@ class PlaylistEntry < ActiveRecord::Base
 
   private
     def episode_or_jingle
-      if !(episode.blank? ^ jingle.blank?)
+      if !(self.episode.blank? ^ self.jingle.blank?)
         errors.add(:base, "Specify an episode or a jingle, not both")
       end
     end

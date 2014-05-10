@@ -10,20 +10,20 @@ class Jingle < ActiveRecord::Base
 	mount_uploader :audio, AudioUploader
 	
 	def playcount
-		playlist_entries.count
+		self.playlist_entries.count
 	end
 
 	private
 	  def remove_uploaded_audio
 		# delete file from disk
-		remove_audio!
-		save
+		self.remove_audio!
+		self.save
 	  end
 
 	  def ensure_save_destroy
 		save_to_destroy = true
 		# do not destroy episodes that are mapped to a playlist entry that is in danger zone
-		playlist_entries.each do |entry|
+		self.playlist_entries.each do |entry|
 			save_to_destroy = false if entry.isInDangerZone?
 		end
 		return save_to_destroy
