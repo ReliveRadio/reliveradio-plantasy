@@ -5,6 +5,7 @@ require 'faker'
 FactoryGirl.define do
 
   factory :episode do
+    podcast
     title Faker::Lorem.paragraph(1)
     link Faker::Internet.url
     pub_date Faker::Business.credit_card_expiry_date
@@ -17,10 +18,10 @@ FactoryGirl.define do
     icon_url Faker::Internet.url
     audio_file_url Faker::Internet.url
     filesize Faker::Number.number(6)
-    podcast
   end
 
   factory :episode_cached, class: Episode do
+    podcast
     title Faker::Lorem.paragraph(1)
     link Faker::Internet.url
     pub_date Faker::Business.credit_card_expiry_date
@@ -34,6 +35,5 @@ FactoryGirl.define do
     icon_url Faker::Internet.url
     audio_file_url Faker::Internet.url
     filesize Faker::Number.number(6)
-    podcast
   end
 end
