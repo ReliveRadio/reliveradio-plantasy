@@ -379,7 +379,7 @@ describe PlaylistManagementController do
 			# check if start_times are updated
 			get 'index', channel_playlist_id: channel_playlist.id
 			entries = assigns(:playlist_entries)
-			expect(entries.first.isLive?).to be true
+			expect(entries.first.is_live?).to be true
 			for i in 1...entries.length do
 				expect(entries[i].start_time.to_i).to eq(entries[i-1].end_time.to_i)
 			end
@@ -545,7 +545,7 @@ describe PlaylistManagementController do
 				Timecop.freeze
 
 				live_entry = PlaylistEntry.where("start_time < :now AND end_time > :now", {now: Time.zone.now}).first
-				expect(live_entry.isLive?).to be true
+				expect(live_entry.is_live?).to be true
 				time_passed = (Time.zone.now - live_entry.start_time).round
 				expect(time_passed - 5.minutes.to_i).to be < 5
 

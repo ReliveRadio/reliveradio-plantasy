@@ -200,7 +200,7 @@ class PlaylistManagementController < ApplicationController
 			status = mpd.status
 			if status[:playlistlength] > 0 && status[:state] == :play
 				# remove live entry
-				playlist_entries.delete_if { |entry| entry.isLive? }
+				playlist_entries.delete_if { |entry| entry.is_live? }
 
 				# delete all played entries
 				if status[:song] > 0
@@ -224,7 +224,7 @@ class PlaylistManagementController < ApplicationController
 				mpd.add "file://" + entry.jingle.audio.url if entry.is_jingle?
 
 				# seek the live entry to the correct position
-				if seek && entry.isLive?
+				if seek && entry.is_live?
 					options = {pos: 0}
 					time_to_seek = (Time.zone.now - entry.start_time).round
 					mpd.seek(time_to_seek, options)
