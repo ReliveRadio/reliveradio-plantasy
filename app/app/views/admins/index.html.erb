@@ -1,28 +1,36 @@
-<h1>Listing admins</h1>
+<div class="row">
+  <div class="medium-12 columns">
+    
+    <h1>Listing admins</h1>
 
-<table>
-  <thead>
-    <tr>
-      <th>Mail</th>
-      <th>Approved?</th>
-      <th></th>
-      <th></th>
-    </tr>
-  </thead>
+    <table>
+      <thead>
+        <tr>
+          <th></th>
+          <th>Mail</th>
+          <th>Approved?</th>
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
 
-  <tbody>
-    <% @admins.each do |admin| %>
-      <tr>
-        <td><%= admin.email %></td>
-        <% if admin.approved.blank? %>
-        <td><%= link_to 'Approve', approve_user_path(admin.id) %></td>
-        <% else %>
-        <td><%= admin.approved %></td>
+      <tbody>
+        <% @admins.each do |admin| %>
+          <tr>
+            <td><%= gravatar_image_tag(admin.email, :alt => 'Github Default Gravatar', :gravatar => { :default => 'https://assets.github.com/images/gravatars/gravatar-140.png' })
+ %></td>
+            <td><%= admin.email %></td>
+            <% if admin.approved.blank? %>
+            <td><%= link_to 'Approve', approve_user_path(admin.id) %></td>
+            <% else %>
+            <td><%= admin.approved %></td>
+            <% end %>
+            <td><%= link_to 'Destroy', admin, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          </tr>
         <% end %>
-        <td><%= link_to 'Destroy', admin, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+      </tbody>
+    </table>
 
-<br>
+  </div>
+</div>
+

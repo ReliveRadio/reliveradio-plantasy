@@ -49,6 +49,7 @@ gem 'figaro'
 gem 'acts_as_list'
 gem 'sinatra', require: false
 gem 'slim'
+gem 'gravatar_image_tag'
 
 gem 'mini_magick' # requires imagemagick package of the system distro to be installed. see: https://github.com/minimagick/minimagick
 
