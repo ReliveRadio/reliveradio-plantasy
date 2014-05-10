@@ -27,8 +27,6 @@ GEM
       tzinfo (~> 0.3.37)
     acts_as_list (0.4.0)
       activerecord (>= 3.0)
-    apetag (1.1.5)
-      cicphash (>= 1.0.0)
     arel (4.0.2)
     bcrypt (3.1.7)
     builder (3.1.4)
@@ -50,7 +48,6 @@ GEM
       nio4r (>= 0.5.0)
     chronic_duration (0.10.4)
       numerizer (~> 0.1.1)
-    cicphash (1.1.0)
     coderay (1.1.0)
     coffee-rails (4.0.1)
       coffee-script (>= 2.2.0)
@@ -95,7 +92,6 @@ GEM
     figaro (0.7.0)
       bundler (~> 1.0)
       rails (>= 3, < 5)
-    flacinfo-rb (0.4)
     font-awesome-rails (4.0.3.1)
       railties (>= 3.2, < 5.0)
     formatador (0.2.4)
@@ -140,14 +136,13 @@ GEM
       subexec (~> 0.2.1)
     mini_portile (0.5.3)
     minitest (4.7.5)
-    moumar-wmainfo-rb (0.8)
-    mp4info (1.7.3)
     multi_json (1.9.2)
     nio4r (1.0.0)
     nokogiri (1.6.1)
       mini_portile (~> 0.5.0)
     numerizer (0.1.1)
     orm_adapter (0.5.0)
+    pg (0.17.1)
     polyamorous (1.0.0)
       activerecord (>= 3.0)
     polyglot (0.3.4)
@@ -204,16 +199,7 @@ GEM
       rspec-core (~> 2.14.0)
       rspec-expectations (~> 2.14.0)
       rspec-mocks (~> 2.14.0)
-    ruby-audioinfo (0.5.0)
-      apetag (>= 1.1.4)
-      flacinfo-rb (>= 0.4)
-      moumar-wmainfo-rb (>= 0.7)
-      mp4info (>= 1.7.3)
-      ruby-mp3info (>= 0.8)
-      ruby-ogginfo (>= 0.7)
-    ruby-mp3info (0.8.3)
     ruby-mpd (0.3.1)
-    ruby-ogginfo (0.7.2)
     sass (3.2.19)
     sass-rails (4.0.3)
       railties (>= 4.0.0, < 5.0)
@@ -303,11 +289,11 @@ DEPENDENCIES
   jquery-ui-rails
   json
   mini_magick
+  pg
   rails (= 4.0.4)
   rake
   ransack
   rspec-rails
-  ruby-audioinfo
   ruby-mpd
   sass-rails (~> 4.0.2)
   sdoc

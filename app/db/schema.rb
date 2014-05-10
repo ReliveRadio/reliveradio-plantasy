@@ -13,6 +13,9 @@
 
 ActiveRecord::Schema.define(version: 20140501142548) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "admins", force: true do |t|
     t.string   "email",                  default: "",    null: false
     t.string   "encrypted_password",     default: "",    null: false
@@ -29,8 +32,8 @@ ActiveRecord::Schema.define(version: 20140501142548) do
     t.boolean  "approved",               default: false
   end
 
-  add_index "admins", ["email"], name: "index_admins_on_email", unique: true
-  add_index "admins", ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true
+  add_index "admins", ["email"], name: "index_admins_on_email", unique: true, using: :btree
+  add_index "admins", ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true, using: :btree
 
   create_table "channel_playlists", force: true do |t|
     t.string   "author"
@@ -48,14 +51,13 @@ ActiveRecord::Schema.define(version: 20140501142548) do
     t.string   "link"
     t.datetime "pub_date"
     t.string   "guid"
-    t.string   "subtitle"
+    t.text     "subtitle"
     t.text     "content"
     t.integer  "duration"
-    t.string   "flattr_url"
+    t.text     "flattr_url"
     t.string   "tags"
     t.string   "icon_url"
     t.string   "audio_file_url"
-    t.boolean  "cached",         default: false
     t.string   "audio"
     t.integer  "podcast_id"
     t.datetime "created_at"
@@ -64,8 +66,8 @@ ActiveRecord::Schema.define(version: 20140501142548) do
     t.string   "coverart"
   end
 
-  add_index "episodes", ["guid"], name: "index_episodes_on_guid", unique: true
-  add_index "episodes", ["podcast_id"], name: "index_episodes_on_podcast_id"
+  add_index "episodes", ["guid"], name: "index_episodes_on_guid", unique: true, using: :btree
+  add_index "episodes", ["podcast_id"], name: "index_episodes_on_podcast_id", using: :btree
 
   create_table "jingles", force: true do |t|
     t.string   "title"
@@ -87,9 +89,9 @@ ActiveRecord::Schema.define(version: 20140501142548) do
     t.integer  "jingle_id"
   end
 
-  add_index "playlist_entries", ["channel_playlist_id"], name: "index_playlist_entries_on_channel_playlist_id"
-  add_index "playlist_entries", ["episode_id"], name: "index_playlist_entries_on_episode_id"
-  add_index "playlist_entries", ["jingle_id"], name: "index_playlist_entries_on_jingle_id"
+  add_index "playlist_entries", ["channel_playlist_id"], name: "index_playlist_entries_on_channel_playlist_id", using: :btree
+  add_index "playlist_entries", ["episode_id"], name: "index_playlist_entries_on_episode_id", using: :btree
+  add_index "playlist_entries", ["jingle_id"], name: "index_playlist_entries_on_jingle_id", using: :btree
 
   create_table "podcasts", force: true do |t|
     t.string   "title"
@@ -107,6 +109,6 @@ ActiveRecord::Schema.define(version: 20140501142548) do
     t.string   "coverart"
   end
 
-  add_index "podcasts", ["feed", "title"], name: "index_podcasts_on_feed_and_title", unique: true
+  add_index "podcasts", ["feed", "title"], name: "index_podcasts_on_feed_and_title", unique: true, using: :btree
 
 end

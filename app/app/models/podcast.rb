@@ -14,7 +14,7 @@ class Podcast < ActiveRecord::Base
 	private
 		def ensure_save_destroy
 			# ensure that non of the episodes of this podcast is in danger zone
-			episodes.each do |episode|
+			self.episodes.each do |episode|
 				episode.playlist_entries.each do |entry|
 					return false if entry.isInDangerZone?
 				end
@@ -22,7 +22,7 @@ class Podcast < ActiveRecord::Base
 		end
 
 		def remove_thumbs
-			remove_coverart!
-			save
+			self.remove_coverart!
+			self.save
 		end
 end

@@ -12,21 +12,18 @@ cookbook 'rvm',
 cookbook 'git', 
 	:git => 'https://github.com/fnichol/chef-git.git'
 
-#cookbook 'postgresql',
-#  :git => 'https://github.com/findsyou/cookbooks',
-#  :ref => 'postgresql-improvements'
-#cookbook 'mysql'
-
 cookbook 'mpd',
 	:git => 'https://github.com/i42n/chef-cookbook-mpd'
 
 cookbook 'icecast2',
 	:git => 'https://github.com/i42n/chef-cookbook-icecast2'
 
+# use modified cookbook as it has the additional passenger setup included
 cookbook 'nginx',
 	:git => 'https://github.com/i42n/nginx',
 	:ref => 'master'
 
 cookbook 'nodejs'
-
 cookbook 'redisio'
+cookbook 'postgresql'
+#cookbook 'database'

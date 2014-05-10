@@ -29,10 +29,11 @@ Vagrant.configure("2") do |config|
   # 'vagrant plugin install vagrant-omnibus'
   config.omnibus.chef_version = :latest
 
-  config.vm.network "forwarded_port", guest: 3000, host: 3000 #rails, thin
-  config.vm.network "forwarded_port", guest: 8080, host: 8080 #nginx, passenger
-  config.vm.network "forwarded_port", guest: 8000, host: 8000 #icecast2
-  config.vm.network "forwarded_port", guest: 6600, host: 6600 #mpd
+  config.vm.network "forwarded_port", guest: 3000, host: 3000 # rails, thin
+  config.vm.network "forwarded_port", guest: 8080, host: 8080 # nginx, passenger
+  config.vm.network "forwarded_port", guest: 8000, host: 8000 # icecast2
+  config.vm.network "forwarded_port", guest: 6600, host: 6600 # mpd
+  #config.vm.network "forwarded_port", guest: 5432, host: 5432 # postgresql
 
   config.vm.synced_folder "app/", "/home/vagrant/app", :create => true
 
@@ -51,8 +52,8 @@ Vagrant.configure("2") do |config|
     chef.add_recipe "nginx::passenger"
     chef.add_recipe "redisio::install"
     chef.add_recipe "redisio::enable"
-
     chef.add_recipe "nodejs::install_from_package"
+    chef.add_recipe "postgresql::server"
 
     chef.json.merge!({
       :rvm => {
@@ -62,6 +63,7 @@ Vagrant.configure("2") do |config|
         }
       },
       :nginx => {
+        # max upload size for jingle uploads
         :client_max_body_size => '50M',
         :source => {
           :modules => [
@@ -77,6 +79,18 @@ Vagrant.configure("2") do |config|
       :mpd => {
         :bind => "0.0.0.0",
         :bind_2 => "/home/vagrant/.mpd/socket/mix" # you have to create /home/vagrant/.mpd/socket/ manually!
+      },
+      postgresql: {
+        password: {
+          postgres: 'hackme'
+        },
+        pg_hba: [{
+          comment: '#https://stackoverflow.com/questions/5817301/rake-dbcreate-fails-authentication-problem-with-postgresql-8-4',
+          type: 'local',
+          db: 'all',
+          user: 'all',
+          method: 'trust'
+        }]
       }
     })
   end
