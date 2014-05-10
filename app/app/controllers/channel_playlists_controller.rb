@@ -8,11 +8,6 @@ class ChannelPlaylistsController < ApplicationController
     @channel_playlists = ChannelPlaylist.all
   end
 
-  # GET /channel_playlists/1
-  # GET /channel_playlists/1.json
-  def show
-  end
-
   # GET /channel_playlists/new
   def new
     @channel_playlist = ChannelPlaylist.new

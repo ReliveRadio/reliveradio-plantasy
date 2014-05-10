@@ -30,14 +30,6 @@ describe ChannelPlaylistsController do
     end
   end
 
-  describe "GET show" do
-    it "assigns the requested channel_playlist as @channel_playlist" do
-      channel_playlist = create(:channel_playlist)
-      get :show, {:id => channel_playlist.to_param}
-      assigns(:channel_playlist).should eq(channel_playlist)
-    end
-  end
-
   describe "GET new" do
     it "assigns a new channel_playlist as @channel_playlist" do
       get :new, {}

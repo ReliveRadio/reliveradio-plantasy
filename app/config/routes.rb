@@ -17,7 +17,7 @@ App::Application.routes.draw do
   resources :admins, only: [:index, :destroy]
   get 'admins/:id/approve', to: 'admins#approve', as: 'approve_user'
 
-  resources :channel_playlists
+  resources :channel_playlists, except: [:show]
 
   get "playlist_management/:channel_playlist_id", to: "playlist_management#index", as: 'playlist_management'
   get 'playlist_management/:channel_playlist_id/append_episode/:episode_id', to: 'playlist_management#append_entry'
