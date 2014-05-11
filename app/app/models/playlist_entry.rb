@@ -22,7 +22,7 @@ class PlaylistEntry < ActiveRecord::Base
     	(self.start_time < Time.zone.now + 30.minutes)
     end
 
-	def isLive?
+	def is_live?
 		((self.start_time < Time.zone.now) && (self.end_time > Time.zone.now))
 	end
 
@@ -40,11 +40,20 @@ class PlaylistEntry < ActiveRecord::Base
 	end
 
 	def time_left
-		if isLive?
+		if is_live?
 			(self.end_time - Time.zone.now).round
 		else
 			(self.end_time - self.start_time).round
 		end
+	end
+
+	def time_passed
+		self.duration - self.time_left
+	end
+
+	# returns how much playtime is left as 0-100%
+	def percent_left
+		((self.time_passed.to_f / self.duration) * 100).round
 	end
 
 	def time_left_human

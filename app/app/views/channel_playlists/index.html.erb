@@ -1,37 +1,42 @@
-<h1>Listing channel_playlists</h1>
+<div class="row">
+  <div class="medium-12 columns">
+    
+    <h1>Channels</h1>
 
-<table>
-  <thead>
-    <tr>
-      <th>Author</th>
-      <th>Name</th>
-      <th>Description</th>
-      <th>Language</th>
-      <th>Stream URL</th>
-      <th>MPD Socket Path</th>
-      <th></th>
-      <th></th>
-      <th></th>
-    </tr>
-  </thead>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Author</th>
+          <th>Description</th>
+          <th>Language</th>
+          <th>Stream URL</th>
+          <th>MPD Socket Path</th>
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
 
-  <tbody>
-    <% @channel_playlists.each do |channel_playlist| %>
-      <tr>
-        <td><%= channel_playlist.author %></td>
-        <td><%= channel_playlist.name %></td>
-        <td><%= channel_playlist.description %></td>
-        <td><%= channel_playlist.language %></td>
-        <td><%= channel_playlist.stream_url %></td>
-        <td><%= channel_playlist.mpd_socket_path %></td>
-        <td><%= link_to 'Show', channel_playlist %></td>
-        <td><%= link_to 'Edit', edit_channel_playlist_path(channel_playlist) %></td>
-        <td><%= link_to 'Destroy', channel_playlist, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+      <tbody>
+        <% @channel_playlists.each do |channel_playlist| %>
+          <tr>
+            <td><%= channel_playlist.name %></td>
+            <td><%= channel_playlist.author %></td>
+            <td><%= channel_playlist.description %></td>
+            <td><%= channel_playlist.language %></td>
+            <td><%= channel_playlist.stream_url %></td>
+            <td><%= channel_playlist.mpd_socket_path %></td>
+            <td><%= link_to 'Edit', edit_channel_playlist_path(channel_playlist) %></td>
+            <td><%= link_to 'Destroy', channel_playlist, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
 
-<br>
+    <br>
 
-<%= link_to 'New Channel playlist', new_channel_playlist_path %>
+    <%= link_to 'Create New Channel', new_channel_playlist_path, class: 'button' %>
+    
+  </div>
+</div>
+
