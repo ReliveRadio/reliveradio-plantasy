@@ -9,24 +9,26 @@
 	<section class="top-bar-section">
 		<!-- Right Nav Section -->
 		<ul class="right">
-			<li class="has-dropdown">
-				<a href="#">Management</a>
-				<ul class="dropdown">
-					<li class="has-dropdown">
-						<a href="#">Channel Management</a>
-						<ul class="dropdown">
-							<% ChannelPlaylist.all.each do |channel_playlist| %>
-								<li><%= link_to channel_playlist.name, playlist_management_path(channel_playlist_id: channel_playlist.id) %></li>
-							<% end %>
-							<li><%= link_to 'Channel Übersicht', channel_playlists_path %></li>
-						</ul>
-					</li>
-					<li><%= link_to 'Podcasts', podcasts_path %></li>
-					<li><%= link_to 'Jingles', jingles_path %></li>
-					<li><%= link_to 'Background Jobs', sidekiq_path, target: '_blank' %></li>
-					<li><%= link_to 'Accounts', admins_path %></li>
-				</ul>
-			</li>
+			<% if admin_signed_in? %>
+				<li class="has-dropdown">
+					<a href="#">Management</a>
+					<ul class="dropdown">
+						<li class="has-dropdown">
+							<a href="#">Channel Management</a>
+							<ul class="dropdown">
+								<% ChannelPlaylist.all.each do |channel_playlist| %>
+									<li><%= link_to channel_playlist.name, playlist_management_path(channel_playlist_id: channel_playlist.id) %></li>
+								<% end %>
+								<li><%= link_to 'Channel Übersicht', channel_playlists_path %></li>
+							</ul>
+						</li>
+						<li><%= link_to 'Podcasts', podcasts_path %></li>
+						<li><%= link_to 'Jingles', jingles_path %></li>
+						<li><%= link_to 'Background Jobs', sidekiq_path, target: '_blank' %></li>
+						<li><%= link_to 'Accounts', admins_path %></li>
+					</ul>
+				</li>
+			<% end %>
 			<li class="has-dropdown">
 				<a href="#">Account</a>
 				<ul class="dropdown">
