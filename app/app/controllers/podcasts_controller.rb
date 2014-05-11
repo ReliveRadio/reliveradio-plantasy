@@ -15,7 +15,7 @@ class PodcastsController < ApplicationController
   # GET /podcasts/1
   # GET /podcasts/1.json
   def show
-    @query = Episode.search(params[:q])
+    @query = Episode.where(podcast_id: @podcast.id).search(params[:q])
     if params[:q]
       @query.sorts = 'pub_date desc' if @query.sorts.empty?
       @episodes = @query.result.paginate(:page => params[:page], :per_page => 15)
