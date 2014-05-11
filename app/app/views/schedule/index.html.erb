@@ -1,0 +1,19 @@
+
+<div class="row">
+	<div class="medium-12 columns">
+		<h1>Channels</h1>
+
+		<ul class="small-block-grid-3">
+			<% @channel_playlists.each do |channel_playlist| %>
+			<li>
+				<h2><%= channel_playlist.name %></h2>
+				<p><%= channel_playlist.description %></p>
+				<p>Manager: <%= channel_playlist.author %></p>
+				<%= link_to 'Ansehen', schedule_show_path(channel_playlist) %>
+			</li>
+			<% end %>
+		</ul>
+
+	</div>
+</div>
+

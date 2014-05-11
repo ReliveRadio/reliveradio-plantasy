@@ -1,0 +1,11 @@
+<div class="row">
+	<div class="medium-12 columns">
+		
+		<h1><%= @channel_playlist.name %></h1>
+		<p><%= @channel_playlist.description %></p>
+
+		<div id="episodes" data-schedule-update-url="<%= schedule_show_url(channel_playlist_id: @channel_playlist.id) %>">
+			<%= render 'episodes' %>
+		</div>
+	</div>
+</div>

@@ -7,13 +7,21 @@ class PodcastsController < ApplicationController
   # GET /podcasts
   # GET /podcasts.json
   def index
-    @podcasts = Podcast.all
+    @query = Podcast.search(params[:q])
+    @query.sorts = 'title asc' if @query.sorts.empty?
+    @podcasts = @query.result.paginate(:page => params[:page], :per_page => 15)
   end
 
   # GET /podcasts/1
   # GET /podcasts/1.json
   def show
-    @episodes = @podcast.episodes.order(:pub_date).reverse
+    @query = Episode.where(podcast_id: @podcast.id).search(params[:q])
+    if params[:q]
+      @query.sorts = 'pub_date desc' if @query.sorts.empty?
+      @episodes = @query.result.paginate(:page => params[:page], :per_page => 15)
+    else
+      @episodes = @podcast.episodes.order(pub_date: :desc).paginate(:page => params[:page], :per_page => 15)
+    end
   end
 
   # GET /podcasts/new
@@ -53,14 +61,22 @@ class PodcastsController < ApplicationController
   # POST /podcasts
   # POST /podcasts.json
   def create
-  	if !podcast_params['feed'].blank?
-    	NewFeedWorker.perform_async(podcast_params['feed'])
-    	respond_to do |format|
-    	  	format.html { redirect_to podcasts_url, notice: 'Podcast will be added in the background.' }
-    	end
-    else
+    feed_url = podcast_params['feed']
+  	if !feed_url.blank?
+      if !Podcast.exists? feed: feed_url
+    	  NewFeedWorker.perform_async(feed_url)
+    	  respond_to do |format|
+    	    	format.html { redirect_to podcasts_url, notice: 'Podcast will be added in the background.' }
+    	  end
+      else
+        @podcast = Podcast.find_by feed: feed_url
         respond_to do |format|
-    	  	format.html { redirect_to new_podcast_url, flash: {error: 'Invalid URL.'} }
+            format.html { redirect_to @podcast, notice: 'Podcast already in databse.' }
+        end
+      end
+    else
+      respond_to do |format|
+    	  format.html { redirect_to new_podcast_url, flash: {error: 'Invalid URL.'} }
     	end 
     end
   end
@@ -83,7 +99,6 @@ class PodcastsController < ApplicationController
   # DELETE /podcasts/1.json
   def destroy
     @podcast.destroy
-    # TODO delete all cached audio files
     respond_to do |format|
       format.html { redirect_to podcasts_url }
       format.json { head :no_content }
@@ -107,6 +122,6 @@ class PodcastsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def podcast_params
-      params.require(:podcast).permit(:title, :description, :logo_url, :website, :feed, :tags, :category)
+      params.require(:podcast).permit(:title, :description, :logo_url, :website, :feed, :tags, :category, :author, :subtitle, :language)
     end
 end

@@ -1,19 +1,39 @@
 # Read about factories at https://github.com/thoughtbot/factory_girl
 
+require 'faker'
+
 FactoryGirl.define do
+
   factory :episode do
-    title "MyString"
-    link "MyString"
-    pub_date "2014-03-19 15:22:41"
-    guid "MyString"
-    subtitle "MyString"
-    content "MyText"
-    duration 1
-    flattr_url "MyString"
-    tags "MyString"
-    icon_url "MyString"
-    audio_file_url "MyString"
-    cached false
-    local_path "MyString"
+    podcast
+    title Faker::Lorem.paragraph(1)
+    link Faker::Internet.url
+    pub_date Faker::Business.credit_card_expiry_date
+    sequence(:guid){|n| "guid_episode_#{n}"}
+    subtitle Faker::Lorem.paragraph(1)
+    content Faker::Lorem.paragraph(5)
+    duration Faker::Number.number(6)
+    flattr_url Faker::Internet.url
+    tags Faker::Lorem.paragraph(1)
+    icon_url Faker::Internet.url
+    audio_file_url Faker::Internet.url
+    filesize Faker::Number.number(6)
+  end
+
+  factory :episode_cached, class: Episode do
+    podcast
+    title Faker::Lorem.paragraph(1)
+    link Faker::Internet.url
+    pub_date Faker::Business.credit_card_expiry_date
+    sequence(:guid){|n| "guid_episode_cached_#{n}"}
+    subtitle Faker::Lorem.paragraph(1)
+    content Faker::Lorem.paragraph(5)
+    audio Rack::Test::UploadedFile.new(File.open(File.join(Rails.root, '/spec/fixtures/audio.mp3')))
+    duration Faker::Number.number(6)
+    flattr_url Faker::Internet.url
+    tags Faker::Lorem.paragraph(1)
+    icon_url Faker::Internet.url
+    audio_file_url Faker::Internet.url
+    filesize Faker::Number.number(6)
   end
 end

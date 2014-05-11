@@ -1,0 +1,37 @@
+<div class="pagination-centered">
+	<%= will_paginate @podcasts, :param_name => 'page',  renderer: FoundationPagination::Rails %> 
+</div>
+
+<table>
+	<thead>
+		<tr>
+			<th></th>
+			<th>Title</th>
+			<th>Author</th>
+			<th>Links</th>
+			<th></th>
+		</tr>
+	</thead>
+
+	<tbody>
+		<% @podcasts.each do |podcast| %>
+		<tr>
+			<td><%= image_tag podcast.coverart.thumb_200, size: '80' %></td>
+			<td><%= link_to podcast.title, podcast %></td>
+			<td><%= podcast.author %></td>
+			<td>
+				<div><strong>Website:</strong> <%= podcast.website %></div>
+				<div><strong>Feed:</strong> <%= podcast.feed %></div>
+			</td>
+			<td>
+				<p><%= link_to edit_podcast_path(podcast) do %><i class="fa fa-edit"></i> <% end %>
+				<%= link_to podcast, method: :delete, data: { confirm: 'Are you sure?' } do %><i class="fa fa-trash-o"></i> <% end %></p>
+			</td>
+		</tr>
+		<% end %>
+	</tbody>
+</table>
+
+<div class="pagination-centered">
+	<%= will_paginate @podcasts, :param_name => 'page',  renderer: FoundationPagination::Rails %> 
+</div>

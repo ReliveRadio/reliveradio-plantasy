@@ -3,34 +3,8 @@ require 'spec_helper'
 describe "episodes/index" do
   before(:each) do
     assign(:episodes, [
-      stub_model(Episode,
-        :title => "Title",
-        :link => "Link",
-        :guid => "Guid",
-        :subtitle => "Subtitle",
-        :content => "MyText",
-        :duration => 1,
-        :flattr_url => "Flattr Url",
-        :tags => "Tags",
-        :icon_url => "Icon Url",
-        :audio_file_url => "Audio File Url",
-        :cached => false,
-        :local_path => "Local Path"
-      ),
-      stub_model(Episode,
-        :title => "Title",
-        :link => "Link",
-        :guid => "Guid",
-        :subtitle => "Subtitle",
-        :content => "MyText",
-        :duration => 1,
-        :flattr_url => "Flattr Url",
-        :tags => "Tags",
-        :icon_url => "Icon Url",
-        :audio_file_url => "Audio File Url",
-        :cached => false,
-        :local_path => "Local Path"
-      )
+      stub_model(Episode, attributes_for(:episode)),
+      stub_model(Episode, attributes_for(:episode))
     ])
   end
 

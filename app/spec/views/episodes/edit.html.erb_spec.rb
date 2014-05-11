@@ -2,20 +2,7 @@ require 'spec_helper'
 
 describe "episodes/edit" do
   before(:each) do
-    @episode = assign(:episode, stub_model(Episode,
-      :title => "MyString",
-      :link => "MyString",
-      :guid => "MyString",
-      :subtitle => "MyString",
-      :content => "MyText",
-      :duration => 1,
-      :flattr_url => "MyString",
-      :tags => "MyString",
-      :icon_url => "MyString",
-      :audio_file_url => "MyString",
-      :cached => false,
-      :local_path => "MyString"
-    ))
+    @episode = assign(:episode, stub_model(Episode, attributes_for(:episode)))
   end
 
   it "renders the edit episode form" do

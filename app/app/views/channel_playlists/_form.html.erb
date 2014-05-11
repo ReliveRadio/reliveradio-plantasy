@@ -27,7 +27,15 @@
     <%= f.label :language %><br>
     <%= f.text_field :language %>
   </div>
+  <div class="field">
+    <%= f.label :stream_url %><br>
+    <%= f.text_field :stream_url %>
+  </div> 
+  <div> 
+    <%= f.label :mpd_socket_path %><br>
+    <%= f.text_field :mpd_socket_path %>
+  </div>
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit 'Save', class: 'button' %>
   </div>
 <% end %>

@@ -1,0 +1,52 @@
+<div class="pagination-centered">
+	<%= will_paginate @episodes, :param_name => 'page',  renderer: FoundationPagination::Rails %> 
+</div>
+
+<table>
+	<thead>
+		<tr>
+			<th></th>
+			<th><%= sort_link @query, :title %></th>
+			<th>Link</th>
+			<th><%= sort_link @query, :pub_date %></th>
+			<th><%= sort_link @query, :duration %></th>
+			<th><i class="fa fa-download"></i></th>
+			<th></th>
+		</tr>
+	</thead>
+
+	<tbody>
+		<% @episodes.each do |episode| %>
+		<tr>
+			<td><%= image_tag episode.coverart.thumb_200, size: '80' %></td>
+			<td><%= link_to episode.title, episode %></td>
+			<td><%= link_to episode.link, episode.link %></td>
+			<td><%= episode.pub_date %></td>
+			<td><%= episode.duration %></td>
+			<td>
+				<% if episode.cached? %>
+					<i class="fa fa-check-circle" style="color: green"></i>
+				<% else %>
+					<i class="fa fa-times-circle" style="color: red"></i>
+				<% end %>
+			</td>
+
+			<td>
+				<div>
+					<% if episode.cached? %>
+						<%= link_to 'Delete Cache', controller: 'episodes', action: 'delete_cached_file', id: episode.id %>
+					<% else %>
+						<%= link_to 'Download', controller: 'episodes', action: 'download', id: episode.id%>
+					<% end %>
+				</div>
+				<div><%= link_to 'Edit', edit_episode_path(episode) %></div>
+				<div><%= link_to 'Destroy', episode, method: :delete, data: { confirm: 'Are you sure?' } %></div>
+			</td>
+		</tr>
+		<% end %>
+	</tbody>
+</table>
+
+<div class="pagination-centered">
+	<%= will_paginate @episodes, :param_name => 'page',  renderer: FoundationPagination::Rails %> 
+</div>

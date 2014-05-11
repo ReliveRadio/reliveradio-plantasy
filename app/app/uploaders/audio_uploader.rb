@@ -1,7 +1,6 @@
 # encoding: utf-8
 
-require 'audioinfo'
-require 'ruby-mpd'
+require 'taglib'
 
 class AudioUploader < CarrierWave::Uploader::Base
 
@@ -16,8 +15,8 @@ class AudioUploader < CarrierWave::Uploader::Base
   # Override the directory where uploaded files will be stored.
   # This is a sensible default for uploaders that are meant to be mounted:
   def store_dir
-    # "/home/vagrant/music/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
-    "/home/vagrant/music/"
+    Rails.root.to_s + "/audio/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
+    # "uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
   end
 
   # Provide a default URL as a default if there hasn't been a file uploaded:
@@ -36,16 +35,45 @@ class AudioUploader < CarrierWave::Uploader::Base
   # end
 
   process :calc_duration
+  process :tag_audiofile_process
 
   def calc_duration
-    # read duration from audio file
-    AudioInfo.open(current_path) do |info|
-      #info.artist   # or info["artist"]
-      #info.title    # or info["title"]
-      model.duration = info.length   # playing time of the file
-      #info.bitrate  # average bitrate
-      #info.to_h     # { "artist" => "artist", "title" => "title", etc... }
+    TagLib::FileRef.open(current_path) do |fileref|
+      unless fileref.null?
+        properties = fileref.audio_properties
+        model.duration = properties.length
+      end
+    end # File is automatically closed at block end
+  end
+
+  def tag_audiofile_process
+    if model.is_a? Episode
+      podcast = Podcast.find(model.podcast_id)
+      tag_audiofile(model.title, podcast.author, podcast.title, model.pub_date.year, podcast.category)
+    elsif model.is_a? Jingle
+      tag_audiofile("Jingle", "ReliveRadio", "ReliveRadio Jingles", Time.zone.now.year, "Jingle")
     end
+  end
+
+  def tag_audiofile(title, artist, album, year, genre)
+    # Set tags of the file based on feed data
+    # this data is later used by mpd and transferred to icecast
+    # users of webradio see this data as currently played song
+    TagLib::FileRef.open(current_path) do |fileref|
+      unless fileref.null?
+        tag = fileref.tag
+
+        tag.title = title
+        tag.artist = artist
+        tag.album = album
+        tag.year = year
+        #tag.track   #=> 7
+        tag.genre = genre
+        #tag.comment #=> nil
+
+        fileref.save # store tags in file
+      end
+    end # File is automatically closed at block end
   end
 
   # Create different versions of your uploaded files:
@@ -54,10 +82,10 @@ class AudioUploader < CarrierWave::Uploader::Base
   # end
 
   # Add a white list of extensions which are allowed to be uploaded.
-  # For images you might use something like this:
-  # def extension_white_list
-  #   %w(jpg jpeg gif png)
-  # end
+  # use here only what ruby-audioinfo supports
+  def extension_white_list
+    %w(mp3 ogg flac mpc wav aiff mp4 m4a m4b asf)
+  end
 
   # Override the filename of the uploaded files:
   # Avoid using model.id or version_name here, see uploader/store.rb for details.

@@ -3,24 +3,8 @@ require 'spec_helper'
 describe "podcasts/index" do
   before(:each) do
     assign(:podcasts, [
-      stub_model(Podcast,
-        :title => "Title",
-        :description => "MyText",
-        :logo_url => "Logo Url",
-        :website => "Website",
-        :feed => "Feed",
-        :tags => "Tags",
-        :category => "Category"
-      ),
-      stub_model(Podcast,
-        :title => "Title",
-        :description => "MyText",
-        :logo_url => "Logo Url",
-        :website => "Website",
-        :feed => "Feed",
-        :tags => "Tags",
-        :category => "Category"
-      )
+      stub_model(Podcast,attributes_for(:podcast)),
+      stub_model(Podcast,attributes_for(:podcast))
     ])
   end
 

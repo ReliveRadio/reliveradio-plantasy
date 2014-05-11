@@ -6,7 +6,7 @@ class NewFeedWorker
 	def perform(feed_url)
 		feed = Feedjira::Feed.fetch_and_parse(feed_url)
 		feed.sanitize_entries! # escape all harmful stuff
-		unless Podcast.exists? :title => feed.title
+		unless Podcast.exists? :feed => feed.feed_url
 			podcast = Podcast.create!(
 				title: feed.title,
 				website: feed.url,
@@ -19,6 +19,9 @@ class NewFeedWorker
 				subtitle: feed.itunes_subtitle,
 				language: feed.language
 			)
+			# dowload coverart
+			podcast.remote_coverart_url = podcast.logo_url
+			podcast.save
 			# fetch episodes in the background with sidekiq
 	    	UpdateFeedWorker.perform_async(podcast.id)
 		end

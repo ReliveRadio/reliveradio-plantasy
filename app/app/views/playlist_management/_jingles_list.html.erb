@@ -14,7 +14,7 @@
 			<td><%= jingle.duration %></td>
 			<td><%= jingle.playcount %></td>
 			<td>
-				<%= link_to controller: 'playlist_management', action: 'append_entry', remote: true, jingle_id: jingle.id, channel_playlist: @channel_playlist.id do%><i class="fa fa-plus-circle"></i><% end %>
+				<%= link_to controller: 'playlist_management', action: 'append_entry', remote: true, jingle_id: jingle.id, channel_playlist_id: @channel_playlist.id do%><i class="fa fa-plus-circle"></i><% end %>
 			</td>
 		</tr>
 		<% end %>
