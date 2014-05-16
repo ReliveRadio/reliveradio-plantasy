@@ -2,6 +2,13 @@ ReliveRadio Changelog
 ===========================
 This file is used to list changes made in each version.
 
+
+v0.3
+------
+Foobar.
+
+- Support for paged feeds
+
 v0.2
 ------
 Next alpha release. Basic features added. UX not optimal yet.

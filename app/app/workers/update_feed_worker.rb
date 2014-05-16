@@ -8,9 +8,8 @@ class UpdateFeedWorker
 	def perform(podcast_id)
 		podcast = Podcast.find(podcast_id)
 		if !podcast.blank?
-			feed = Feedjira::Feed.fetch_and_parse(podcast.feed)
-			feed.sanitize_entries! # escape all harmful stuff
-			feed.entries.each do |episode|
+			entries = parse_paged_feed(podcast.feed)
+			entries.each do |episode|
 				unless Episode.exists? :guid => episode.id
 					if !episode.itunes_duration.blank?
 						duration = ChronicDuration.parse(episode.itunes_duration)
@@ -39,5 +38,24 @@ class UpdateFeedWorker
 				end
 			end
 		end
+	end
+
+	# use feedjira to parse the feed
+	# also handles paged feeds
+	def parse_paged_feed(feed_url)
+		feed = Feedjira::Feed.fetch_and_parse(feed_url)
+		feed.sanitize_entries! # escape all harmful stuff
+		entries = feed.entries
+
+		# check if this is a paged feed.
+		if feed.next_link && feed.first_link && feed.last_link
+			# if it is, follow all next links and add all episodes
+			until !feed.next_link do
+				feed = Feedjira::Feed.fetch_and_parse(feed.next_link)
+				feed.sanitize_entries! # escape all harmful stuff
+				entries.concat feed.entries
+			end
+		end
+		return entries
 	end
 end
