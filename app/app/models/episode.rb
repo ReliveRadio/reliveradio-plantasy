@@ -39,12 +39,8 @@ class Episode < ActiveRecord::Base
 
 private
 	def ensure_save_destroy
-		save_to_destroy = true
-		# do not destroy episodes that are mapped to a playlist entry that is in danger zone
-		self.playlist_entries.each do |entry|
-			save_to_destroy = false if entry.isInDangerZone?
-		end
-		return save_to_destroy
+		# do not destroy episodes that are mapped to a playlist entry
+		playlist_entries.where(episode: self).count == 0
 	end
 
 	def remove_thumbs
