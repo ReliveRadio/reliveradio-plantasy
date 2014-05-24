@@ -23,7 +23,7 @@ class EpisodesController < ApplicationController
     respond_to do |format|
       flash[:notice] = 'File will be downloaded in background.'
       format.html { redirect_to @episode}
-      format.js { render 'download'}
+      format.js { render 'layouts/flash_messages'}
     end
   end
 
