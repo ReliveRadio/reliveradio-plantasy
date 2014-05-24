@@ -55,7 +55,9 @@ class PlaylistManagementController < ApplicationController
 		# update playlist html element via JS response
 		fetch_playlist_entries_and_offset
 		respond_to do |format|
-			format.js { render 'playlist_update' }
+			flash[:notice] = 'Episode added successfully.'
+			format.js { render 'playlist_update'}
+			format.js {render 'layouts/flash_message' }
 		end    
 	end
 
