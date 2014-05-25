@@ -8,6 +8,8 @@ class Episode < ActiveRecord::Base
 	belongs_to :podcast
 	has_many :playlist_entries, dependent: :destroy
 
+	acts_as_taggable
+
 	validates_associated :podcast
 	validates :podcast_id, presence: true
 
