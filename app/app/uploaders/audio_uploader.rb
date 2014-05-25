@@ -49,7 +49,7 @@ class AudioUploader < CarrierWave::Uploader::Base
   def tag_audiofile_process
     if model.is_a? Episode
       podcast = Podcast.find(model.podcast_id)
-      tag_audiofile(model.title, podcast.author, podcast.title, model.pub_date.year, podcast.category)
+      tag_audiofile(model.title, podcast.author, podcast.title, model.pub_date.year, podcast.category_list)
     elsif model.is_a? Jingle
       tag_audiofile("Jingle", "ReliveRadio", "ReliveRadio Jingles", Time.zone.now.year, "Jingle")
     end
@@ -68,7 +68,7 @@ class AudioUploader < CarrierWave::Uploader::Base
         tag.album = album
         tag.year = year
         #tag.track   #=> 7
-        tag.genre = genre
+        #tag.genre = genre
         #tag.comment #=> nil
 
         fileref.save # store tags in file

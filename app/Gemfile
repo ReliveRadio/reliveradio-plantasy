@@ -41,6 +41,7 @@ gem 'ransack'
 gem 'feedjira'
 gem 'chronic_duration'
 gem 'humantime'
+gem 'acts-as-taggable-on'
 gem 'carrierwave'
 gem 'devise'
 gem "devise-async"

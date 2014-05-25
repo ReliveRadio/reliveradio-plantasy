@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140501142548) do
+ActiveRecord::Schema.define(version: 20140525151624) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -55,7 +55,6 @@ ActiveRecord::Schema.define(version: 20140501142548) do
     t.text     "content"
     t.integer  "duration"
     t.text     "flattr_url"
-    t.string   "tags"
     t.string   "icon_url"
     t.string   "audio_file_url"
     t.string   "audio"
@@ -99,8 +98,6 @@ ActiveRecord::Schema.define(version: 20140501142548) do
     t.string   "logo_url"
     t.string   "website"
     t.string   "feed"
-    t.string   "tags"
-    t.string   "category"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "author"
@@ -110,5 +107,24 @@ ActiveRecord::Schema.define(version: 20140501142548) do
   end
 
   add_index "podcasts", ["feed", "title"], name: "index_podcasts_on_feed_and_title", unique: true, using: :btree
+
+  create_table "taggings", force: true do |t|
+    t.integer  "tag_id"
+    t.integer  "taggable_id"
+    t.string   "taggable_type"
+    t.integer  "tagger_id"
+    t.string   "tagger_type"
+    t.string   "context",       limit: 128
+    t.datetime "created_at"
+  end
+
+  add_index "taggings", ["tag_id", "taggable_id", "taggable_type", "context", "tagger_id", "tagger_type"], name: "taggings_idx", unique: true, using: :btree
+
+  create_table "tags", force: true do |t|
+    t.string  "name"
+    t.integer "taggings_count", default: 0
+  end
+
+  add_index "tags", ["name"], name: "index_tags_on_name", unique: true, using: :btree
 
 end

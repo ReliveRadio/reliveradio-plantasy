@@ -26,7 +26,7 @@ class UpdateFeedWorker
 						filesize: episode.enclosure_length,
 						duration: duration,
 						flattr_url: episode.flattr_url,
-						tags: episode.itunes_keywords,
+						tag_list: episode.itunes_keywords,
 						icon_url: episode.itunes_image,
 						audio_file_url: episode.enclosure_url,
 					)

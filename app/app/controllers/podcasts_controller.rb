@@ -122,6 +122,6 @@ class PodcastsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def podcast_params
-      params.require(:podcast).permit(:title, :description, :logo_url, :website, :feed, :tags, :category, :author, :subtitle, :language)
+      params.require(:podcast).permit(:title, :description, :logo_url, :website, :feed, :tag_list, :category_list, :author, :subtitle, :language)
     end
 end
