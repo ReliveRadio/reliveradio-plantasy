@@ -38,7 +38,7 @@ class PodcastsController < ApplicationController
     UpdateFeedWorker.perform_async(@podcast.id)
 
     respond_to do |format|
-        format.html { redirect_to @podcast, notice: 'Episodes will be refreshed in background.' }
+        format.html { redirect_to @podcast, flash: { notice: 'Episodes will be refreshed in background.' }}
     end
   end
 
@@ -46,7 +46,7 @@ class PodcastsController < ApplicationController
     UpdateAllFeedsWorker.perform_async
 
     respond_to do |format|
-      format.html { redirect_to podcasts_url, notice: 'All podcast feeds will be refreshed in the background.' }
+      format.html { redirect_to podcasts_url, flash: { notice: 'All podcast feeds will be refreshed in the background.' }}
     end
   end
 
@@ -54,7 +54,7 @@ class PodcastsController < ApplicationController
     DownloadAllEpisodesWorker.perform_async(@podcast.id)
 
     respond_to do |format|
-      format.html { redirect_to @podcast, notice: 'All episodes of this podcast will be downloaded in the background.' }
+      format.html { redirect_to @podcast, flash: { notice: 'All episodes of this podcast will be downloaded in the background.'} }
     end
   end
 
@@ -66,12 +66,12 @@ class PodcastsController < ApplicationController
       if !Podcast.exists? feed: feed_url
     	  NewFeedWorker.perform_async(feed_url)
     	  respond_to do |format|
-    	    	format.html { redirect_to podcasts_url, notice: 'Podcast will be added in the background.' }
+    	    	format.html { redirect_to podcasts_url, flash: { notice: 'Podcast will be added in the background.' }}
     	  end
       else
         @podcast = Podcast.find_by feed: feed_url
         respond_to do |format|
-            format.html { redirect_to @podcast, notice: 'Podcast already in databse.' }
+            format.html { redirect_to @podcast, flash: { notice: 'Podcast already in databse.' }}
         end
       end
     else
@@ -86,7 +86,7 @@ class PodcastsController < ApplicationController
   def update
     respond_to do |format|
       if @podcast.update(podcast_params)
-        format.html { redirect_to @podcast, notice: 'Podcast was successfully updated.' }
+        format.html { redirect_to @podcast, flash: { notice: 'Podcast was successfully updated.' }}
         format.json { head :no_content }
       else
         format.html { render action: 'edit' }
@@ -110,7 +110,7 @@ class PodcastsController < ApplicationController
       episode.destroy
     end
     respond_to do |format|
-      format.html { redirect_to @podcast, notice: 'All episodes of this podcast have been deleted.' }
+      format.html { redirect_to @podcast, flash: { notice: 'All episodes of this podcast have been deleted.' }}
     end
   end
 
