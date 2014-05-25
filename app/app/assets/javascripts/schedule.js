@@ -1,4 +1,13 @@
 $(function() {
+
+	var player = document.getElementById("stream");
+	$('#startStream').click(function(){
+		player.play();
+	});
+	$('#pauseStream').click(function(){
+		player.pause();
+	});
+
 	// refresh time in milliseconds
 	var intervalTime = 10 * 1000; // 10 seconds
 	// start timer

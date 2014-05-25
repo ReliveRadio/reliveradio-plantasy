@@ -3,6 +3,12 @@
 		
 		<h1><%= @channel_playlist.name %></h1>
 		<p><%= @channel_playlist.description %></p>
+		<audio id="stream">
+			<source src="<%= @channel_playlist.stream_url %>" type="audio/mpeg">
+			Your browser does not support the audio element.
+		</audio>
+		<div id="startStream" class="button">Start</div>
+		<div id="pauseStream" class="button">Pause</div>
 
 		<div id="episodes" data-schedule-update-url="<%= schedule_show_url(channel_playlist_id: @channel_playlist.id) %>">
 			<%= render 'episodes' %>
