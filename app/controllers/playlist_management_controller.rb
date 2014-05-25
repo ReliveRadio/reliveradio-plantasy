@@ -61,25 +61,10 @@ class PlaylistManagementController < ApplicationController
 
 	def destroy_entry
 		@playlist_entry = PlaylistEntry.find(params[:playlist_entry_id])
-		# do not remove just playling entry
-		# ensure buffer: end_time > Time.zone.now + 30.minutes
-		if (!@playlist_entry.blank? && !@playlist_entry.isInDangerZone?)
-			# adjust all start and end times of all episodes after the entry
-			# start time for the entry AFTER the deleted one has to be end time of the entry BEFORE the deleted one
-			temp_start_time = @playlist_entry.higher_item.end_time
-			# update all after entries play times
-			@playlist_entry.lower_items.each do |entry|
-				entry.start_time = temp_start_time
-				entry.end_time = temp_start_time + entry.episode.duration.seconds if entry.is_episode?
-				entry.end_time = temp_start_time + entry.jingle.duration.seconds if entry.is_jingle?
-				entry.save
-				temp_start_time = entry.end_time
-			end
-			# remove entry
-			@playlist_entry.remove_from_list
-			@playlist_entry.destroy
-			# update mpd
+		if @playlist_entry.destroy
 			update_mpd @channel_playlist
+		else
+			flash[:error] = 'This playlist entry can not be removed'
 		end
 		# update playlist html element via JS response
 		fetch_playlist_entries_and_offset

@@ -2,6 +2,7 @@ include ApplicationHelper
 
 class PlaylistEntry < ActiveRecord::Base
     before_destroy :ensure_save_destroy
+    before_destroy :update_list
 
 	belongs_to :episode
 	belongs_to :jingle
@@ -69,6 +70,22 @@ class PlaylistEntry < ActiveRecord::Base
 
     def ensure_save_destroy
     	!isInDangerZone?
+    end
+
+    def update_list
+		# adjust all start and end times of all episodes after the entry
+		# start time for the entry AFTER the deleted one has to be end time of the entry BEFORE the deleted one
+		temp_start_time = self.higher_item.end_time
+		# update all after entries play times
+		self.lower_items.each do |entry|
+			entry.start_time = temp_start_time
+			entry.end_time = temp_start_time + entry.episode.duration.seconds if entry.is_episode?
+			entry.end_time = temp_start_time + entry.jingle.duration.seconds if entry.is_jingle?
+			entry.save
+			temp_start_time = entry.end_time
+		end
+		# remove entry
+		self.remove_from_list
     end
     
 end
