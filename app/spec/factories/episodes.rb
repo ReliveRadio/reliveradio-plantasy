@@ -14,7 +14,6 @@ FactoryGirl.define do
     content Faker::Lorem.paragraph(5)
     duration Faker::Number.number(6)
     flattr_url Faker::Internet.url
-    tags Faker::Lorem.paragraph(1)
     icon_url Faker::Internet.url
     audio_file_url Faker::Internet.url
     filesize Faker::Number.number(6)
@@ -31,7 +30,6 @@ FactoryGirl.define do
     audio Rack::Test::UploadedFile.new(File.open(File.join(Rails.root, '/spec/fixtures/audio.mp3')))
     duration Faker::Number.number(6)
     flattr_url Faker::Internet.url
-    tags Faker::Lorem.paragraph(1)
     icon_url Faker::Internet.url
     audio_file_url Faker::Internet.url
     filesize Faker::Number.number(6)
