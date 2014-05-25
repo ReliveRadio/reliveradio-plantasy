@@ -24,7 +24,7 @@ class ChannelPlaylistsController < ApplicationController
 
     respond_to do |format|
       if @channel_playlist.save
-        format.html { redirect_to channel_playlists_url, notice: 'Channel playlist was successfully created.' }
+        format.html { redirect_to channel_playlists_url, flash: { notice: 'Channel playlist was successfully created.' }}
         format.json { render action: 'show', status: :created, location: @channel_playlist }
       else
         format.html { render action: 'new' }
@@ -38,7 +38,7 @@ class ChannelPlaylistsController < ApplicationController
   def update
     respond_to do |format|
       if @channel_playlist.update(channel_playlist_params)
-        format.html { redirect_to channel_playlists_url, notice: 'Channel playlist was successfully updated.' }
+        format.html { redirect_to channel_playlists_url, flash: { notice: 'Channel playlist was successfully updated.' }}
         format.json { head :no_content }
       else
         format.html { render action: 'edit' }
