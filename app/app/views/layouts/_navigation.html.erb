@@ -1,3 +1,5 @@
+<% @channels = ChannelPlaylist.all %>
+
 <nav class="top-bar" data-topbar>
 	<ul class="title-area">
 		<li class="name">
@@ -16,7 +18,7 @@
 						<li class="has-dropdown">
 							<a href="#">Channel Management</a>
 							<ul class="dropdown">
-								<% ChannelPlaylist.all.each do |channel_playlist| %>
+								<% @channels.each do |channel_playlist| %>
 									<li><%= link_to channel_playlist.name, playlist_management_path(channel_playlist_id: channel_playlist.id) %></li>
 								<% end %>
 								<li><%= link_to 'Channel Übersicht', channel_playlists_path %></li>
@@ -45,7 +47,7 @@
 				<%= link_to 'Schedule', schedule_path %>
 				<ul class="dropdown">
 					<li><%= link_to 'Übersicht', schedule_path %></li>
-					<% ChannelPlaylist.all.each do |channel_playlist| %>
+					<% @channels.each do |channel_playlist| %>
 						<li><%= link_to channel_playlist.name, schedule_show_path(channel_playlist_id: channel_playlist.id) %></li>
 					<% end %>
 				</ul>
