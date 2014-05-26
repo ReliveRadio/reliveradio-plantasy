@@ -13,7 +13,6 @@ $(function() {
 	}, intervalTime);
 });
 
-
 function init_livestream_player(){
 	var player = document.getElementById("stream");
 
