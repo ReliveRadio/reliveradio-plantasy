@@ -1,6 +1,7 @@
 <% if @playlist_entries.blank? %>
 	<p>No episodes scheduled.</p>
 <% else %>
+	<span class="livestreambutton button paused">Livestream starten</span>
 	<% @playlist_entries.each do |entry| %>
 		<% if entry.is_episode? %>
 			<div class="row playlist-entry">

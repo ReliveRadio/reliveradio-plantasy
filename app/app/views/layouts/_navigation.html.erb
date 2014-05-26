@@ -48,7 +48,7 @@
 				<ul class="dropdown">
 					<li><%= link_to 'Übersicht', schedule_path %></li>
 					<% @channels.each do |channel_playlist| %>
-						<li><%= link_to channel_playlist.name, schedule_show_path(channel_playlist_id: channel_playlist.id) %></li>
+						<li><%= link_to channel_playlist.name, schedule_show_path(channel_playlist_id: channel_playlist.id), data: { no_turbolink: true }%></li>
 					<% end %>
 				</ul>
 			</li>
