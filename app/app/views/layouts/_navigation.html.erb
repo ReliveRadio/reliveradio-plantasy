@@ -19,7 +19,7 @@
 							<a href="#">Channel Management</a>
 							<ul class="dropdown">
 								<% @channels.each do |channel_playlist| %>
-									<li><%= link_to channel_playlist.name, playlist_management_path(channel_playlist_id: channel_playlist.id) %></li>
+									<li><%= link_to channel_playlist.name, playlist_management_path(channel_playlist_id: channel_playlist.id), data: { no_turbolink: true } %></li>
 								<% end %>
 								<li><%= link_to 'Channel Übersicht', channel_playlists_path %></li>
 							</ul>
