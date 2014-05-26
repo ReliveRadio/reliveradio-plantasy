@@ -6,8 +6,6 @@
 		<audio id="stream">
 			<source src="<%= @channel_playlist.stream_url %>" type="audio/mpeg">
 		</audio>
-		<span class="livestreambutton button paused">Livestream starten</span>
-
 		<div id="episodes" data-schedule-update-url="<%= schedule_show_url(channel_playlist_id: @channel_playlist.id) %>">
 			<%= render 'episodes' %>
 		</div>
