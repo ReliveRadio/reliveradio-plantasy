@@ -7,7 +7,11 @@ v0.3
 ------
 Foobar.
 
-- Support for paged feeds
+- support for paged feeds
+- flash messages for ajax requests
+- tagging for podcasts and episodes (manual & auto-tagging from feed)
+- coverart for each channel
+- webplayer for each channel
 
 v0.2
 ------
