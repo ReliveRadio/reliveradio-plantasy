@@ -8,4 +8,6 @@ class ChannelPlaylist < ActiveRecord::Base
 	validates :stream_url, presence: true
 	validates :mpd_socket_path, presence: true
 
+	mount_uploader :coverart, ChannelCoverArtUploader
+
 end
