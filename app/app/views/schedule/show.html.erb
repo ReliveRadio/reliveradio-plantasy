@@ -4,9 +4,14 @@
 		<%= image_tag @channel_playlist.coverart %>
 		<h1><%= @channel_playlist.name %></h1>
 		<p><%= @channel_playlist.description %></p>
-		<audio id="stream">
-			<source src="<%= @channel_playlist.stream_url %>" type="audio/mpeg">
-		</audio>
+
+		<% if !@playlist_entries.blank? %>
+			<audio id="stream">
+				<source src="<%= @channel_playlist.stream_url %>" type="audio/mpeg">
+			</audio>
+			<span class="livestreambutton button paused">Livestream starten</span>
+		<% end %>
+
 		<div id="episodes" data-schedule-update-url="<%= schedule_show_url(channel_playlist_id: @channel_playlist.id) %>">
 			<%= render 'episodes' %>
 		</div>
