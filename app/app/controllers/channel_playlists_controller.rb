@@ -5,7 +5,7 @@ class ChannelPlaylistsController < ApplicationController
   # GET /channel_playlists
   # GET /channel_playlists.json
   def index
-    @channel_playlists = ChannelPlaylist.all
+    @channel_playlists = ChannelPlaylist.order(:name)
   end
 
   # GET /channel_playlists/new
