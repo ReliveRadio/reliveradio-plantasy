@@ -1,0 +1,72 @@
+<div class="row">
+	<div class="small-12 columns">
+		<h1>Downloads</h1>
+		<h4 class="subheader">Das hier ist eine kleine Sammlung all der nützlichen Programme und Tools, die Ihr verwenden könnt, um das ReliveRadio zu hören oder es sogar in eure eigene Webseite einzubetten.</h4>
+
+		<div class="row">
+			<div class="medium-6 columns">
+				<h3>Mac App</h3>
+				<%= image_tag "desktop_app.png", :class => "download_element_image" %>
+				<p>Wer einen Mac besitzt, der möchte vielleicht einmal unsere Desktop App ausprobieren, mit der sich alle Kanäle des ReliveRadio hören lassen. Auch werden aktuell gespielte Folgen mit Infos immer direkt angezeigt.</p>
+				<p><a href="https://github.com/ReliveRadio/reliveradio-desktop-app-mac-os" class="button"><i class="fa fa-download"></i> Download</a></p>
+			</div>
+			<div class="medium-6 columns">
+				<h3>Xenim App</h3>
+				<%= image_tag "xenim_icon.png", :class => "download_element_image" %>
+				<p>Das ReliveRadio ist mit allen Radio Apps auf Smartphones hörbar, da wir in den Radioverzeichnissen eingetragen sind. Falls ihr eine App sucht, um das ReliveRadio zu hören, dann sei euch die Xenim App empfohlen. Damit lassen sich alle Kanäle von überall hören.</p>
+				<p><a href="https://itunes.apple.com/de/app/xenim/id478586970?mt=8" class="button"><i class="fa fa-download"></i> Download</a></p>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="medium-6 columns">
+				<h3>Eigene Smartphone App</h3>
+				<%= image_tag "girl_holding_smartphone.jpg", :class => "download_element_image" %>
+				<p>Aktuell entwickelt Florian eine ReliveRadio App. Ihr könnt euch also schon einmal darauf freuen, dass es bald eine eigene App für das ReliveRadio geben wird!</p>
+			</div>
+			<div class="medium-6 columns">
+				<h3>Webplayer</h3>
+				<%= image_tag "large_player.png", :class => "download_element_image" %>
+				<p>Du möchtest das ReliveRadio auf deiner eigenen Webseite einbinden? Kein Problem! Wir bieten dafür einen Generator an, mit dem du dir den HTML Code zur Einbettung einfach generieren lassen kannst. Falls du Wordpress verwendst, kannst du aber auch direkt unser Plugin nutzen.</p>
+					<div class="row">
+						<div class="medium-6 columns">
+							<h5>Mini Player</h5>
+							<%= image_tag "small_player.png", :class => "download_element_image" %>
+							<a href="#" data-dropdown="drop1" class="button dropdown"><i class="fa fa-download"></i> Einbetten</a><br>
+							<ul id="drop1" data-dropdown-content class="f-dropdown">
+								<li><a href="https://github.com/ReliveRadio/reliveradio-wordpress-plugin_miniplayer">Anleitung</a></li>
+								<li><a href="https://github.com/ReliveRadio/reliveradio-wordpress-plugin_miniplayer/raw/master/relive-radio-widget.zip">Download Plugin (ZIP)</a></li>
+							</ul>
+						</div>
+						<div class="medium-6 columns">
+							<h5>Großer Player</h5>
+							<%= image_tag "large_player.png", :class => "download_element_image" %>
+							<a href="#" data-dropdown="drop2" class="button dropdown"><i class="fa fa-download"></i> Einbetten</a><br>
+							<ul id="drop2" data-dropdown-content class="f-dropdown">
+								<li><a href="https://github.com/ReliveRadio/reliveradio-wordpress-plugin_liveplayer">Anleitung</a></li>
+								<li><a href="https://github.com/ReliveRadio/reliveradio-wordpress-plugin_liveplayer/raw/master/relive-radio-shortcode.zip">Download Plugin (ZIP)</a></li>
+							</ul>
+						</div>
+					</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="medium-6 columns">
+				<h3>Ressourcen</h3>
+				<%= image_tag "ressources_symbolic.jpg", :class => "download_element_image" %>
+				<p>Du möchtest über das ReliveRadio berichten, oder in irgendeiner Art auf uns verweisen? Hier bieten wir eine kleine Sammlung an Grafiken, die du nutzen kannst.</p>
+				<p>
+					<a href="https://github.com/ReliveRadio/reliveradio-ressources/archive/master.zip" class="button"><i class="fa fa-download"></i> Download ZIP</a>
+					<%= link_to "Material ansehen", "https://github.com/ReliveRadio/reliveradio-ressources", :class => "button" %>
+				</p>
+			</div>
+			<div class="medium-6 columns">
+				<h3>Was ist mit ...?</h3>
+				<%= image_tag "missing_downloads.png", :class => "download_element_image" %>
+				<p>Du vermisst hier was? <%= link_to 'Bringe dich ein', support_url %> oder <%= link_to 'schreibe uns eine Mail', 'mailto:mail@reliveradio.de' %>.</p>
+			</div>
+		</div>
+
+	</div>
+</div>

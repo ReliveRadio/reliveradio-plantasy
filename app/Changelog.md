@@ -15,6 +15,7 @@ First Beta release. Main feature set complete. Basic UI complete.
 - adjust chef/vagrant configuration to support multiple mpd instances that can be configured easily in the Vagrantfile
 - some minor UI tweeks
 - disable turbolinks as they cause way too many problems
+- include all info pages (about, support, chat, faq, downloads)
 
 v0.2
 ------
