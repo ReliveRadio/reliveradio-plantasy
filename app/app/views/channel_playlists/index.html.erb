@@ -1,42 +1,54 @@
 <div class="row">
-  <div class="medium-12 columns">
-    
-    <h1>Channels</h1>
+	<div class="medium-12 columns">
+		
+		<h1>Channels</h1>
 
-    <table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Author</th>
-          <th>Description</th>
-          <th>Language</th>
-          <th>Stream URL</th>
-          <th>MPD Socket Path</th>
-          <th></th>
-          <th></th>
-        </tr>
-      </thead>
+		<%= link_to 'Create New Channel', new_channel_playlist_path, class: 'button' %>
 
-      <tbody>
-        <% @channel_playlists.each do |channel_playlist| %>
-          <tr>
-            <td><%= channel_playlist.name %></td>
-            <td><%= channel_playlist.author %></td>
-            <td><%= channel_playlist.description %></td>
-            <td><%= channel_playlist.language %></td>
-            <td><%= channel_playlist.stream_url %></td>
-            <td><%= channel_playlist.mpd_socket_path %></td>
-            <td><%= link_to 'Edit', edit_channel_playlist_path(channel_playlist) %></td>
-            <td><%= link_to 'Destroy', channel_playlist, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
+		<% @channel_playlists.each do |channel_playlist| %>
 
-    <br>
+			<h2><%= channel_playlist.name %></h2>
+			<table>
+				<thead>
+					<tr>
+						<th></th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
 
-    <%= link_to 'Create New Channel', new_channel_playlist_path, class: 'button' %>
-    
-  </div>
+					<tr>
+						<td><strong>Author:</strong></td>
+						<td><%= channel_playlist.author %></td>
+					</tr>
+
+					<tr>
+						<td><strong>Description:</strong></td>
+						<td><%= channel_playlist.description %></td>
+					</tr>
+
+					<tr>
+						<td><strong>Language:</strong></td>
+						<td><%= channel_playlist.language %></td>
+					</tr>
+
+					<tr>
+						<td><strong>Stream URL:</strong></td>
+						<td><%= channel_playlist.stream_url %></td>
+					</tr>
+
+					<tr>
+						<td><strong>MPD Socket:</strong></td>
+						<td><%= channel_playlist.mpd_socket_path %></td>
+					</tr>
+				</tbody>
+			</table>
+
+			<%= link_to 'Edit', edit_channel_playlist_path(channel_playlist), class: 'button' %>
+			<%= link_to 'Destroy', channel_playlist, method: :delete, data: { confirm: 'Are you sure?' }, class: 'button alert' %>
+
+			<% end %>
+		
+	</div>
 </div>
 
