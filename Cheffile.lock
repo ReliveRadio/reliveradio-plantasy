@@ -54,9 +54,9 @@ GIT
 GIT
   remote: https://github.com/i42n/chef-cookbook-mpd
   ref: master
-  sha: 31b6b3a99bf1cbbcdac27fa9b0ca13b8885d3137
+  sha: ad670efaf1bc91b1e4e007ef75dc6a69d3043ecf
   specs:
-    mpd (0.0.6)
+    mpd (0.0.7)
 
 GIT
   remote: https://github.com/i42n/nginx
