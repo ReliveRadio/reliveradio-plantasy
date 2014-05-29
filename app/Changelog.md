@@ -13,6 +13,7 @@ Foobar.
 - coverart for each channel
 - webplayer for each channel
 - adjust chef/vagrant configuration to support multiple mpd instances that can be configured easily in the Vagrantfile
+- some minor UI tweeks
 
 v0.2
 ------
