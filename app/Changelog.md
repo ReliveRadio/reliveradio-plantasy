@@ -12,6 +12,7 @@ Foobar.
 - tagging for podcasts and episodes (manual & auto-tagging from feed)
 - coverart for each channel
 - webplayer for each channel
+- adjust chef/vagrant configuration to support multiple mpd instances that can be configured easily in the Vagrantfile
 
 v0.2
 ------
