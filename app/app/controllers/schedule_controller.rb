@@ -6,6 +6,7 @@ class ScheduleController < ApplicationController
   end
 
   def show
+    @stream_url = request.protocol + request.host + ":8000/" + @channel_playlist.icecast_mountpoint
   	@playlist_entries = @channel_playlist.playlist_entries.where("end_time >= :now", {now: Time.zone.now}).order(:position)
     respond_to do |format|
       format.html { }

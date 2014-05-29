@@ -32,12 +32,12 @@
     <%= f.file_field :coverart %>
   </div>
   <div class="field">
-    <%= f.label :stream_url %><br>
-    <%= f.text_field :stream_url %>
+    <%= f.label :icecast_mountpoint %><br>
+    <%= f.text_field :icecast_mountpoint, placeholder: 'mpd_mix.mp3' %>
   </div> 
   <div> 
     <%= f.label :mpd_socket_path %><br>
-    <%= f.text_field :mpd_socket_path %>
+    <%= f.text_field :mpd_socket_path, placeholder: '/home/vagrant/.mpd/socket/mix' %>
   </div>
   <div class="actions">
     <%= f.submit 'Save', class: 'button' %>

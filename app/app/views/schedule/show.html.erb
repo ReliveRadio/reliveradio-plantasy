@@ -7,7 +7,7 @@
 
 		<% if !@playlist_entries.blank? %>
 			<audio id="stream">
-				<source src="<%= @channel_playlist.stream_url %>" type="audio/mpeg">
+				<source src="<%= @stream_url %>" type="audio/mpeg">
 			</audio>
 			<span class="livestreambutton button paused">Livestream starten</span>
 		<% end %>

@@ -5,7 +5,7 @@ class ChannelPlaylist < ActiveRecord::Base
     validates :name, presence: true
     validates :description, presence: true
 	validates :language, presence: true
-	validates :stream_url, presence: true
+	validates :icecast_mountpoint, presence: true
 	validates :mpd_socket_path, presence: true
 
 	mount_uploader :coverart, ChannelCoverArtUploader
