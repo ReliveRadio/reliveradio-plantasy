@@ -4,6 +4,8 @@ class Podcast < ActiveRecord::Base
 
 	has_many :episodes, :dependent => :destroy
 
+	acts_as_taggable_on :tags, :category
+
 	validates :feed, presence: true
 	validates :title, presence: true
 	validates :logo_url, presence: true

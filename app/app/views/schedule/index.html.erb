@@ -1,15 +1,16 @@
-
 <div class="row">
 	<div class="medium-12 columns">
 		<h1>Channels</h1>
+		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Molestias, accusamus, omnis, dolorum voluptatibus libero ipsum possimus labore error corporis iste fugit saepe cupiditate ratione laboriosam ad vel voluptate nesciunt illo.</p>
 
-		<ul class="small-block-grid-3">
+		<ul class="small-block-grid-1 medium-block-grid-3">
 			<% @channel_playlists.each do |channel_playlist| %>
 			<li>
+				<%= image_tag channel_playlist.coverart.thumb_400, width: '100%' %>
 				<h2><%= channel_playlist.name %></h2>
 				<p><%= channel_playlist.description %></p>
 				<p>Manager: <%= channel_playlist.author %></p>
-				<%= link_to 'Ansehen', schedule_show_path(channel_playlist) %>
+				<%= link_to 'Hören', schedule_show_path(channel_playlist), class: 'button' %>
 			</li>
 			<% end %>
 		</ul>

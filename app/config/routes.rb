@@ -6,6 +6,12 @@ App::Application.routes.draw do
 
   resources :jingles
 
+  get "info/about", as: :about
+  get "info/support", as: :support
+  get "info/chat", as: :chat
+  get "info/downloads", as: :downloads
+  get "info/faq", as: :faq
+
   get "channel/", to: 'schedule#index', as: 'schedule'
   get "channel/:channel_playlist_id/show", to: 'schedule#show', as: 'schedule_show'
 

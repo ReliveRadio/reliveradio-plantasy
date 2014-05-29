@@ -1,3 +1,5 @@
+<% @channels = ChannelPlaylist.all %>
+
 <nav class="top-bar" data-topbar>
 	<ul class="title-area">
 		<li class="name">
@@ -16,8 +18,8 @@
 						<li class="has-dropdown">
 							<a href="#">Channel Management</a>
 							<ul class="dropdown">
-								<% ChannelPlaylist.all.each do |channel_playlist| %>
-									<li><%= link_to channel_playlist.name, playlist_management_path(channel_playlist_id: channel_playlist.id) %></li>
+								<% @channels.each do |channel_playlist| %>
+									<li><%= link_to channel_playlist.name, playlist_management_path(channel_playlist_id: channel_playlist.id), data: { no_turbolink: true } %></li>
 								<% end %>
 								<li><%= link_to 'Channel Übersicht', channel_playlists_path %></li>
 							</ul>
@@ -45,11 +47,21 @@
 				<%= link_to 'Schedule', schedule_path %>
 				<ul class="dropdown">
 					<li><%= link_to 'Übersicht', schedule_path %></li>
-					<% ChannelPlaylist.all.each do |channel_playlist| %>
-						<li><%= link_to channel_playlist.name, schedule_show_path(channel_playlist_id: channel_playlist.id) %></li>
+					<% @channels.each do |channel_playlist| %>
+						<li><%= link_to channel_playlist.name, schedule_show_path(channel_playlist_id: channel_playlist.id), data: { no_turbolink: true }%></li>
 					<% end %>
 				</ul>
 			</li>
+			<li class="has-dropdown">
+				<a href="#">Info</a>
+				<ul class="dropdown">
+					<li><%= link_to 'About', about_url %></li>
+					<li><%= link_to 'Support', support_url %></li>
+					<li><%= link_to 'FAQ', faq_url %></li>
+					<li><%= link_to 'Downloads', downloads_url %></li>
+				</ul>
+			</li>
+			<li><%= link_to 'Chat', chat_url %></li>
 		</ul>
 	</section>
 </nav>

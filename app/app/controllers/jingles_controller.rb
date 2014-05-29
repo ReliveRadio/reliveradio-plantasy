@@ -30,7 +30,7 @@ class JinglesController < ApplicationController
 
     respond_to do |format|
       if @jingle.save
-        format.html { redirect_to @jingle, notice: 'Jingle was successfully created.' }
+        format.html { redirect_to @jingle, flash: { notice: 'Jingle was successfully created.' }}
         format.json { render action: 'show', status: :created, location: @jingle }
       else
         format.html { render action: 'new' }
@@ -44,7 +44,7 @@ class JinglesController < ApplicationController
   def update
     respond_to do |format|
       if @jingle.update(jingle_params)
-        format.html { redirect_to @jingle, notice: 'Jingle was successfully updated.' }
+        format.html { redirect_to @jingle, flash: { notice: 'Jingle was successfully updated.' }}
         format.json { head :no_content }
       else
         format.html { render action: 'edit' }

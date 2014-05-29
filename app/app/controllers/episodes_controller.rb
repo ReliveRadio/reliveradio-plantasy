@@ -21,8 +21,9 @@ class EpisodesController < ApplicationController
   def download
     DownloadEpisodeWorker.perform_async(@episode.id)
     respond_to do |format|
-      format.html { redirect_to @episode, notice: 'File will be downloaded in background.'}
-      format.js { render :nothing => true, :status => 200}
+      flash[:notice] = 'File will be downloaded in background.'
+      format.html { redirect_to @episode}
+      format.js { render 'layouts/flash_message'}
     end
   end
 
@@ -33,7 +34,7 @@ class EpisodesController < ApplicationController
 
     respond_to do |format|
       if @episode.save
-        format.html { redirect_to @episode, notice: 'Episode was successfully created.' }
+        format.html { redirect_to @episode, flash: {notice: 'Episode was successfully created.'} }
         format.json { render action: 'show', status: :created, location: @episode }
       else
         format.html { render action: 'new' }
@@ -47,7 +48,7 @@ class EpisodesController < ApplicationController
   def update
     respond_to do |format|
       if @episode.update(episode_params)
-        format.html { redirect_to @episode, notice: 'Episode was successfully updated.' }
+        format.html { redirect_to @episode, flash: {notice: 'Episode was successfully updated.'} }
         format.json { head :no_content }
       else
         format.html { render action: 'edit' }
@@ -88,6 +89,6 @@ class EpisodesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def episode_params
-      params.require(:episode).permit(:title, :link, :pub_date, :guid, :subtitle, :content, :duration, :flattr_url, :tags, :icon_url, :audio_file_url, :audio, :podcast_id, :filesize)
+      params.require(:episode).permit(:title, :link, :pub_date, :guid, :subtitle, :content, :duration, :flattr_url, :tag_list, :icon_url, :audio_file_url, :audio, :podcast_id, :filesize)
     end
 end

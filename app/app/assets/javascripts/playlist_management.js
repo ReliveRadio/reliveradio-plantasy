@@ -13,6 +13,12 @@ $(function() {
 	apply_sortable();
 	$('.pagination a').attr('data-remote', 'true');
 
+	// submit search form on checkbox change
+	$('.checkbox').on('change',function(){
+		$('#form').submit();
+	});
+
+
 	// refresh time in milliseconds
 	var intervalTime = 10 * 1000; // 10 seconds
 	// start timer

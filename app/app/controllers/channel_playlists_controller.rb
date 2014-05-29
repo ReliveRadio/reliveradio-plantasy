@@ -5,7 +5,7 @@ class ChannelPlaylistsController < ApplicationController
   # GET /channel_playlists
   # GET /channel_playlists.json
   def index
-    @channel_playlists = ChannelPlaylist.all
+    @channel_playlists = ChannelPlaylist.order(:name)
   end
 
   # GET /channel_playlists/new
@@ -24,7 +24,7 @@ class ChannelPlaylistsController < ApplicationController
 
     respond_to do |format|
       if @channel_playlist.save
-        format.html { redirect_to channel_playlists_url, notice: 'Channel playlist was successfully created.' }
+        format.html { redirect_to channel_playlists_url, flash: { notice: 'Channel playlist was successfully created.' }}
         format.json { render action: 'show', status: :created, location: @channel_playlist }
       else
         format.html { render action: 'new' }
@@ -38,7 +38,7 @@ class ChannelPlaylistsController < ApplicationController
   def update
     respond_to do |format|
       if @channel_playlist.update(channel_playlist_params)
-        format.html { redirect_to channel_playlists_url, notice: 'Channel playlist was successfully updated.' }
+        format.html { redirect_to channel_playlists_url, flash: { notice: 'Channel playlist was successfully updated.' }}
         format.json { head :no_content }
       else
         format.html { render action: 'edit' }
@@ -65,6 +65,6 @@ class ChannelPlaylistsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def channel_playlist_params
-      params.require(:channel_playlist).permit(:author, :name, :description, :language, :stream_url, :mpd_socket_path)
+      params.require(:channel_playlist).permit(:author, :name, :description, :language, :icecast_mountpoint, :mpd_socket_path, :coverart)
     end
 end

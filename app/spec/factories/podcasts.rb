@@ -9,8 +9,6 @@ FactoryGirl.define do
     logo_url Faker::Internet.url
     website Faker::Internet.url
     feed Faker::Internet.url
-    tags Faker::Lorem.paragraph(1)
-    category Faker::Lorem.paragraph(1)
     author Faker::Name.name
     subtitle Faker::Lorem.paragraph(1)
     language Faker::Lorem.word

@@ -55,7 +55,7 @@ class PlaylistManagementController < ApplicationController
 		# update playlist html element via JS response
 		fetch_playlist_entries_and_offset
 		respond_to do |format|
-			format.js { render 'playlist_update' }
+			format.js { render 'playlist_update'}
 		end    
 	end
 
@@ -83,6 +83,7 @@ class PlaylistManagementController < ApplicationController
 		end
 		# update playlist html element via JS response
 		fetch_playlist_entries_and_offset
+
 		respond_to do |format|
 			format.js { render 'playlist_update' }
 		end

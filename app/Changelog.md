@@ -2,6 +2,21 @@ ReliveRadio Changelog
 ===========================
 This file is used to list changes made in each version.
 
+
+v0.3
+------
+First Beta release. Main feature set complete. Basic UI complete.
+
+- support for paged feeds
+- flash messages for ajax requests
+- tagging for podcasts and episodes (manual & auto-tagging from feed)
+- coverart for each channel
+- webplayer for each channel
+- adjust chef/vagrant configuration to support multiple mpd instances that can be configured easily in the Vagrantfile
+- some minor UI tweeks
+- disable turbolinks as they cause way too many problems
+- include all info pages (about, support, chat, faq, downloads)
+
 v0.2
 ------
 Next alpha release. Basic features added. UX not optimal yet.

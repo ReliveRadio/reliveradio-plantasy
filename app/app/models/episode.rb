@@ -1,3 +1,5 @@
+require 'humantime'
+
 class Episode < ActiveRecord::Base
 	before_destroy :ensure_save_destroy
 	before_destroy :remove_audio_file_cache
@@ -5,6 +7,8 @@ class Episode < ActiveRecord::Base
 
 	belongs_to :podcast
 	has_many :playlist_entries, dependent: :destroy
+
+	acts_as_taggable
 
 	validates_associated :podcast
 	validates :podcast_id, presence: true
@@ -26,6 +30,12 @@ class Episode < ActiveRecord::Base
 		self.playlist_entries.maximum(:start_time)
 	end
 
+	def time_since_last_played
+		if self.last_played
+			(HumanTime.output (Time.now - self.last_played).round) + " ago"
+		end
+	end
+
 	def cached?
 		!self.audio.url.blank?
 	end
@@ -39,12 +49,8 @@ class Episode < ActiveRecord::Base
 
 private
 	def ensure_save_destroy
-		save_to_destroy = true
-		# do not destroy episodes that are mapped to a playlist entry that is in danger zone
-		self.playlist_entries.each do |entry|
-			save_to_destroy = false if entry.isInDangerZone?
-		end
-		return save_to_destroy
+		# do not destroy episodes that are mapped to a playlist entry
+		playlist_entries.where(episode: self).count == 0
 	end
 
 	def remove_thumbs

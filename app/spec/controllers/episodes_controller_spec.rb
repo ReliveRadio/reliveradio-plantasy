@@ -135,10 +135,9 @@ describe EpisodesController do
       response.should redirect_to(podcast)
     end
 
-    it "does not destroy the episode if it is in playlist entry that is in danger zone" do
+    it "does not destroy the episode if it is in playlist entry " do
       Timecop.freeze
-      playlist_entry = create(:playlist_entry_episode, start_time: Time.zone.now)
-      expect(playlist_entry.isInDangerZone?).to be true
+      playlist_entry = create(:playlist_entry_episode)
       expect {
         delete :destroy, {:id => playlist_entry.episode.to_param}
       }.not_to change(Episode, :count).by(-1)

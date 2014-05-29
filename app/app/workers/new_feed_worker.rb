@@ -13,8 +13,8 @@ class NewFeedWorker
 				feed: feed.feed_url,
 				description: feed.itunes_summary,
 				logo_url: feed.logo_url,
-				tags: feed.itunes_keywords,
-				category: feed.itunes_category,
+				tag_list: feed.itunes_keywords,
+				category_list: feed.itunes_category,
 				author: feed.itunes_author,
 				subtitle: feed.itunes_subtitle,
 				language: feed.language

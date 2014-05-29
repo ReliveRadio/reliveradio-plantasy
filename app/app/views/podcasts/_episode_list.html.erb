@@ -36,7 +36,7 @@
 					<% if episode.cached? %>
 						<%= link_to 'Delete Cache', controller: 'episodes', action: 'delete_cached_file', id: episode.id %>
 					<% else %>
-						<%= link_to 'Download', controller: 'episodes', action: 'download', id: episode.id%>
+						<%= link_to 'Download', controller: 'episodes', action: 'download', id: episode.id, remote: true%>
 					<% end %>
 				</div>
 				<div><%= link_to 'Edit', edit_episode_path(episode) %></div>

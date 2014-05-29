@@ -14,6 +14,5 @@
 //= require jquery.ui.sortable
 //= require jquery_ujs
 //= require foundation
-//= require turbolinks
 
 $(function(){ $(document).foundation(); });

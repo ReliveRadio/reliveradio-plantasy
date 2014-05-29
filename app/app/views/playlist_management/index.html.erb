@@ -23,7 +23,7 @@
 
 				<div id="searchbar" class="row">
 					<div class="small-12 columns">
-						<%= search_form_for @query, url: playlist_management_path, method: :get, remote: true do |f| %>
+						<%= search_form_for @query, url: playlist_management_path, method: :get, remote: true, id: 'form' do |f| %>
 							<div class="row collapse">
 								<div class="medium-10 columns">
 									<%= f.text_field :title_or_subtitle_cont, :placeholder => "Verzeichnis durchsuchen", :id => "search-input-field" %>
@@ -34,7 +34,7 @@
 							</div>
 							<div class="row">
 								<div class="medium-12 columns">
-									<%= f.check_box :audio_present %>
+									<%= f.check_box :audio_present, class: 'checkbox' %>
 									<%= f.label 'Only show cashed episodes' %>
 								</div>
 							</div>
