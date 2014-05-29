@@ -86,7 +86,7 @@ Vagrant.configure("2") do |config|
             port: '6600'
           },
           tech: {
-            name: 'tech',
+            name: 'mpd_tech',
             bind: '0.0.0.0',
             socket: '/home/vagrant/.mpd/socket/tech',
             port: '6601'
