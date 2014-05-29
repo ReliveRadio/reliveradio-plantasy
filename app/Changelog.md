@@ -5,7 +5,7 @@ This file is used to list changes made in each version.
 
 v0.3
 ------
-Foobar.
+First Beta release. Main feature set complete. Basic UI complete.
 
 - support for paged feeds
 - flash messages for ajax requests
@@ -14,6 +14,7 @@ Foobar.
 - webplayer for each channel
 - adjust chef/vagrant configuration to support multiple mpd instances that can be configured easily in the Vagrantfile
 - some minor UI tweeks
+- disable turbolinks as they cause way too many problems
 
 v0.2
 ------
