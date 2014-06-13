@@ -1,4 +1,4 @@
-require 'humantime'
+include ApplicationHelper
 
 class Episode < ActiveRecord::Base
 	before_destroy :ensure_save_destroy
@@ -32,7 +32,7 @@ class Episode < ActiveRecord::Base
 
 	def time_since_last_played
 		if self.last_played
-			(HumanTime.output (Time.now - self.last_played).round) + " ago"
+			humanize_simplify((Time.now - self.last_played).round) + " ago"
 		end
 	end
 

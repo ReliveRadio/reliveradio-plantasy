@@ -1,4 +1,4 @@
-require 'humantime'
+include ApplicationHelper
 
 class PlaylistEntry < ActiveRecord::Base
     before_destroy :ensure_save_destroy
@@ -57,7 +57,7 @@ class PlaylistEntry < ActiveRecord::Base
 	end
 
 	def time_left_human
-		HumanTime.output time_left
+		humanize_simplify time_left
 	end
 
   private
