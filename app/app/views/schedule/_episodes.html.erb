@@ -6,8 +6,7 @@
 			<div class="row playlist-entry">
 				<div class="medium-3 columns">
 					<%= image_tag entry.episode.coverart.thumb_400%>
-					<div><i class="fa fa-play"></i> <%= entry.start_time.strftime("%H:%M") %></div>
-					<div><i class="fa fa-stop"></i> <%= entry.end_time.strftime("%H:%M") %></div>
+					<div><i class="fa fa-play"></i> <%= entry.start_time.strftime("%H:%M") %> - <%= entry.end_time.strftime("%H:%M") %></div>
 					
 					<% if entry.is_live? %>
 						<div><i class="fa fa-clock-o"></i> <%= entry.time_left_human %></div>
