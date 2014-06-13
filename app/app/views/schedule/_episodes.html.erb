@@ -21,6 +21,30 @@
 					<h3><%= entry.episode.title %></h3>
 					<p><%= entry.episode.subtitle %></p>
 
+					<!-- SOCIAL LINKS - MORE METAINFO FOR PODCAST -->
+					<ul class="inline-list">
+						<!-- WEBSITE -->
+						<li><a href="<%= entry.episode.link %>" target="_blank"><i class="fa fa-globe"></i> Webseite</a></li>
+
+						<li><%= link_to 'Im Verzeichnis', directory_show_episode_path(entry.episode) %></li>
+
+						<li><%= link_to 'Mehr von diesem Podcast', directory_show_podcast_path(entry.episode.podcast) %></li>
+
+						<!-- FEED -->
+						<li>
+							<a href="#" data-dropdown="subscription-dropdown-<%= entry.id %>"><i class="fa fa-rss"></i> Abonnieren</a>
+							<ul id="subscription-dropdown-<%= entry.id %>" class="f-dropdown" data-dropdown-content>
+								<li><a href="http://b.instaca.st/button/subscribe?url=<%= entry.episode.podcast.feed %>" target="_blank">Instacast</a></li>
+								<li><a href="<%= entry.episode.podcast.feed %>">FeedURL</a></li>
+							</ul>
+						</li>
+
+						<!-- FLATTR -->
+						<% if !entry.episode.flattr_url.blank? %><li>
+							<a href="<%= entry.episode.flattr_url %>" target="_blank"><i class="fa fa-heart"></i> Flattr</a>
+						</li><% end %>
+					</ul>
+
 				</div>
 			</div>
 		<% end %>
