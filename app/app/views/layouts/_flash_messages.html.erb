@@ -1,6 +1,7 @@
-<% if !flash.blank? %>
+<% unless flash.blank? %>
 	<div class="row">
 		<div class="medium-12 columns">
+			
 			<!-- TODO add alert and notice for devise -->
 			<% if flash[:error] %>
 				<div class="alert-box alert">
@@ -20,6 +21,7 @@
 					<a href="#" class="close">&times;</a>
 				</div>
 			<% end %>
+
 		</div>
 	</div>
 <% end %>
