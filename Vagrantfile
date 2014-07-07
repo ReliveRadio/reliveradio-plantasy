@@ -58,7 +58,7 @@ Vagrant.configure("2") do |config|
 
     chef.json.merge!({
       :rvm => {
-        :default_ruby => 'ruby-2.1.1',
+        :default_ruby => 'ruby-2.1.2',
         :vagrant => {
           :system_chef_solo => '/opt/chef/bin/chef-solo' #required to make vagrant-omnibus work together with rvm
         }
