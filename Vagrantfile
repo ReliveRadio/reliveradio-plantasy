@@ -32,8 +32,8 @@ Vagrant.configure("2") do |config|
   config.vm.network "forwarded_port", guest: 3000, host: 3000 # rails, thin
   config.vm.network "forwarded_port", guest: 8080, host: 8080 # nginx, passenger
   config.vm.network "forwarded_port", guest: 8000, host: 8000 # icecast2
-  config.vm.network "forwarded_port", guest: 6600, host: 6600 # mpd_mix
-  config.vm.network "forwarded_port", guest: 6601, host: 6601 # mpd_tech
+  config.vm.network "forwarded_port", guest: 6601, host: 6601 # mpd_mix
+  config.vm.network "forwarded_port", guest: 6602, host: 6602 # mpd_tech
   #config.vm.network "forwarded_port", guest: 5432, host: 5432 # postgresql
 
   config.vm.synced_folder "app/", "/home/vagrant/app", :create => true
@@ -83,13 +83,13 @@ Vagrant.configure("2") do |config|
             name: 'mpd_mix',
             bind: '0.0.0.0',
             socket: '/home/vagrant/.mpd/socket/mix',
-            port: '6600'
+            port: '6601'
           },
           tech: {
             name: 'mpd_tech',
             bind: '0.0.0.0',
             socket: '/home/vagrant/.mpd/socket/tech',
-            port: '6601'
+            port: '6602'
           }
         }
       },
