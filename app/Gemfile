@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.0.4'
+gem 'rails', '~>4.1.0'
 
 # Use sqlite3 as the database for Active Record
 gem 'sqlite3'
@@ -84,4 +84,7 @@ end
 # gem 'capistrano', group: :development
 
 # Use debugger
-gem 'debugger', group: [:development, :test]
+#gem 'debugger', group: [:development, :test]
+#use byebug instead as debugger 1.6.8 does not support ruby 2.1.2 yet.
+#https://github.com/cldwalker/debugger/issues/131
+gem 'byebug'
