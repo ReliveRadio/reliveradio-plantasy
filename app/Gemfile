@@ -28,6 +28,7 @@ gem 'foundation-rails', '~> 5.2'
 gem 'font-awesome-rails', '~> 4.0'
 
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
+# this breaks a lot of javascript so I disabled it.
 #gem 'turbolinks'
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
@@ -59,19 +60,21 @@ gem 'ruby-mpd'
 gem 'taglib-ruby' # requires taglib package of the system distro installed! see: https://robinst.github.io/taglib-ruby/
 
 # testing
-gem 'test-unit'
-gem 'rspec-rails'
-gem 'factory_girl_rails'
-gem 'faker'
-gem 'capybara'
-gem 'guard-rspec'
-gem 'database_cleaner'
-gem 'vcr'
-gem 'timecop'
+group :test do
+	gem 'test-unit'
+	gem 'rspec-rails'
+	gem 'factory_girl_rails'
+	gem 'faker'
+	gem 'capybara'
+	gem 'guard-rspec'
+	gem 'database_cleaner'
+	gem 'vcr'
+	gem 'timecop'
+end
 
 group :doc do
-  # bundle exec rake doc:rails generates the API under doc/api.
-  gem 'sdoc', require: false
+	# bundle exec rake doc:rails generates the API under doc/api.
+	gem 'sdoc', require: false
 end
 
 # Use ActiveModel has_secure_password
