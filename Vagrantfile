@@ -6,7 +6,7 @@ Vagrant.configure("2") do |config|
   config.vm.box_url = "http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_ubuntu-12.04_chef-provisionerless.box"
 
   config.vm.provider "virtualbox" do |v|
-    v.memory = 1024
+    v.memory = 1024 # 512 does not work as nginx needs more to compile without memory error
     v.cpus = 1
   end
   # Provider-specific configuration so you can fine-tune various
