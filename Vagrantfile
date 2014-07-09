@@ -37,10 +37,14 @@ Vagrant.configure("2") do |config|
   config.vm.network "forwarded_port", guest: 6602, host: 6602 # mpd_tech
   #config.vm.network "forwarded_port", guest: 5432, host: 5432 # postgresql
 
+  # sync the app folder to develop locally and see results live in the VM
   config.vm.synced_folder "app/", "/home/vagrant/app", :create => true
 
   config.vm.provision :chef_solo do |chef|
     chef.cookbooks_path = ["cookbooks"]
+    
+    # RECIPES
+
     # apt-get update
     chef.add_recipe "apt"
 
