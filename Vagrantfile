@@ -89,7 +89,7 @@ Vagrant.configure("2") do |config|
         :passenger => {
           :root => "/usr/local/rvm/gems/ruby-2.1.2/gems/passenger-4.0.45",
           :version => "4.0.45",
-          :ruby => "/usr/local/rvm/rubies/ruby-2.1.2/bin/ruby",
+          :ruby => "/usr/local/rvm/gems/ruby-2.1.2/wrappers/ruby",
           :port => "8080", # port of the rails app
           :app_root => "/home/vagrant/app/public" # path to the rails app
         }
