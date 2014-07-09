@@ -30,7 +30,7 @@ Vagrant.configure("2") do |config|
   config.omnibus.chef_version = :latest
 
   config.vm.network "forwarded_port", guest: 3000, host: 3000 # rails, thin
-  config.vm.network "forwarded_port", guest: 80, host: 80 # nginx test page
+  #config.vm.network "forwarded_port", guest: 80, host: 80 # nginx test page
   config.vm.network "forwarded_port", guest: 8080, host: 8080 # nginx, passenger
   config.vm.network "forwarded_port", guest: 8000, host: 8000 # icecast2
   config.vm.network "forwarded_port", guest: 6601, host: 6601 # mpd_mix
