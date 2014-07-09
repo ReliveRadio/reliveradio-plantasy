@@ -60,13 +60,16 @@ Vagrant.configure("2") do |config|
     chef.add_recipe "rvm::vagrant"
     chef.add_recipe "rvm::system"
     chef.add_recipe 'rvm::gem_package'
-    # nginx passenger
-    chef.add_recipe "wrapper-nginx-passenger"
+
     # database
     chef.add_recipe "redisio::install"
     chef.add_recipe "redisio::enable"
     chef.add_recipe "postgresql::server"
+    
+    # nginx passenger
+    chef.add_recipe "wrapper-nginx-passenger"
 
+    # ATTRIBUTES
     chef.json.merge!({
       apt: {
         compile_time_update: true # force apt-get update BEFORE installing any packages
