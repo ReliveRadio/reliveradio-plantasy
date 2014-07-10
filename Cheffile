@@ -4,23 +4,30 @@
 site 'http://community.opscode.com/api/v1'
 
 cookbook 'apt'
-cookbook 'build-essential'
 
 cookbook 'rvm', 
-	:git => 'git://github.com/fnichol/chef-rvm.git'
+	:git => 'https://github.com/fnichol/chef-rvm',
+	:ref => 'master'
 
 cookbook 'git', 
-	:git => 'https://github.com/fnichol/chef-git.git'
+	:git => 'https://github.com/fnichol/chef-git',
+	:ref => 'master'
 
 cookbook 'mpd',
-	:git => 'https://github.com/i42n/chef-cookbook-mpd'
+	:git => 'https://github.com/i42n/chef-cookbook-mpd',
+	:ref => 'master'
 
-cookbook 'icecast2',
-	:git => 'https://github.com/i42n/chef-cookbook-icecast2'
+cookbook 'icecast2'
 
-# use modified cookbook as it has the additional passenger setup included
-cookbook 'nginx',
-	:git => 'https://github.com/i42n/nginx',
+# installs required packages like imagemagick or taglib
+cookbook 'reliveradio-plantasy-cookbook',
+	:git => 'https://github.com/i42n/reliveradio-plantasy-cookbook',
+	:ref => 'master'
+
+cookbook 'build-essential'
+# use wrapper cookbook to install nginx and configure passenger server
+cookbook 'wrapper-nginx-passenger',
+	:git => 'https://github.com/i42n/wrapper-nginx-passenger',
 	:ref => 'master'
 
 cookbook 'nodejs'

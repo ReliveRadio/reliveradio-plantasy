@@ -1,8 +1,5 @@
 # Get up and running
 
-## Install VirtualBox
-https://www.virtualbox.org/
-
 ## Install Vagrant
 https://www.vagrantup.com/
 
@@ -24,12 +21,6 @@ https://www.vagrantup.com/
 ## Build the VM
 ```
   $ vagrant up
-```
-
-## Install missing packages
-Install `imagemagick` and `taglib` package of the distrobution. This is required for gems that create logo thumbnails and tagging audio files.
-```
-  $ sudo apt-get install imagemagick taglib
 ```
 
 ## Log in and install app gems
@@ -67,3 +58,8 @@ Sidekiq workers process background tasks as downloading episodes for example.
 ``
   $ bundle exec sidekiq
 ``
+
+## Create admin user
+There is no approved admin user in the database at this point as the database is empty. Therefore you need to create one.
+
+Got to the website and create a new user. It will be in the database, but not approved for admin access.
