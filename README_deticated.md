@@ -3,12 +3,10 @@
 ## Install build-essential
 Will be required to compile (ruby, nginx)
 
-## Install ruby 2.1.1 (for example with rvm)
+## Install ruby 2.1.2 (for example with rvm)
 
 ## Install nginx with passenger plugin
 Not all distributions come with prebuild nginx including passenger. You may have to compile it yourself.
-
-Example for `nginx.conf` that uses passenger [can be found here](https://github.com/i42n/nginx/blob/328b9aa75e0f1904faab2fadd900d24d8df83cde/templates/default/nginx.conf.erb#L88)
 
 ## Install redis database and postgresql database
 
