@@ -71,9 +71,9 @@ GIT
 GIT
   remote: https://github.com/i42n/wrapper-nginx-passenger
   ref: master
-  sha: 70da1f5469a83eb515a84bc621f11df82ee70c25
+  sha: ad8cd755ff7d800ec57f524966acbdb402b45e4f
   specs:
-    wrapper-nginx-passenger (0.7.0)
+    wrapper-nginx-passenger (0.9.0)
       nginx (>= 0.0.0)
 
 DEPENDENCIES
