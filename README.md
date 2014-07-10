@@ -2,7 +2,7 @@
 
 These instructions help you setting up a vagrant testing virtual machine. If you want to setup a deticated server system please consider the `README_deticated.md`.
 
-The following steps are tested on MacOS. There also is [a video of the setup process](http://youtu.be/dA_KgoOUFKY). However it *does not include the vagrant installation*.
+The following steps are tested on MacOS. There also is [a video of the setup process](http://youtu.be/DNXgOu-sicA). However it *does not include the vagrant installation*.
 
 ## Install Vagrant
 https://www.vagrantup.com/
