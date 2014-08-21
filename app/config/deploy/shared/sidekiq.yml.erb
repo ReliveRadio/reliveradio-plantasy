@@ -1,0 +1,6 @@
+<%= fetch(:rails_env) %>:
+  :concurrency: <%= fetch(:sidekiq_concurrency, 5) %>
+  # the number behind the queue is priority
+  :queues:
+    - [mailer, 7]
+    - [default, 5]
