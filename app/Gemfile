@@ -22,7 +22,7 @@ gem 'coffee-rails', '~> 4.0.0'
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
-# webframgework
+# webframework
 gem 'foundation-rails', '~> 5.2'
 # nice icon font
 gem 'font-awesome-rails', '~> 4.0'
@@ -59,6 +59,9 @@ gem 'wavefile'
 gem 'ruby-mpd'
 gem 'taglib-ruby' # requires taglib package of the system distro installed! see: https://robinst.github.io/taglib-ruby/
 
+# Use unicorn as the app server
+gem 'unicorn'
+
 # testing
 group :test do
 	gem 'test-unit'
@@ -77,17 +80,20 @@ group :doc do
 	gem 'sdoc', require: false
 end
 
-# Use ActiveModel has_secure_password
-# gem 'bcrypt', '~> 3.1.7'
+group :develop do
+	# Use Capistrano for deployment
+	gem 'capistrano'
+	gem 'capistrano-ext'
+	gem 'capistrano-rails'
+	gem 'capistrano-bundler'
+	gem 'capistrano-rbenv'
+	gem 'capistrano-sidekiq'
+	gem 'capistrano3-unicorn'
+	gem 'capistrano3-monit', github: 'naps62/capistrano3-monit'
 
-# Use unicorn as the app server
-# gem 'unicorn'
-
-# Use Capistrano for deployment
-# gem 'capistrano', group: :development
-
-# Use debugger
-#gem 'debugger', group: [:development, :test]
-#use byebug instead as debugger 1.6.8 does not support ruby 2.1.2 yet.
-#https://github.com/cldwalker/debugger/issues/131
-gem 'byebug'
+	# Use debugger
+	#gem 'debugger', group: [:development, :test]
+	#use byebug instead as debugger 1.6.8 does not support ruby 2.1.2 yet.
+	#https://github.com/cldwalker/debugger/issues/131
+	gem 'byebug'
+end
