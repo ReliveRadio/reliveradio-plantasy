@@ -1,29 +1,5 @@
-development:
-  adapter: postgresql
-  encoding: unicode
-  database: development
-  port: 5432
-  pool: 30
-  reconnect: true
-  username: postgres
-  password: hackme
-
 test:
-  adapter: postgresql
-  encoding: unicode
-  database: test
-  port: 5432
-  pool: 30
-  reconnect: true
-  username: postgres
-  password: hackme
-
-production:
-  adapter: postgresql
-  encoding: unicode
-  database: production
-  port: 5432
-  pool: 30
-  reconnect: true
-  username: postgres
-  password: hackme
+  adapter: sqlite3
+  database: db/test.sqlite3
+  pool: 5
+  timeout: 5000
