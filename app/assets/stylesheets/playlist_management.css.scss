@@ -1,0 +1,17 @@
+// Place all the styles related to the PlaylistManagement controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+#playlist {
+	height: 800px;
+	overflow-y: scroll;
+}
+
+#immutable-entries-table {
+	border-color: red;
+	width: 100%;
+}
+
+#changeable-entries-table {
+	width: 100%;
+}

@@ -1,0 +1,23 @@
+<div class="row">
+	<div class="medium-12 columns">
+		<h1>Podcast Verzeichnis</h1>
+		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quis, quibusdam, enim officiis animi modi eaque cum accusamus necessitatibus obcaecati facilis illo adipisci? Aliquid, placeat, commodi ratione rerum voluptates facere id!</p>
+
+		<div id="searchbar" class="row">
+			<div class="large-6 medium-9 small-centered columns">
+				<%= search_form_for @query, url: directory_path, method: :get, remote: true do |f| %>
+					<div class="row collapse">
+						<div class="medium-10 columns">
+							<%= f.text_field :title_or_subtitle_cont, :placeholder => "Verzeichnis durchsuchen", :id => "search-input-field" %>
+						</div>
+						<div class="medium-2 columns hide-for-small">
+							<%= f.submit "Search", :class => "prefix button" %>
+						</div>
+					</div>
+				<% end %>
+			</div>
+		</div>
+
+		<div id="results"><%= render 'results' %></div>
+	</div>
+</div>

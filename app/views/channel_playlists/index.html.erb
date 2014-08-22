@@ -1,0 +1,54 @@
+<div class="row">
+	<div class="medium-12 columns">
+		
+		<h1>Channels</h1>
+
+		<%= link_to 'Create New Channel', new_channel_playlist_path, class: 'button' %>
+
+		<% @channel_playlists.each do |channel_playlist| %>
+
+			<h2><%= channel_playlist.name %></h2>
+			<table>
+				<thead>
+					<tr>
+						<th></th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+
+					<tr>
+						<td><strong>Author:</strong></td>
+						<td><%= channel_playlist.author %></td>
+					</tr>
+
+					<tr>
+						<td><strong>Description:</strong></td>
+						<td><%= channel_playlist.description %></td>
+					</tr>
+
+					<tr>
+						<td><strong>Language:</strong></td>
+						<td><%= channel_playlist.language %></td>
+					</tr>
+
+					<tr>
+						<td><strong>Icecast Mountpoint:</strong></td>
+						<td><%= channel_playlist.icecast_mountpoint %></td>
+					</tr>
+
+					<tr>
+						<td><strong>MPD Socket:</strong></td>
+						<td><%= channel_playlist.mpd_socket_path %></td>
+					</tr>
+				</tbody>
+			</table>
+
+			<%= link_to 'Edit', edit_channel_playlist_path(channel_playlist), class: 'button' %>
+			<%= link_to 'Destroy', channel_playlist, method: :delete, data: { confirm: 'Are you sure?' }, class: 'button alert' %>
+
+			<% end %>
+		
+	</div>
+</div>
+

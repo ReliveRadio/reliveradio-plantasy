@@ -1,0 +1,52 @@
+<% if @playlist_entries.blank? %>
+	<p>No episodes scheduled.</p>
+<% else %>
+	<% @playlist_entries.each do |entry| %>
+		<% if entry.is_episode? %>
+			<div class="row playlist-entry">
+				<div class="medium-3 columns">
+					<%= image_tag entry.episode.coverart.thumb_400%>
+					<div><i class="fa fa-play"></i> <%= entry.start_time.strftime("%H:%M") %> - <%= entry.end_time.strftime("%H:%M") %></div>
+					
+					<% if entry.is_live? %>
+						<div><i class="fa fa-clock-o"></i> <%= entry.time_left_human %></div>
+						<div class="progress">
+							<span class="meter" style="width: <%= entry.percent_left %>%"></span>
+						</div>
+					<% end %>
+				</div>
+				<div class="medium-9 columns">
+
+					<h3><%= entry.episode.title %></h3>
+					<p><%= entry.episode.subtitle %></p>
+					<p>Published: <%= entry.episode.pub_date %></p>
+
+					<!-- SOCIAL LINKS - MORE METAINFO FOR PODCAST -->
+					<ul class="inline-list">
+						<!-- WEBSITE -->
+						<li><a href="<%= entry.episode.link %>" target="_blank"><i class="fa fa-globe"></i> Webseite</a></li>
+
+						<li><%= link_to 'Im Verzeichnis', directory_show_episode_path(entry.episode) %></li>
+
+						<li><%= link_to 'Mehr von diesem Podcast', directory_show_podcast_path(entry.episode.podcast) %></li>
+
+						<!-- FEED -->
+						<li>
+							<a href="#" data-dropdown="subscription-dropdown-<%= entry.id %>"><i class="fa fa-rss"></i> Abonnieren</a>
+							<ul id="subscription-dropdown-<%= entry.id %>" class="f-dropdown" data-dropdown-content>
+								<li><a href="http://b.instaca.st/button/subscribe?url=<%= entry.episode.podcast.feed %>" target="_blank">Instacast</a></li>
+								<li><a href="<%= entry.episode.podcast.feed %>">FeedURL</a></li>
+							</ul>
+						</li>
+
+						<!-- FLATTR -->
+						<% if !entry.episode.flattr_url.blank? %><li>
+							<a href="<%= entry.episode.flattr_url %>" target="_blank"><i class="fa fa-heart"></i> Flattr</a>
+						</li><% end %>
+					</ul>
+
+				</div>
+			</div>
+		<% end %>
+	<% end %>
+<% end %>

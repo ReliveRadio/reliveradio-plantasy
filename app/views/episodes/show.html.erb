@@ -1,0 +1,72 @@
+<div class="row">
+	<div class="medium-12 columns">
+
+		<%= image_tag @episode.coverart.thumb_400 %>
+		
+		<p>
+			<strong>Title:</strong>
+			<%= @episode.title %>
+		</p>
+
+		<p>
+			<strong>Subtitle:</strong>
+			<%= @episode.subtitle %>
+		</p>
+		<p>
+			<strong>Link:</strong>
+			<%= @episode.link %>
+		</p>
+
+		<p>
+			<strong>Pub date:</strong>
+			<%= @episode.pub_date %>
+		</p>
+
+		<p>
+			<strong>Guid:</strong>
+			<%= @episode.guid %>
+		</p>
+
+		<p>
+			<strong>Duration:</strong>
+			<%= @episode.duration %>
+		</p>
+
+		<p>
+			<strong>Flattr url:</strong>
+			<%= @episode.flattr_url %>
+		</p>
+
+		<p>
+			<strong>Tags:</strong>
+			<%= @episode.tag_list %>
+		</p>
+
+		<p>
+			<strong>Icon url:</strong>
+			<%= @episode.icon_url %>
+		</p>
+
+		<p>
+			<strong>Audio file url:</strong>
+			<%= @episode.audio_file_url %>
+		</p>
+
+		<p>
+			<strong>Cached:</strong>
+			<%= @episode.cached? %>
+		</p>
+
+		<p>
+			<strong>Audio:</strong>
+			<%= @episode.audio_url %>
+		</p>
+		<%= link_to 'Edit', edit_episode_path(@episode), class: 'button' %>
+
+		<h2>Content:</h2>
+		<hr />
+		<%= raw @episode.content %>
+
+		
+	</div>
+</div>
