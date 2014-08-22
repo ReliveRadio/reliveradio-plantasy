@@ -1,5 +1,5 @@
 set :stage, :develop
-set :branch, "develop"
+set :branch, "feature/capistrano"
 
 # This is used in the Nginx VirtualHost to specify which domains
 # the app should appear on. If you don't yet have DNS setup, you'll
@@ -17,7 +17,7 @@ set :deploy_to, "/home/#{fetch(:deploy_user)}/apps/#{fetch(:full_app_name)}"
 
 # dont try and infer something as important as environment from
 # stage name.
-set :rails_env, :develop
+set :rails_env, :production
 
 # number of unicorn workers, this will be reflected in
 # the unicorn.rb and the monit configs

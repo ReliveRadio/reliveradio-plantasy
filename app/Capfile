@@ -16,7 +16,7 @@ require 'capistrano/deploy'
 #   https://github.com/capistrano/rails/tree/master/migrations
 #
 # require 'capistrano/rvm'
-# require 'capistrano/rbenv'
+require 'capistrano/rbenv'
 # require 'capistrano/chruby'
 require 'capistrano/bundler'
 require 'capistrano/rails'
@@ -25,6 +25,6 @@ require 'capistrano/rails'
 # require 'capistrano/sidekiq/monit'
 # require 'capistrano/monit'
 
-# Loads custom tasks from `lib/capistrano/tasks' if you have any defined.
-Dir.glob('lib/capistrano/tasks/*.cap').each { |r| import r }
-Dir.glob('lib/capistrano/**/*.rb').each { |r| import r }
+# Loads custom tasks from lib
+Dir.glob('config/deploy/lib/tasks/*.cap').each { |r| import r }
+Dir.glob('config/deploy/lib/**/*.rb').each { |r| import r }

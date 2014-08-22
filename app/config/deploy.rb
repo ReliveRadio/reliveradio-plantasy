@@ -8,11 +8,12 @@ set :repo_url, 'https://github.com/ReliveRadio/reliveradio-plantasy'
 # allow use of sudo
 set :pty, true
 
-# setup rbenv.
-# set :rbenv_type, :system
-# set :rbenv_ruby, '2.1.1'
-# set :rbenv_prefix, "RBENV_ROOT=#{fetch(:rbenv_path)} RBENV_VERSION=#{fetch(:rbenv_ruby)} #{fetch(:rbenv_path)}/bin/rbenv exec"
-# set :rbenv_map_bins, %w{rake gem bundle ruby rails}
+# setup rbenv
+set :rbenv_type, :system
+set :rbenv_ruby, '2.1.2'
+set :rbenv_custom_path, '/opt/rbenv'
+#set :rbenv_prefix, "RBENV_ROOT=#{fetch(:rbenv_path)} RBENV_VERSION=#{fetch(:rbenv_ruby)} #{fetch(:rbenv_path)}/bin/rbenv exec"
+#set :rbenv_map_bins, %w{rake gem bundle ruby rails}
 
 # how many old releases do we want to keep, not much
 set :keep_releases, 5
@@ -91,7 +92,7 @@ namespace :deploy do
 
   # setup database
   before 'deploy:setup_config', 'database:create'
-  after 'deploy:setup_config', 'deploy:migrate'
+  after 'database:create', 'deploy:migrate'
 
   # compile assets
   after 'deploy:setup_config', 'deploy:compile_assets'
