@@ -2,23 +2,27 @@ namespace :database do
   
   desc "Create the database"
   task :create do
-    database_yml = YAML.load_file "#{fetch(:deploy_to)}/shared/config/database.yml"
-    database_config = database_yml[fetch(:rails_env).to_s]
+    on roles(:db) do
+      execute %Q{ls #{shared_path}/config}
+      database_yml = YAML.load_file "#{shared_path}/config/database.yml"
+      database_config = database_yml[fetch(:rails_env).to_s]
 
-    # create user
-    if test %Q{sudo -u postgres psql postgres -tAc "SELECT 1 FROM pg_roles WHERE rolname='#{database_config["username"]}';" | grep -q 1}
-      info "Role #{database_config['username']} already exists"
-    else
-      execute %Q{sudo -u postgres psql -c "create user #{database_config["username"]} with password '#{database_config["password"]}';"}
-    end
+      # create user
+      if test %Q{sudo -u postgres psql postgres -tAc "SELECT 1 FROM pg_roles WHERE rolname='#{database_config["username"]}';" | grep -q 1}
+        info "Role #{database_config['username']} already exists"
+      else
+        execute %Q{sudo -u postgres psql -c "create user #{database_config["username"]} with password '#{database_config["password"]}';"}
+      end
 
-    # create database and grant privileges for the user
-    if test %Q{sudo -u postgres psql -lqt | cut -d \\| -f 1 | grep -wq #{database_config["database"]}}
-      info "Database #{database_config['database']} already exists"
-    else
-      execute %Q{sudo -u postgres psql -c "create database #{database_config["database"]};"}
-      execute %Q{sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE #{database_config["database"]} to #{database_config["username"]};"}
+      # create database and grant privileges for the user
+      if test %Q{sudo -u postgres psql -lqt | cut -d \\| -f 1 | grep -wq #{database_config["database"]}}
+        info "Database #{database_config['database']} already exists"
+      else
+        execute %Q{sudo -u postgres psql -c "create database #{database_config["database"]};"}
+        execute %Q{sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE #{database_config["database"]} to #{database_config["username"]};"}
+      end
     end
   end
+  before "deploy:compile_assets", "database:create"
 
 end
