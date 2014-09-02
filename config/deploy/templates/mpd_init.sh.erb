@@ -19,7 +19,7 @@ PATH=/sbin:/bin:/usr/sbin:/usr/bin
 NAME=mpd_<%= fetch(:full_app_name) %>
 DESC="Music Player Daemon"
 DAEMON=/usr/bin/mpd
-MPDCONF=<%= "#{shared_path}/config/mpd.conf" %>
+MPDCONF=<%= "#{current_path}/config/mpd.conf" %>
 START_MPD=true
 
 # Exit if the package is not installed

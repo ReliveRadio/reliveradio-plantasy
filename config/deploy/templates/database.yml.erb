@@ -1,0 +1,10 @@
+production:
+  adapter: postgresql
+  encoding: utf8
+  timeout: 5000
+  reconnect: false
+  pool: 5
+  database: <%= postgresql_database %>
+  username: <%= postgresql_user %>
+  password: <%= postgresql_password %>
+  host: <%= postgresql_host %>

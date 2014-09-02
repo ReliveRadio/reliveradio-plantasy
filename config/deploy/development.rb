@@ -1,4 +1,4 @@
-set :stage, :develop
+set :stage, :development
 set :branch, "feature/capistrano"
 
 # This is used in the Nginx VirtualHost to specify which domains
@@ -23,8 +23,14 @@ set :rails_env, :development
 # the unicorn.rb and the monit configs
 set :unicorn_worker_count, 5
 
+# number of the sidekiq workers
+set :sidekiq_concurrency, 5
+
+# set :mpd_channels, %w{mix tech}
+
 # whether we're using ssl or not, used for building nginx
 # config file
 set :enable_ssl, false
 
 set :icecast_password, "hackme"
+set :postgresql_password, "hackme"

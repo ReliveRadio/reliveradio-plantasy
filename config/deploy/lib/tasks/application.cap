@@ -1,0 +1,18 @@
+namespace :application do
+  desc "SCP transfer application configuration to the shared folder"
+  task :setup do
+  	on roles(:app) do
+      upload! "config/application.yml", "#{shared_path}/config/application.yml", via: :scp
+    end
+  end
+  before "deploy:setup", "application:setup"
+
+  # desc "Symlink application.yml to the release path"
+  # task :symlink do
+  #   on roles(:app) do
+  #     execute "ln -sf #{shared_path}/config/application.yml #{release_path}/config/application.yml"
+  #   end
+  # end
+  
+  # after 'deploy:updating', 'application:symlink'
+end

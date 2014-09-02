@@ -1,28 +1,39 @@
+set_default(:postgresql_host, "localhost")
+set_default(:postgresql_user) { "#{full_app_name}" }
+set_default(:postgresql_password) { "hackme" }
+set_default(:postgresql_database) { "#{full_app_name}" }
+
 namespace :database do
   
-  desc "Create the database"
-  task :create do
-    on roles(:db) do
-      execute %Q{ls #{shared_path}/config}
-      database_yml = YAML.load_file "#{shared_path}/config/database.yml"
-      database_config = database_yml[fetch(:rails_env).to_s]
-
+  desc "Create the database for this application."
+  task :create_database, role: :db, only: {primary: true} do
       # create user
-      if test %Q{sudo -u postgres psql postgres -tAc "SELECT 1 FROM pg_roles WHERE rolname='#{database_config["username"]}';" | grep -q 1}
-        info "Role #{database_config['username']} already exists"
+      if test %Q{sudo -u postgres psql postgres -tAc "SELECT 1 FROM pg_roles WHERE rolname='#{postgresql_user}';" | grep -q 1}
+        info "Role #{postgresql_user} already exists"
       else
-        execute %Q{sudo -u postgres psql -c "create user #{database_config["username"]} with password '#{database_config["password"]}';"}
+        execute %Q{sudo -u postgres psql -c "create user #{postgresql_user} with password '#{postgresql_password}';"}
       end
 
       # create database and grant privileges for the user
-      if test %Q{sudo -u postgres psql -lqt | cut -d \\| -f 1 | grep -wq #{database_config["database"]}}
-        info "Database #{database_config['database']} already exists"
+      if test %Q{sudo -u postgres psql -lqt | cut -d \\| -f 1 | grep -wq #{postgresql_database}}
+        info "Database #{postgresql_database} already exists"
       else
-        execute %Q{sudo -u postgres psql -c "create database #{database_config["database"]};"}
-        execute %Q{sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE #{database_config["database"]} to #{database_config["username"]};"}
+        execute %Q{sudo -u postgres psql -c "create database #{postgresql_database};"}
+        execute %Q{sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE #{postgresql_database} to #{postgresql_user};"}
       end
-    end
   end
-  before "deploy:compile_assets", "database:create"
+  before "deploy:setup", "database:create_database"
 
+  desc "Generate the database.yml configuration file."
+  task :setup, roles: :app do
+    run "mkdir -p #{shared_path}/config"
+    template "database.yml.erb", "#{shared_path}/config/database.yml"
+  end
+  after "deploy:setup", "postgresql:setup"
+
+  # desc "Symlink the database.yml file into latest release"
+  # task :symlink, roles: :app do
+  #   run "ln -nfs #{shared_path}/config/database.yml #{release_path}/config/database.yml"
+  # end
+  # after "deploy:finalize_update", "postgresql:symlink"
 end
