@@ -1,26 +1,24 @@
-set_default(:unicorn_user) { user }
-set_default(:unicorn_pid) { "#{current_path}/tmp/pids/unicorn.pid" }
-set_default(:unicorn_config) { "#{shared_path}/config/unicorn.rb" }
-set_default(:unicorn_log) { "#{shared_path}/log/unicorn.log" }
-set_default(:unicorn_worker_count, 2)
-
 namespace :unicorn do
   desc "Setup Unicorn initializer and app configuration"
-  task :setup, roles: :app do
-    run "mkdir -p #{shared_path}/config"
-    template "unicorn.rb.erb", unicorn_config
-    template "unicorn_init.erb", "/tmp/unicorn_init"
-    run "chmod +x /tmp/unicorn_init"
-    run "#{sudo} mv /tmp/unicorn_init /etc/init.d/unicorn_#{full_app_name}"
-    run "#{sudo} update-rc.d -f unicorn_#{full_app_name} defaults"
+  task :setup do
+    on roles(:app) do
+      run "mkdir -p #{shared_path}/config"
+      template "unicorn.rb.erb", fetch(:unicorn_config, "#{shared_path}/config/unicorn.rb")
+      template "unicorn_init.erb", "/tmp/unicorn_init"
+      run "chmod +x /tmp/unicorn_init"
+      run "#{sudo} mv /tmp/unicorn_init /etc/init.d/unicorn_#{full_app_name}"
+      run "#{sudo} update-rc.d -f unicorn_#{full_app_name} defaults"
+    end
   end
-  after "deploy:setup", "unicorn:setup"
+  after "deploy:started", "unicorn:setup"
 
   %w[start stop restart].each do |command|
     desc "#{command} unicorn"
-    task command, roles: :app do
-      run "service unicorn_#{full_app_name} #{command}"
+    task command do
+      on roles(:app) do
+        run "service unicorn_#{full_app_name} #{command}"
+      end
     end
-    after "deploy:#{command}", "unicorn:#{command}"
   end
+  after "deploy:restart", "unicorn:restart"
 end

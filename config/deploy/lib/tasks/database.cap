@@ -1,39 +1,40 @@
-set_default(:postgresql_host, "localhost")
-set_default(:postgresql_user) { "#{full_app_name}" }
-set_default(:postgresql_password) { "hackme" }
-set_default(:postgresql_database) { "#{full_app_name}" }
-
 namespace :database do
   
   desc "Create the database for this application."
-  task :create_database, role: :db, only: {primary: true} do
+  task :create_database do
+    on roles(:db) do
       # create user
-      if test %Q{sudo -u postgres psql postgres -tAc "SELECT 1 FROM pg_roles WHERE rolname='#{postgresql_user}';" | grep -q 1}
-        info "Role #{postgresql_user} already exists"
+      if test %Q{sudo -u postgres psql postgres -tAc "SELECT 1 FROM pg_roles WHERE rolname='#{fetch(:postgresql_user, :full_app_name)}';" | grep -q 1}
+        info "Role #{fetch(:postgresql_user, :full_app_name)} already exists"
       else
-        execute %Q{sudo -u postgres psql -c "create user #{postgresql_user} with password '#{postgresql_password}';"}
+        execute %Q{sudo -u postgres psql -c "create user #{fetch(:postgresql_user, :full_app_name)} with password '#{fetch(:postgresql_password, "hackme")}';"}
       end
 
       # create database and grant privileges for the user
-      if test %Q{sudo -u postgres psql -lqt | cut -d \\| -f 1 | grep -wq #{postgresql_database}}
-        info "Database #{postgresql_database} already exists"
+      if test %Q{sudo -u postgres psql -lqt | cut -d \\| -f 1 | grep -wq #{fetch(:postgresql_database, :full_app_name)}}
+        info "Database #{fetch(:postgresql_database, :full_app_name)} already exists"
       else
-        execute %Q{sudo -u postgres psql -c "create database #{postgresql_database};"}
-        execute %Q{sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE #{postgresql_database} to #{postgresql_user};"}
+        execute %Q{sudo -u postgres psql -c "create database #{fetch(:postgresql_database, :full_app_name)};"}
+        execute %Q{sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE #{fetch(:postgresql_database, :full_app_name)} to #{fetch(:postgresql_user, :full_app_name)};"}
       end
+    end
   end
-  before "deploy:setup", "database:create_database"
+  before "deploy:started", "database:create_database"
 
   desc "Generate the database.yml configuration file."
-  task :setup, roles: :app do
-    run "mkdir -p #{shared_path}/config"
-    template "database.yml.erb", "#{shared_path}/config/database.yml"
+  task :setup do
+    on roles(:app) do
+      run "mkdir -p #{shared_path}/config"
+      template "database.yml.erb", "#{shared_path}/config/database.yml"
+    end
   end
-  after "deploy:setup", "postgresql:setup"
+  after "deploy:started", "database:setup"
 
   # desc "Symlink the database.yml file into latest release"
-  # task :symlink, roles: :app do
+  # task :symlink do
+  #  on roles(:app) do
   #   run "ln -nfs #{shared_path}/config/database.yml #{release_path}/config/database.yml"
   # end
-  # after "deploy:finalize_update", "postgresql:symlink"
+  # end
+  # after "deploy:finalize_update", "database:symlink"
 end

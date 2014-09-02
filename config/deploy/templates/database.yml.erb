@@ -4,7 +4,7 @@ production:
   timeout: 5000
   reconnect: false
   pool: 5
-  database: <%= postgresql_database %>
-  username: <%= postgresql_user %>
-  password: <%= postgresql_password %>
-  host: <%= postgresql_host %>
+  database: <%= fetch(:postgresql_database, :full_app_name) %>
+  username: <%= fetch(:postgresql_user, :full_app_name) %>
+  password: <%= fetch(:postgresql_password, "hackme") %>
+  host: <%= fetch(:postgresql_host, "localhost") %>

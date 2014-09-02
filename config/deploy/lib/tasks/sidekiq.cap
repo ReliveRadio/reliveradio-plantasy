@@ -1,20 +1,24 @@
 namespace :sidekiq do
   desc "Setup sidekiq initializer and app configuration"
-  task :setup, roles: :app do
-    run "mkdir -p #{shared_path}/config"
-    template "sidekiq.yml.erb", "#{shared_path}/config/sidekiq.yml"
-    template "sidekiq_init.sh.erb", "/tmp/sidekiq_init.sh"
-    run "chmod +x /tmp/sidekiq_init.sh"
-    run "#{sudo} mv /tmp/sidekiq_init.sh /etc/init.d/sidekiq_#{full_app_name}"
-    run "#{sudo} update-rc.d -f sidekiq_#{full_app_name} defaults"
+  task :setup do
+    on roles(:app) do
+      run "mkdir -p #{shared_path}/config"
+      template "sidekiq.yml.erb", "#{shared_path}/config/sidekiq.yml"
+      template "sidekiq_init.sh.erb", "/tmp/sidekiq_init.sh"
+      run "chmod +x /tmp/sidekiq_init.sh"
+      run "#{sudo} mv /tmp/sidekiq_init.sh /etc/init.d/sidekiq_#{full_app_name}"
+      run "#{sudo} update-rc.d -f sidekiq_#{full_app_name} defaults"
+    end
   end
-  after "deploy:setup", "sidekiq:setup"
+  after "deploy:started", "sidekiq:setup"
 
   %w[start stop restart].each do |command|
     desc "#{command} sidekiq"
-    task command, roles: :app do
-      run "service sidekiq_#{full_app_name} #{command}"
+    task command do
+      on roles(:app) do
+        run "service sidekiq_#{full_app_name} #{command}"
+      end
     end
-    after "deploy:#{command}", "sidekiq:#{command}"
   end
+  after "deploy:restart", "sidekiq:restart"
 end

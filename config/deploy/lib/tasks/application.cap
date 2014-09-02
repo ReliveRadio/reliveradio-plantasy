@@ -5,7 +5,7 @@ namespace :application do
       upload! "config/application.yml", "#{shared_path}/config/application.yml", via: :scp
     end
   end
-  before "deploy:setup", "application:setup"
+  before "deploy:started", "application:setup"
 
   # desc "Symlink application.yml to the release path"
   # task :symlink do

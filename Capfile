@@ -26,5 +26,5 @@ require 'capistrano/rails'
 # require 'capistrano/monit'
 
 # Loads custom tasks from lib
+Dir.glob('config/deploy/lib/*.rb').each { |r| import r }
 Dir.glob('config/deploy/lib/tasks/*.cap').each { |r| import r }
-Dir.glob('config/deploy/lib/**/*.rb').each { |r| import r }
