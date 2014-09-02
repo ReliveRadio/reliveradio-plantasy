@@ -15,4 +15,7 @@ namespace :deploy do
     puts "--> All tests passed"
     system "rm #{test_log}"
   end
+  # only allow a deploy with passing tests to deployed
+  # configure somewhere above which tests will be run here
+  before :deploy, "deploy:run_tests"
 end

@@ -19,7 +19,7 @@ set :rbenv_custom_path, '/opt/rbenv'
 set :keep_releases, 5
 
 # files we want symlinking to specific entries in shared
-set :linked_files, %w{config/database.yml}
+set :linked_files, %w{}
 
 # dirs we want symlinking to shared
 set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system}
@@ -81,24 +81,10 @@ set(:symlinks, [
 # and when for `cap stage deploy`
 
 namespace :deploy do
-  # make sure we're deploying what we think we're deploying
-  before :deploy, "deploy:check_revision"
-  
-  # only allow a deploy with passing tests to deployed
-  # configure somewhere above which tests will be run here
-  before :deploy, "deploy:run_tests"
-
-  after :finishing, 'deploy:cleanup'
-
-  # setup database
-  before 'deploy:setup_config', 'database:create'
-  after 'database:create', 'deploy:migrate'
-
-  # compile assets
-  after 'deploy:setup_config', 'deploy:compile_assets'
-
   # As of Capistrano 3.1, the `deploy:restart` task is not called
   # automatically.
   after 'deploy:publishing', 'deploy:restart'
+
+  after :finishing, 'deploy:cleanup'
 end
 

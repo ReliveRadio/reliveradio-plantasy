@@ -77,4 +77,20 @@ App::Application.configure do
 
   # Use default logging formatter so that PID and timestamp are not suppressed.
   config.log_formatter = ::Logger::Formatter.new
+
+  # Setting for devise
+  config.action_mailer.default_url_options = { :host => 'localhost:3000' }
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.raise_delivery_errors = true
+  config.action_mailer.smtp_settings = {
+    :enable_starttls_auto => true,  
+    :address            => Figaro.env.mailer_server_address,
+    :port               => 587,
+    :domain             => Figaro.env.mailer_domain,
+    :authentication     => :plain,
+    :user_name          => Figaro.env.mailer_username,
+    :password           => Figaro.env.mailer_password
+  }
+  
 end
