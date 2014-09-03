@@ -40,6 +40,6 @@ set :templates_path, "config/deploy/templates"
 
 # As of Capistrano 3.1, the `deploy:restart` task is not called
 # automatically.
+before :deploy, 'setup'
 after 'deploy:publishing', 'deploy:restart'
 after 'deploy:finishing', 'deploy:cleanup'
-before :deploy, 'setup'

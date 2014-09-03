@@ -18,7 +18,7 @@ namespace :mpd do
     desc "#{command} mpd"
     task command do
       on roles(:app) do
-        execute "service mpd_#{fetch(:application)}_#{fetch(:stage)} #{command}"
+        sudo "service mpd_#{fetch(:application)}_#{fetch(:stage)} #{command}"
       end
     end
   end
