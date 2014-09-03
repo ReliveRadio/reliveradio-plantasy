@@ -32,5 +32,5 @@ set :sidekiq_concurrency, 5
 # config file
 set :enable_ssl, false
 
-set :icecast_password, "hackme"
-set :postgresql_password, "hackme"
+ask :icecast_password, "hackme"
+ask :postgresql_password, "hackme"

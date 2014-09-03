@@ -4,8 +4,8 @@ namespace :nginx do
   task :setup do
     on roles(:web) do
       template "nginx.conf.erb", "/tmp/nginx_conf"
-      run "#{sudo} mv /tmp/nginx_conf /etc/nginx/sites-enabled/#{full_app_name}"
-      run "#{sudo} rm -f /etc/nginx/sites-enabled/default" # ensure default is disabled
+      execute "#{sudo} mv /tmp/nginx_conf /etc/nginx/sites-enabled/#{full_app_name}"
+      execute "#{sudo} rm -f /etc/nginx/sites-enabled/default" # ensure default is disabled
     end
   end
   after "deploy:started", "nginx:setup"
@@ -14,7 +14,7 @@ namespace :nginx do
     desc "#{command} nginx"
     task command do
       on roles(:web) do
-        run "#{sudo} service nginx #{command}"
+        execute "#{sudo} service nginx #{command}"
       end
     end
   end

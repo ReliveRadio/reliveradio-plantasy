@@ -1,10 +1,10 @@
-production:
+<%= fetch(:rails_env) %>:
   adapter: postgresql
   encoding: utf8
   timeout: 5000
   reconnect: false
   pool: 5
-  database: <%= fetch(:postgresql_database, :full_app_name) %>
-  username: <%= fetch(:postgresql_user, :full_app_name) %>
+  database: <%= fetch(:postgresql_database, fetch(:full_app_name)) %>
+  username: <%= fetch(:postgresql_user, fetch(:full_app_name)) %>
   password: <%= fetch(:postgresql_password, "hackme") %>
   host: <%= fetch(:postgresql_host, "localhost") %>
