@@ -16,8 +16,6 @@ server 's17837361.onlinehome-server.info', user: fetch(:user), roles: %w{web app
 
 set :deploy_to, "/home/#{fetch(:deploy_user)}/apps/#{fetch(:full_app_name)}"
 
-# dont try and infer something as important as environment from
-# stage name.
 set :rails_env, :production
 
 # number of unicorn workers, this will be reflected in
@@ -27,10 +25,9 @@ set :unicorn_worker_count, 5
 # number of the sidekiq workers
 set :sidekiq_concurrency, 5
 
+# currently only one channel supported
 # set :mpd_channels, %w{mix tech}
 
-# whether we're using ssl or not, used for building nginx
-# config file
-set :enable_ssl, false
+set :nginx_use_ssl, false
 
 ask :icecast_password, "hackme"
