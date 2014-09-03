@@ -1,7 +1,14 @@
 # evaluate template erb files in templates folder and upload them
 # to the server
-def template(from, to)
-  template_path = File.expand_path("../../templates/#{from}", __FILE__)
-  template = ERB.new(File.new(template_path).read).result(binding)
-  upload! StringIO.new(template), to
+def my_template(template_name)
+	config_file = "#{fetch(:templates_path)}/#{template_name}"
+	StringIO.new(ERB.new(File.read(config_file)).result(binding))
+end
+
+def sudo_upload!(from, to)
+	filename = File.basename(to)
+	to_dir = File.dirname(to)
+	tmp_file = "#{fetch(:tmp_dir)}/#{filename}"
+	upload! from, tmp_file
+	sudo :mv, tmp_file, to_dir
 end

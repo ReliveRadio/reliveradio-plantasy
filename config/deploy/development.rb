@@ -11,7 +11,8 @@ set :server_name, "www.s17837361.onlinehome-server.info s17837361.onlinehome-ser
 # at filepaths
 set :full_app_name, "#{fetch(:application)}_#{fetch(:stage)}"
 
-server 's17837361.onlinehome-server.info', user: 'deploy', roles: %w{web app db}, primary: true
+set :user, "deploy"
+server 's17837361.onlinehome-server.info', user: fetch(:user), roles: %w{web app db}, primary: true
 
 set :deploy_to, "/home/#{fetch(:deploy_user)}/apps/#{fetch(:full_app_name)}"
 
@@ -33,4 +34,3 @@ set :sidekiq_concurrency, 5
 set :enable_ssl, false
 
 ask :icecast_password, "hackme"
-ask :postgresql_password, "hackme"

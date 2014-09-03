@@ -1,0 +1,21 @@
+namespace :icecast do
+  desc "Setup icecast initializer and app configuration"
+  task :setup do
+    on roles(:app) do
+      execute "mkdir -p #{shared_path}/config"
+
+      upload! my_template("icecast.xml.erb"), "#{shared_path}/config/icecast.xml"
+    end
+  end
+  #before "deploy", "icecast:setup"
+
+  %w[start stop restart].each do |command|
+    desc "#{command} icecast"
+    task command do
+      on roles(:app) do
+        execute "service icecast #{command}"
+      end
+    end
+  end
+  #after "deploy:restart", "icecast:restart"
+end

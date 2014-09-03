@@ -22,7 +22,7 @@ set :keep_releases, 5
 
 # files we want symlinking to specific entries in shared
 # creates symlink from generic shared folder to current release shared folder
-set :linked_files, %w{config/database.yml config/application.yml config/sidekiq.yml config/unicorn.rb config/mpd.conf}
+set :linked_files, %w{config/application.yml config/sidekiq.yml config/mpd.conf}
 
 # dirs we want symlinking to shared
 set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system}
@@ -31,15 +31,15 @@ set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public
 # continue, see lib/capistrano/tasks/run_tests.cap
 set :tests, []
 
+set :templates_path, "config/deploy/templates"
+
 # this:
 # http://www.capistranorb.com/documentation/getting-started/flow/
 # is worth reading for a quick overview of what tasks are called
 # and when for `cap stage deploy`
 
-namespace :deploy do
-  # As of Capistrano 3.1, the `deploy:restart` task is not called
-  # automatically.
-  after 'deploy:publishing', 'deploy:restart'
-  after :finishing, 'deploy:cleanup'
-end
-
+# As of Capistrano 3.1, the `deploy:restart` task is not called
+# automatically.
+after 'deploy:publishing', 'deploy:restart'
+after 'deploy:finishing', 'deploy:cleanup'
+before :deploy, 'setup'

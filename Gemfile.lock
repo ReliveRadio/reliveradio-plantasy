@@ -1,10 +1,3 @@
-GIT
-  remote: git://github.com/naps62/capistrano3-monit.git
-  revision: 583d7596cf49e9f213bf8f34366c62923ed702b2
-  specs:
-    capistrano3-monit (0.3.0)
-      capistrano (~> 3.1)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -53,17 +46,17 @@ GEM
       sshkit (~> 1.2)
     capistrano-ext (1.2.1)
       capistrano (>= 1.0.0)
+    capistrano-postgresql (3.0.1)
+      capistrano (>= 3.0)
     capistrano-rails (1.1.1)
       capistrano (~> 3.1)
       capistrano-bundler (~> 1.1)
     capistrano-rbenv (2.0.2)
       capistrano (~> 3.1)
       sshkit (~> 1.3)
-    capistrano-sidekiq (0.3.6)
-      capistrano
-      sidekiq
-    capistrano3-unicorn (0.2.1)
-      capistrano (~> 3.1, >= 3.1.0)
+    capistrano-unicorn-nginx (2.1.0)
+      capistrano (>= 3.1)
+      sshkit (>= 1.2.0)
     capybara (2.4.1)
       mime-types (>= 1.16)
       nokogiri (>= 1.3.3)
@@ -316,11 +309,10 @@ DEPENDENCIES
   capistrano
   capistrano-bundler
   capistrano-ext
+  capistrano-postgresql (~> 3.0)
   capistrano-rails
   capistrano-rbenv
-  capistrano-sidekiq
-  capistrano3-monit!
-  capistrano3-unicorn
+  capistrano-unicorn-nginx (~> 2.0)
   capybara
   carrierwave
   chronic_duration

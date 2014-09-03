@@ -12,5 +12,5 @@ namespace :deploy do
     end
   end
   # make sure we're deploying what we think we're deploying
-  before :deploy, "deploy:check_revision"
+  #before :deploy, "deploy:check_revision"
 end

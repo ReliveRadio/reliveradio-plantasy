@@ -2,21 +2,23 @@ namespace :sidekiq do
   desc "Setup sidekiq initializer and app configuration"
   task :setup do
     on roles(:app) do
-      mkdir_p "#{shared_path}/config"
-      template "sidekiq.yml.erb", "#{shared_path}/config/sidekiq.yml"
-      template "sidekiq_init.sh.erb", "/tmp/sidekiq_init.sh"
-      execute "chmod +x /tmp/sidekiq_init.sh"
-      execute "#{sudo} mv /tmp/sidekiq_init.sh /etc/init.d/sidekiq_#{full_app_name}"
-      execute "#{sudo} update-rc.d -f sidekiq_#{full_app_name} defaults"
+      execute "mkdir -p #{shared_path}/config"
+
+      upload! my_template("sidekiq.yml.erb"), "#{shared_path}/config/sidekiq.yml"
+
+      sidekiq_initd_file = "/etc/init.d/sidekiq_#{fetch(:application)}_#{fetch(:stage)}"
+      sudo_upload! my_template("sidekiq_init.sh.erb"), sidekiq_initd_file
+      execute :chmod, '+x', sidekiq_initd_file
+      sudo 'update-rc.d', '-f', "sidekiq_#{fetch(:application)}_#{fetch(:stage)}", 'defaults'
     end
   end
-  after "deploy:started", "sidekiq:setup"
+  before "deploy", "sidekiq:setup"
 
   %w[start stop restart].each do |command|
     desc "#{command} sidekiq"
     task command do
       on roles(:app) do
-        execute "service sidekiq_#{full_app_name} #{command}"
+        execute "service sidekiq_#{fetch(:application)}_#{fetch(:stage)} #{command}"
       end
     end
   end
