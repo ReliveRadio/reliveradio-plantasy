@@ -4,18 +4,24 @@ namespace :icecast do
     on roles(:app) do
       execute "mkdir -p #{shared_path}/config"
 
+      # if no password for icecast ist set, generate a random one
+      unless fetch(:icecast_password)
+        set :icecast_password, generate_random_password
+      end
+
       upload! my_template("icecast.xml.erb"), "#{shared_path}/config/icecast.xml"
+      # ln -s
     end
   end
-  #before "deploy", "icecast:setup"
+  before "deploy", "icecast:setup"
 
   %w[start stop restart].each do |command|
-    desc "#{command} icecast"
+    desc "#{command} icecast2"
     task command do
       on roles(:app) do
-        sudo "service icecast #{command}"
+        sudo "service icecast2 #{command}"
       end
     end
   end
-  #after "deploy:restart", "icecast:restart"
+  after "deploy:restart", "icecast:restart"
 end

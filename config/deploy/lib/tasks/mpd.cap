@@ -4,6 +4,11 @@ namespace :mpd do
     on roles(:app) do
       execute "mkdir -p #{shared_path}/config"
 
+      # if no password for icecast ist set, generate a random one
+      unless fetch(:icecast_password)
+        set :icecast_password, generate_random_password
+      end
+
       upload! my_template("mpd.conf.erb"), "#{shared_path}/config/mpd.conf"
 
       mpd_initd_file = "/etc/init.d/mpd_#{fetch(:application)}_#{fetch(:stage)}"

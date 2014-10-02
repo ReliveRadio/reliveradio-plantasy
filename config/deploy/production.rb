@@ -30,4 +30,4 @@ set :sidekiq_concurrency, 5
 
 set :nginx_use_ssl, false
 
-ask :icecast_password, "hackme"
+# ask :icecast_password, "hackme"

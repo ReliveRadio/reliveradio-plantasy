@@ -1,3 +1,5 @@
+require 'securerandom' # for password generation
+
 # evaluate template erb files in templates folder and upload them
 # to the server
 def my_template(template_name)
@@ -11,4 +13,8 @@ def sudo_upload!(from, to)
 	tmp_file = "#{fetch(:tmp_dir)}/#{filename}"
 	upload! from, tmp_file
 	sudo :mv, tmp_file, to_dir
+end
+
+def generate_password
+	SecureRandom.hex(20)
 end
