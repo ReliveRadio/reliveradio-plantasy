@@ -9,8 +9,11 @@ namespace :icecast do
         set :icecast_password, generate_random_password
       end
 
-      upload! my_template("icecast.xml.erb"), "#{shared_path}/config/icecast.xml"
-      # ln -s
+      icecast_config_file = "#{shared_path}/config/icecast.xml"
+      upload! my_template("icecast.xml.erb"), icecast_config_file
+      # link to new config file
+      execute "sudo ln -sf #{icecast_config_file} /etc/icecast2/icecast.xml"
+      execute :chmod, '+r', icecast_config_file # make it readable by icecast2 user
     end
   end
   before "deploy", "icecast:setup"
