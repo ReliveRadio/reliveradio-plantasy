@@ -222,8 +222,8 @@ class PlaylistManagementController < ApplicationController
 			# add remaining entries to the mpd playlist
 			playlist_entries.each do |entry|
 
-				mpd.add "file://" + File.join(Rails.root, 'public', entry.episode.audio.path) if entry.is_episode?
-				mpd.add "file://" + File.join(Rails.root, 'public', entry.jingle.audio.path) if entry.is_jingle?
+				mpd.add "file://" + entry.episode.audio.path if entry.is_episode?
+				mpd.add "file://" + entry.jingle.audio.path if entry.is_jingle?
 
 				# seek the live entry to the correct position
 				if seek && entry.is_live?
