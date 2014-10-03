@@ -20,8 +20,8 @@ require 'capistrano/bundler'
 require 'capistrano/rails'
 require 'capistrano/postgresql'
 require 'capistrano/unicorn_nginx'
-# require 'capistrano/sidekiq'
-# require 'capistrano/sidekiq/monit'
+require 'capistrano/sidekiq'
+require 'capistrano/sidekiq/monit'
 # require 'capistrano/monit'
 
 # Loads custom tasks from lib

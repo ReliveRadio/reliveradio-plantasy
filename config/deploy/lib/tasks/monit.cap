@@ -1,0 +1,12 @@
+namespace :monit do
+
+  %w[start stop restart].each do |command|
+    desc "#{command} monit"
+    task command do
+      on roles(:app) do
+        sudo "service monit #{command}"
+      end
+    end
+  end
+  #after "deploy:restart", "icecast:restart"
+end

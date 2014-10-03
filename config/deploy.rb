@@ -6,8 +6,8 @@ set :scm, :git
 set :repo_url, 'https://github.com/ReliveRadio/reliveradio-plantasy'
 
 # allow use of sudo
-set :pty, true
-set :forward_agent, true
+set :pty, false
+#set :forward_agent, true
 
 # setup rbenv
 # requires rbenv preinstalled on the server
@@ -22,7 +22,7 @@ set :keep_releases, 5
 
 # files we want symlinking to specific entries in shared
 # creates symlink from generic shared folder to current release shared folder
-set :linked_files, %w{config/application.yml config/sidekiq.yml config/mpd.conf}
+set :linked_files, %w{config/application.yml config/mpd.conf}
 
 # dirs we want symlinking to shared
 set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system public/uploads}
@@ -40,6 +40,9 @@ set :templates_path, "config/deploy/templates"
 
 # As of Capistrano 3.1, the `deploy:restart` task is not called
 # automatically.
-before :deploy, 'setup'
+before 'deploy', 'setup'
+before 'deploy', 'sidekiq:monit:config'
+after 'sidekiq:monit:config', 'monit:restart'
+
 after 'deploy:publishing', 'deploy:restart'
 after 'deploy:finishing', 'deploy:cleanup'

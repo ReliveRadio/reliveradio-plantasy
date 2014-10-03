@@ -87,7 +87,7 @@ group :development do
 	gem 'capistrano-rails'
 	gem 'capistrano-bundler'
 	gem 'capistrano-rbenv'
-	#gem 'capistrano-sidekiq'
+	gem 'capistrano-sidekiq', github: 'seuros/capistrano-sidekiq'
 	#gem 'capistrano3-monit', github: 'naps62/capistrano3-monit'
 	gem 'capistrano-postgresql', '~> 3.0'
 	gem 'capistrano-unicorn-nginx', '~> 2.0'

@@ -30,4 +30,7 @@ set :sidekiq_concurrency, 5
 
 set :nginx_use_ssl, false
 
+set :sidekiq_queue, %w(default mailer)
+
+# if not set it will be auto generated
 # ask :icecast_password, "hackme"
