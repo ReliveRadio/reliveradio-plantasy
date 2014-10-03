@@ -1,2 +1,0 @@
-//= require donation
-//= require flattr
