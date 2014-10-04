@@ -37,7 +37,9 @@ set :monit_config_path, "/etc/monit/conf.d/"
 
 set :icecast_pidfile, "/var/run/icecast.pid"
 
-set :check_revision_enabled, false
+# if enabled capistrano will check if the deploy branch
+# is pushed to the remote repository before deploying
+set :check_revision_enabled, true
 
 # if not set it will be auto generated
 # ask :icecast_password, "hackme"
