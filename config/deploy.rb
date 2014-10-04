@@ -40,4 +40,5 @@ before 'deploy', 'setup'
 after 'setup', 'sidekiq:monit:config' # upload sidekiq monit file
 # restart all processes in the end
 after 'deploy:publishing', 'deploy:restart'
+before 'deploy:restart', 'monit:restart'
 after 'deploy:finishing', 'deploy:cleanup'
