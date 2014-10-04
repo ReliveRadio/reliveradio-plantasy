@@ -33,16 +33,11 @@ set :tests, []
 
 set :templates_path, "config/deploy/templates"
 
-# this:
-# http://www.capistranorb.com/documentation/getting-started/flow/
-# is worth reading for a quick overview of what tasks are called
-# and when for `cap stage deploy`
-
-# As of Capistrano 3.1, the `deploy:restart` task is not called
-# automatically.
+# setup configuration files
 before 'deploy', 'setup'
-before 'deploy', 'sidekiq:monit:config'
-after 'sidekiq:monit:config', 'monit:restart'
-
+# after "icecast:setup", "monit:reload"
+# after "mpd:setup", "monit:reload"
+after 'setup', 'sidekiq:monit:config' # upload sidekiq monit file
+# restart all processes in the end
 after 'deploy:publishing', 'deploy:restart'
 after 'deploy:finishing', 'deploy:cleanup'

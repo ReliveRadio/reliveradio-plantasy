@@ -22,7 +22,6 @@ require 'capistrano/postgresql'
 require 'capistrano/unicorn_nginx'
 require 'capistrano/sidekiq'
 require 'capistrano/sidekiq/monit'
-# require 'capistrano/monit'
 
 # Loads custom tasks from lib
 Dir.glob('config/deploy/lib/*.rb').each { |r| import r }

@@ -15,15 +15,17 @@ namespace :mpd do
       sudo_upload! my_template("mpd_init.sh.erb"), mpd_initd_file
       execute :chmod, '+x', mpd_initd_file
       sudo 'update-rc.d', '-f', "mpd_#{fetch(:application)}_#{fetch(:stage)}", 'defaults'
+
+      sudo_upload! my_template("mpd_monit.conf.erb"), File.join(fetch(:monit_config_path), "mpd_monit.conf")
     end
   end
   before "deploy", "mpd:setup"
 
   %w[start stop restart].each do |command|
-    desc "#{command} mpd"
+    desc "#{command} mpd_#{fetch(:application)}_#{fetch(:stage)}"
     task command do
       on roles(:app) do
-        sudo "service mpd_#{fetch(:application)}_#{fetch(:stage)} #{command}"
+        sudo "monit #{command} mpd_#{fetch(:application)}_#{fetch(:stage)}"
       end
     end
   end

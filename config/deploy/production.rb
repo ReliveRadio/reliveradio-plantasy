@@ -33,5 +33,11 @@ set :nginx_use_ssl, false
 
 set :sidekiq_queue, %w(default mailer)
 
+set :monit_config_path, "/etc/monit/conf.d/"
+
+set :icecast_pidfile, "/var/run/icecast.pid"
+
+set :check_revision_enabled, false
+
 # if not set it will be auto generated
 # ask :icecast_password, "hackme"

@@ -1,0 +1,7 @@
+check process icecast
+  matching "icecast2"
+  start program = "/etc/init.d/icecast2 start"
+  stop program  = "/etc/init.d/icecast2 stop"
+
+  if failed host localhost port 8000 protocol http then restart
+  if 5 restarts within 5 cycles then timeout

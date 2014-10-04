@@ -14,17 +14,20 @@ namespace :icecast do
       # link to new config file
       execute "sudo ln -sf #{icecast_config_file} /etc/icecast2/icecast.xml"
       execute :chmod, '+r', icecast_config_file # make it readable by icecast2 user
+
+      sudo_upload! my_template("icecast_monit.conf.erb"), File.join(fetch(:monit_config_path), "icecast_monit.conf")
     end
   end
   before "deploy", "icecast:setup"
 
   %w[start stop restart].each do |command|
-    desc "#{command} icecast2"
+    desc "#{command} icecast"
     task command do
       on roles(:app) do
-        sudo "service icecast2 #{command}"
+        sudo "monit #{command} icecast"
       end
     end
   end
   after "deploy:restart", "icecast:restart"
+
 end

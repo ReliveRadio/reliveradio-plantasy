@@ -1,5 +1,18 @@
 namespace :monit do
 
+  task :setup do
+    on roles(:web) do
+      sudo_upload! my_template("nginx_monit.conf.erb"), File.join(fetch(:monit_config_path), "nginx_monit.conf")
+    end
+    on roles(:db) do
+      sudo_upload! my_template("postgres_monit.conf.erb"), File.join(fetch(:monit_config_path), "postgres_monit.conf")
+    end
+    on roles(:app) do
+      sudo_upload! my_template("unicorn_monit.conf.erb"), File.join(fetch(:monit_config_path), "unicorn_monit.conf")
+    end
+  end
+  before "deploy", "monit:setup"
+
   %w[start stop restart].each do |command|
     desc "#{command} monit"
     task command do
@@ -8,5 +21,22 @@ namespace :monit do
       end
     end
   end
-  #after "deploy:restart", "icecast:restart"
+  
+  desc "call monit reload to use updated config files"
+  task :reload do
+    on roles(:app) do
+  	  sudo "monit reload"
+    end
+  end
+
+  desc "restart all monitored processes"
+  task :restart_all do
+    on roles(:app) do
+      invoke "monit:reload"
+      sleep 5
+  	  sudo "monit restart all"
+    end
+  end
+  #after "deploy:restart", "monit:restart_all"
+
 end
