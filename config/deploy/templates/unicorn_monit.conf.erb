@@ -1,5 +1,5 @@
 check process unicorn_<%= fetch(:full_app_name) %>
-    with pidfile <%= fetch(:shared_path) %>/tmp/pids/unicorn.pid
+    with pidfile <%= fetch(:unicorn_pid) %>
     start program = "/etc/init.d/unicorn_<%= fetch(:full_app_name) %> start"
     stop program = "/etc/init.d/unicorn_<%= fetch(:full_app_name) %> stop"
     if mem is greater than 175.0 MB for 1 cycles then restart
