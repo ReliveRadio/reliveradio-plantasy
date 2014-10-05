@@ -17,7 +17,7 @@ class AudioUploader < CarrierWave::Uploader::Base
   def store_dir
     # Rails.root.to_s + "/audio/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
     # "uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
-    File.join("#{Figaro.env.episode_audio_storage_path}", "#{model.class.to_s.underscore}", "#{mounted_as}", "#{model.id}")
+    File.join(Figaro.env.episode_audio_storage_path, model.class.to_s.underscore, "#{mounted_as}", "#{model.id}")
   end
 
   # Provide a default URL as a default if there hasn't been a file uploaded:
