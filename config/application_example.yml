@@ -1,0 +1,9 @@
+# This is an example. Rename this template to application.yml and adjust the settings to your needs
+
+MAILER_PASSWORD: ppppppppppppppppp
+MAILER_FROM_ADDRESS: reliveradio-reminder@i42n.auriga.uberspace.de
+MAILER_USERNAME: reliveradio-reminder@i42n.auriga.uberspace.de
+MAILER_DOMAIN: i42n.auriga.uberspace.de
+MAILER_SERVER_ADDRESS: auriga.uberspace.de
+
+EPISODE_AUDIO_STORAGE_PATH: /home/deploy/audio_storage/
