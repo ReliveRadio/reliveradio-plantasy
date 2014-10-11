@@ -1,4 +1,4 @@
-check process <%= "mpd_#{fetch(:application)}_#{fetch(:stage)}" %> with pidfile /var/run/mpd/pid_<%= fetch(:full_app_name) %>
-  start program = "/etc/init.d/mpd_<%= fetch(:full_app_name) %> start"
-  stop program  = "/etc/init.d/mpd_<%= fetch(:full_app_name) %> stop"
+check process <%= "mpd_#{fetch(:application)}_#{fetch(:stage)}_#{fetch(:channel_name)}" %> with pidfile /var/run/mpd/pid_<%= fetch(:full_app_name) %>_<%= fetch(:channel_name) %>
+  start program = "/etc/init.d/mpd_<%= fetch(:full_app_name) %>_<%= fetch(:channel_name) %> start"
+  stop program  = "/etc/init.d/mpd_<%= fetch(:full_app_name) %>_<%= fetch(:channel_name) %> stop"
   group mpd

@@ -26,8 +26,9 @@ set :unicorn_worker_count, 5
 # number of the sidekiq workers
 set :sidekiq_concurrency, 5
 
-# currently only one channel supported
-# set :mpd_channels, %w{mix tech}
+# define channels here to launch multiple mpd instances
+# IMPORTANT: add one config file link for each channel in :linked_files in deploy.rb! Example: config/mpd_mix.conf
+set :mpd_channels, %w{mix tech}
 
 set :nginx_use_ssl, false
 

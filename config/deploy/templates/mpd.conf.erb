@@ -5,9 +5,9 @@
 # You can put symlinks in here, if you like. Make sure that
 # the user that mpd runs as (see the 'user' config parameter)
 # can read the files in this directory.
-playlist_directory	"/var/lib/mpd/playlists_<%= fetch(:full_app_name) %>"
-db_file			"/var/lib/mpd/tag_cache_<%= fetch(:full_app_name) %>"
-log_file		"/var/log/mpd/mpd_<%= fetch(:full_app_name) %>.log"
+playlist_directory	"/var/lib/mpd/playlists_<%= fetch(:full_app_name) %>_<%= fetch(:channel_name) %>"
+db_file			"/var/lib/mpd/tag_cache_<%= fetch(:full_app_name) %>_<%= fetch(:channel_name) %>"
+log_file		"/var/log/mpd/mpd_<%= fetch(:full_app_name) %>_<%= fetch(:channel_name) %>.log"
 ################################################################
 
 
@@ -16,13 +16,13 @@ log_file		"/var/log/mpd/mpd_<%= fetch(:full_app_name) %>.log"
 # If you wish to use mpd --kill to stop MPD, then you must
 # specify a file here in which to store MPD's process ID.
 #
-pid_file		"/var/run/mpd/pid_<%= fetch(:full_app_name) %>"
+pid_file		"/var/run/mpd/pid_<%= fetch(:full_app_name) %>_<%= fetch(:channel_name) %>"
 #
 # If specified, MPD will save its current state (playlist,
 # current song, playing/paused, etc.) at exit.  This will be
 # used to restore the session the next time it is run.
 #
-state_file		"/var/lib/mpd/state_<%= fetch(:full_app_name) %>"
+state_file		"/var/lib/mpd/state_<%= fetch(:full_app_name) %>_<%= fetch(:channel_name) %>"
 #
 ################################################################
 
@@ -44,7 +44,7 @@ user                            "mpd"
 # If the address is a path, then a UNIX domain socket will be
 # created instead of listening on a TCP port.
 #
-bind_to_address                 "/var/run/mpd/sock_<%= fetch(:full_app_name) %>"
+bind_to_address                 "/var/run/mpd/sock_<%= fetch(:full_app_name) %>_<%= fetch(:channel_name) %>"
 #
 # Controls the amount of information that is logged.  Can be
 # "default", "secure", or "verbose".
@@ -126,7 +126,7 @@ audio_output {
         name                    "My Shout Stream"
         host                    "localhost"
         port                    "8000"
-        mount                   "/<%= fetch(:full_app_name) %>.mp3"
+        mount                   "/<%= fetch(:channel_name) %>.mp3"
         password                "<%= fetch(:icecast_password) %>"
         #quality                 "5.0"
         bitrate                 "128"

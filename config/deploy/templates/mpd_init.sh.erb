@@ -16,10 +16,10 @@
 . /lib/lsb/init-functions
 
 PATH=/sbin:/bin:/usr/sbin:/usr/bin
-NAME=mpd_<%= fetch(:full_app_name) %>
+NAME=mpd_<%= fetch(:full_app_name) %>_<%= fetch(:channel_name) %>
 DESC="Music Player Daemon"
 DAEMON=/usr/bin/mpd
-MPDCONF=<%= "#{current_path}/config/mpd.conf" %>
+MPDCONF=<%= "#{current_path}/config/mpd_#{fetch(:channel_name)}.conf" %>
 START_MPD=true
 
 # Exit if the package is not installed

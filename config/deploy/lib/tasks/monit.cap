@@ -18,7 +18,10 @@ namespace :monit do
     end
     on roles(:app) do
       sudo_upload! my_template("unicorn_monit.conf.erb"), File.join(fetch(:monit_config_path), "unicorn_monit.conf")
-      sudo_upload! my_template("mpd_monit.conf.erb"), File.join(fetch(:monit_config_path), "mpd_monit.conf")
+      fetch(:mpd_channels).each do |channel|
+        set :channel_name, channel
+        sudo_upload! my_template("mpd_monit.conf.erb"), File.join(fetch(:monit_config_path), "mpd_monit_#{channel}.conf")
+      end
       sudo_upload! my_template("icecast_monit.conf.erb"), File.join(fetch(:monit_config_path), "icecast_monit.conf")
       # sidekiq done by gem
     end

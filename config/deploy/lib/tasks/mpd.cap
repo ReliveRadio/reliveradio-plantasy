@@ -9,20 +9,25 @@ namespace :mpd do
         set :icecast_password, generate_random_password
       end
 
-      upload! my_template("mpd.conf.erb"), "#{shared_path}/config/mpd.conf"
+      fetch(:mpd_channels).each do |channel|
+        set :channel_name, channel
+        upload! my_template("mpd.conf.erb"), "#{shared_path}/config/mpd_#{channel}.conf"
 
-      mpd_initd_file = "/etc/init.d/mpd_#{fetch(:application)}_#{fetch(:stage)}"
-      sudo_upload! my_template("mpd_init.sh.erb"), mpd_initd_file
-      execute :chmod, '+x', mpd_initd_file
-      sudo 'update-rc.d', '-f', "mpd_#{fetch(:application)}_#{fetch(:stage)}", 'defaults'
+        mpd_initd_file = "/etc/init.d/mpd_#{fetch(:application)}_#{fetch(:stage)}_#{channel}"
+        sudo_upload! my_template("mpd_init.sh.erb"), mpd_initd_file
+        execute :chmod, '+x', mpd_initd_file
+        sudo 'update-rc.d', '-f', "mpd_#{fetch(:application)}_#{fetch(:stage)}_#{channel}", 'defaults'
+      end
     end
   end
 
   %w[start stop restart].each do |command|
-    desc "#{command} mpd_#{fetch(:application)}_#{fetch(:stage)}"
+    desc "#{command} all mpd channels"
     task command do
       on roles(:app) do
-        sudo "monit #{command} mpd_#{fetch(:application)}_#{fetch(:stage)}"
+        fetch(:mpd_channels).each do |channel|
+          sudo "monit #{command} mpd_#{fetch(:application)}_#{fetch(:stage)}_#{channel}"
+        end
       end
     end
   end
