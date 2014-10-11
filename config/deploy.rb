@@ -33,12 +33,38 @@ set :tests, []
 
 set :templates_path, "config/deploy/templates"
 
-# setup configuration files
-before 'deploy', 'setup'
-# after "icecast:setup", "monit:reload"
-# after "mpd:setup", "monit:reload"
-after 'setup', 'sidekiq:monit:config' # upload sidekiq monit file
-# restart all processes in the end
-after 'deploy:publishing', 'deploy:restart'
-before 'deploy:restart', 'monit:restart'
+
+
+
+
+
+task :restart_all do
+	invoke 'monit:restart'
+	sleep 10
+	invoke 'monit:restart_all'
+end
+
+task :restart_web do
+	invoke 'unicorn:restart'
+	invoke 'nginx:restart'
+end
+
+task :restart_stream do
+	invoke 'icecast:restart'
+	invoke 'mpd:restart'
+end
+
+task :setup do
+	invoke 'application:setup'
+	invoke 'nginx:setup'
+	invoke 'unicorn:setup_app_config'
+	invoke 'unicorn:setup_initializer'
+	invoke 'mpd:setup'
+	invoke 'icecast:setup'
+
+	invoke 'sidekiq:monit:config'
+	invoke 'monit:setup'
+end
+
+after 'deploy:publishing', 'restart_web'
 after 'deploy:finishing', 'deploy:cleanup'

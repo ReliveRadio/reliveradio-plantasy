@@ -6,5 +6,4 @@ namespace :application do
       upload! "config/application.yml", "#{shared_path}/config/application.yml", via: :scp
     end
   end
-  before "deploy", "application:setup"
 end
