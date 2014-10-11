@@ -24,6 +24,13 @@ namespace :monit do
     end
   end
 
+  desc "get monit status"
+  task :status do
+    on roles(:app) do
+      sudo "monit status"
+    end
+  end
+
   # this does not work with NEW config files though
   desc "call monit reload to use updated config files"
   task :reload do
