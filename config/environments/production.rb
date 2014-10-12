@@ -59,7 +59,8 @@ App::Application.configure do
 
   # Precompile additional assets.
   # application.js, application.css, and all non-JS/CSS in app/assets folder are already added.
-  # config.assets.precompile += %w( search.js )
+  config.assets.precompile += %w( channel_playlists.js directory.js donation.js episodes.js flattr.js info.js jingles.js playlist_entries.js playlist_management.js podcasts.js schedule.js channel_playlists.css directory.css episodes.css foundation_and_overrides.css jingles.css playlist_entries.css playlist_management.css podcasts.css schedule.css )
+  # config.assets.precompile = ['*.js', '*.css'] # this will compile all assets that can be found
 
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
@@ -77,4 +78,20 @@ App::Application.configure do
 
   # Use default logging formatter so that PID and timestamp are not suppressed.
   config.log_formatter = ::Logger::Formatter.new
+
+  # Setting for devise
+  config.action_mailer.default_url_options = { :host => 'localhost:3000' }
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.raise_delivery_errors = true
+  config.action_mailer.smtp_settings = {
+    :enable_starttls_auto => true,  
+    :address            => Figaro.env.mailer_server_address,
+    :port               => 587,
+    :domain             => Figaro.env.mailer_domain,
+    :authentication     => :plain,
+    :user_name          => Figaro.env.mailer_username,
+    :password           => Figaro.env.mailer_password
+  }
+  
 end

@@ -1,0 +1,52 @@
+namespace :monit do
+
+  %w[start stop restart].each do |command|
+    desc "#{command} monit"
+    task command do
+      on roles(:app) do
+        sudo "service monit #{command}"
+      end
+    end
+  end
+
+  task :setup do
+    on roles(:web) do
+      sudo_upload! my_template("nginx_monit.conf.erb"), File.join(fetch(:monit_config_path), "nginx_monit.conf")
+    end
+    on roles(:db) do
+      sudo_upload! my_template("postgres_monit.conf.erb"), File.join(fetch(:monit_config_path), "postgres_monit.conf")
+    end
+    on roles(:app) do
+      sudo_upload! my_template("unicorn_monit.conf.erb"), File.join(fetch(:monit_config_path), "unicorn_monit.conf")
+      fetch(:mpd_channels).each do |channel|
+        set :channel_name, channel
+        sudo_upload! my_template("mpd_monit.conf.erb"), File.join(fetch(:monit_config_path), "mpd_monit_#{channel}.conf")
+      end
+      sudo_upload! my_template("icecast_monit.conf.erb"), File.join(fetch(:monit_config_path), "icecast_monit.conf")
+      # sidekiq done by gem
+    end
+  end
+
+  desc "get monit status"
+  task :status do
+    on roles(:app) do
+      sudo "monit status"
+    end
+  end
+
+  # this does not work with NEW config files though
+  desc "call monit reload to use updated config files"
+  task :reload do
+    on roles(:app) do
+  	  sudo "monit reload"
+    end
+  end
+
+  desc "restart all monitored processes"
+  task :restart_all do
+    on roles(:app) do
+  	  sudo "monit restart all"
+    end
+  end
+
+end

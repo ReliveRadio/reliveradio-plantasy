@@ -1,0 +1,26 @@
+namespace :nginx do
+
+	%w[start stop restart].each do |command|
+		desc "#{command} nginx"
+		task command do
+			on roles(:app) do
+				sudo "service nginx #{command}"
+			end
+		end
+	end
+
+	desc "disable nginx default page"
+	task :disable_default do
+		on roles(:web) do
+			sudo "rm -f /etc/nginx/sites-enabled/default"
+		end
+	end
+	after "nginx:setup", "nginx:disable_default"
+
+	desc "make nginx site config file readable by nginx process"
+	task :correct_access_rights do
+		on roles(:web) do
+			sudo "chmod 644 /etc/nginx/sites-available/#{fetch(:application)}_#{fetch(:stage)}"
+		end
+	end
+end

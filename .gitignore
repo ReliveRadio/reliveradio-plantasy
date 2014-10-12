@@ -1,7 +1,8 @@
 .vagrant
-cookbooks/
 tmp
-app/*cookbooks
-tmp
-app/public/uploads
-app/audio
+public/uploads
+audio
+
+# Ignore application configuration
+/config/application.yml
+/config/database.yml

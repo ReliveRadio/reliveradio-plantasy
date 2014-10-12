@@ -1,0 +1,29 @@
+namespace :icecast do
+  desc "Setup icecast initializer and app configuration"
+  task :setup do
+    on roles(:app) do
+      execute "mkdir -p #{shared_path}/config"
+
+      # if no password for icecast ist set, generate a random one
+      unless fetch(:icecast_password)
+        set :icecast_password, generate_random_password
+      end
+
+      icecast_config_file = "#{shared_path}/config/icecast.xml"
+      upload! my_template("icecast.xml.erb"), icecast_config_file
+      # link to new config file
+      execute "sudo ln -sf #{icecast_config_file} /etc/icecast2/icecast.xml"
+      execute :chmod, '+r', icecast_config_file # make it readable by icecast2 user
+    end
+  end
+
+  %w[start stop restart].each do |command|
+    desc "#{command} icecast"
+    task command do
+      on roles(:app) do
+        sudo "monit #{command} icecast"
+      end
+    end
+  end
+
+end

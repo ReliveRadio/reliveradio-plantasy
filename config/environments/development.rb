@@ -25,7 +25,7 @@ App::Application.configure do
   config.action_mailer.perform_deliveries = true
   config.action_mailer.raise_delivery_errors = true
   config.action_mailer.smtp_settings = {
-    :enable_starttls_auto => true,  
+    :enable_starttls_auto => true,
     :address            => Figaro.env.mailer_server_address,
     :port               => 587,
     :domain             => Figaro.env.mailer_domain,

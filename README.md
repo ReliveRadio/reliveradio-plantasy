@@ -1,76 +1,92 @@
 # Get up and running
 
-These instructions help you setting up a vagrant testing virtual machine. If you want to setup a deticated server system please consider the `README_deticated.md`.
+This document describes the setup process of a server to run the reliveradio-plantasy installation. There are three basic steps:
 
-The following steps are tested on MacOS. There also is [a video of the setup process](http://youtu.be/DNXgOu-sicA). However it *does not include the vagrant installation*.
+1. Get a server with Ubuntu installed
+2. Run the chef recipe to provision the server with the required packages
+3. Use the capistrano deployment tools to configure the services
 
-## Install Vagrant
-https://www.vagrantup.com/
+## Setup basic system
+This kitchen requires `Ubuntu 14.04` (headless) on the server and root access. You might consider running `apt-get update` and `apt-get upgrade` after setting up the system to install all security patches.
 
-## Install vagrant-omnibus
-```
-  $ vagrant plugin install vagrant-omnibus
-```
-
-## Install gem dependencies
-```
-  $ bundle
-```
-
-## Install chef cookbooks
-```
-  $ librarian-chef install
-```
-
-## Build the VM
-```
-  $ vagrant up
-```
-Currently the provisioning process crashes at one point as the rvm environment does not get correctly applied to the vagrant session. If it breaks simply rerun the provision with `vagrant provision`. The new environment variables for the rvm ruby installation are then applied correctly and it works as expected.
-
-## Log in and install app gems
-```
-  $ vagrant ssh
-  $ cd app
-  $ bundle
-```
-
-## Mailserver configuration
-
-Create a configuration file `app/config/application.yml` and setup your mailserver credentials:
+## Add deploy user and grant sudo access
 
 ```
-MAILER_PASSWORD: hackme
-MAILER_FROM_ADDRESS: reliveradio-reminder@i42n.auriga.uberspace.de
-MAILER_USERNAME: reliveradio-reminder@i42n.auriga.uberspace.de
-MAILER_DOMAIN: i42n.auriga.uberspace.de
-MAILER_SERVER_ADDRESS: auriga.uberspace.de
+adduser deploy
+adduser deploy sudo
 ```
 
-## Configure database access
-This step is not required if you use the VM locally for testing purposes. A default passwort will be set but it is not secure.
-
-To set the password open `database.yml` and configure user / password of the postgresql database.
-
-## Create and migrate database
+## Upload your own SSH key
+Copy your ssh key to the server as password login will be disabled by the chef provisioning in the next step.
 
 ```
-  $ rake db:create
-  $ rake db:migrate
+ssh-copy-id -i <path to your ssh public key> <server ip or domain>
+
+Example:
+ssh-copy-id -i /Users/stefan/.ssh/id_rsa.pub deploy@s17837361.onlinehome-server.info
 ```
 
-## Test connection
+## Run kitchen
 
-Vagrant automatically configured a port mapping to your local machine. You should now be able access the ReliveRadio rails app on [http://localhost:8080](http://localhost:8080).
+With chef the server will be prepared for the app. It will install all required packages and requirements. The *kitchen* repository can be found [here](https://github.com/ReliveRadio/reliveradio-plantasy-kitchen/tree/master).
 
-## Start sidekiq workers
-Sidekiq workers process background tasks as downloading episodes for example.
+* Download/Clone it somewhere onto your client machine.
+* Run `bundle` in the directory to install all required gems
+* Run `librarian-chef install` to download all the recipe dependencies
 
-``
-  $ bundle exec sidekiq
-``
+Now you need to install chef on the server first with the `prepare` command.
+```
+knife solo prepare <server ip or domain>
 
-## Create admin user
-There is no approved admin user in the database at this point as the database is empty. Therefore you need to create one.
+Example:
+knife solo prepare deploy@s17837361.onlinehome-server.info
+```
 
-Go to the website and create a new user. It will be in the database, but not approved for admin access. You have to approve it with `rails console`.
+This will create a file `nodes/yourservername.json`. You now need to copy all settings from the example file `nodes/s17837361.onlinehome-server.json` to your json file.
+
+Now it is time to provision the server.
+```
+knife solo cook <server ip or domain>
+
+Example:
+knife solo cook deploy@s17837361.onlinehome-server.info
+```
+
+## Configure app settings
+Back in the `reliveradio-plantasy` project directory you have to preconfigure some server settings. Copy `config/application_example.yml` to `config/application.yml` and adjust the settings.
+
+## Use Capistrano to deploy the app
+
+Capistrano will configure all the services on the server. Make sure your run `bundle intall` before to install all the required packages on your client machine.
+
+Upload all the configuration files for the services:
+```
+cap production setup
+```
+
+Deploy the app:
+```
+cap production deploy
+```
+
+Restart all services on the server to adapt to the new configuration.
+```
+cap production restart_all
+```
+If you deploy future releases to the server be careful with the *restart_all*  command as it breaks the stream by restarting the *icecast* and *mpd* service. There is also a *restart_web* command to only restart *nginx* and *unicorn* if only the website changed.
+
+With `cap production monit:status` you can see if all the services are running.
+
+## Create an admin user for the web interface
+At the current application state new admin users can register themselves via the website. However they have to be approved to gain admin access. When the app is just set up there is no approved admin user yet. You have to approve the first admin user request manually using the rails console on the server.
+
+* Register a new admin via the web interface. It will be created but not be approved.
+* SSH into the server
+* `cd apps/plantasy-production/current`
+* `bundle exec rails console production`
+* `new_admin = Admin.first`
+* `new_admin.approved = true`
+* `new_admin.save`
+* CTRL-D to leave the rails console
+
+Now you can use the web interface to login as the new admin user as it is approved now. Further admin users can be approved in the web interface by all existing admin users.
