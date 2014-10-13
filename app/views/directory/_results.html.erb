@@ -5,7 +5,7 @@
 	<% @podcasts.each do |podcast| %>
 		<li>
 			<a href="<%= directory_show_podcast_url(podcast.id) %>">
-				<%= image_tag podcast.coverart('thumb_400') %>
+				<%= image_tag podcast.coverart.thumb_400 %>
 			</a>
 		</li>
 	<% end %>
