@@ -1,10 +1,15 @@
 class DirectoryController < ApplicationController
 
   def index
-    # search all matchin podcasts
-    @query = Podcast.search(params[:q])
-    @query.sorts = 'title asc' if @query.sorts.empty?
-    @podcasts = @query.result
+
+    if params[:q]
+      # search all matching podcasts
+      @query = Podcast.search(params[:q])
+      @query.sorts = 'title asc' if @query.sorts.empty?
+      @podcasts = @query.result
+    else
+      @podcasts = Podcast.all
+    end
 
     # add pagination
     @podcasts = @podcasts.paginate(:per_page => 15, :page => params[:page])
