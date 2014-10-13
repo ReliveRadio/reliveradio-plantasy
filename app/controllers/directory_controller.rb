@@ -11,6 +11,8 @@ class DirectoryController < ApplicationController
       @podcasts = Podcast.all
     end
 
+    @podcast_count = Podcast.count
+
     # add pagination
     @podcasts = @podcasts.paginate(:per_page => 15, :page => params[:page])
 
