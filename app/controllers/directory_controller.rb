@@ -2,9 +2,9 @@ class DirectoryController < ApplicationController
 
   def index
 
+    @query = Podcast.search(params[:q])
     if params[:q]
       # search all matching podcasts
-      @query = Podcast.search(params[:q])
       @query.sorts = 'title asc' if @query.sorts.empty?
       @podcasts = @query.result
     else
