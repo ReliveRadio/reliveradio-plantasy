@@ -17,8 +17,7 @@ App::Application.routes.draw do
 
   get "/directory", to: 'directory#index'
   get "/directory/show_podcast/:id", to: 'directory#show_podcast', as: 'directory_show_podcast'
-  get "/directory/show_episode/:id", to: 'directory#show_episode', as: 'directory_show_episode'
-
+  
   devise_for :admins
   resources :admins, only: [:index, :destroy]
   get 'admins/:id/approve', to: 'admins#approve', as: 'approve_user'

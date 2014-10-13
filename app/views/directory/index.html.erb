@@ -1,7 +1,8 @@
 <div class="row">
 	<div class="medium-12 columns">
 		<h1>Podcast Verzeichnis</h1>
-		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quis, quibusdam, enim officiis animi modi eaque cum accusamus necessitatibus obcaecati facilis illo adipisci? Aliquid, placeat, commodi ratione rerum voluptates facere id!</p>
+		<p>Hier findet ihr nun eine Liste all der Podcasts, die bereits zugesagt haben, dass sie auch beim ReliveRadio gespielt werden dürfen. Wir bedanken uns bei allen Podcasts, die bereit sind bei diesem Projekt mitzumachen.</p>
+		<p>Aktuell sind <%= @podcast_count %> Podcasts dabei!</p>
 
 		<div id="searchbar" class="row">
 			<div class="large-6 medium-9 small-centered columns">
@@ -11,7 +12,7 @@
 							<%= f.text_field :title_or_subtitle_cont, :placeholder => "Verzeichnis durchsuchen", :id => "search-input-field" %>
 						</div>
 						<div class="medium-2 columns hide-for-small">
-							<%= f.submit "Search", :class => "prefix button" %>
+							<%= f.submit "Suchen", :class => "prefix button" %>
 						</div>
 					</div>
 				<% end %>
