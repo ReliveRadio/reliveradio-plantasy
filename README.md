@@ -1,6 +1,8 @@
 # Get up and running
 
-This document describes the setup process of a server to run the reliveradio-plantasy installation. There are three basic steps:
+This document describes the setup process of a server to run the reliveradio-plantasy installation. If you want to create a vagrant VM on your local machine instead, [please take a look at this guide](README_VM.md).
+
+There are three basic steps:
 
 1. Get a server with Ubuntu installed
 2. Run the chef recipe to provision the server with the required packages
@@ -53,11 +55,14 @@ knife solo cook deploy@s17837361.onlinehome-server.info
 ```
 
 ## Configure app settings
+Clone this repository to your local machine.
+
 Back in the `reliveradio-plantasy` project directory you have to preconfigure some server settings. Copy `config/application_example.yml` to `config/application.yml` and adjust the settings.
 
 ## Use Capistrano to deploy the app
+Capistrano will configure all the services on the server. Make sure you run `bundle intall` before to install all the required packages on your client machine.
 
-Capistrano will configure all the services on the server. Make sure your run `bundle intall` before to install all the required packages on your client machine.
+Adjust the server domain/ip settings in `config/deploy/production.rb` to point capistrano to the correct server.
 
 Upload all the configuration files for the services:
 ```
