@@ -1,5 +1,4 @@
 set :application, 'plantasy'
-set :deploy_user, 'deploy'
 
 # setup repo details
 set :scm, :git
