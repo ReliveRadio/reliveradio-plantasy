@@ -26,6 +26,7 @@ namespace :monit do
       # sidekiq done by gem
     end
   end
+  after "monit:setup", "monit:restart"
 
   desc "get monit status"
   task :status do
