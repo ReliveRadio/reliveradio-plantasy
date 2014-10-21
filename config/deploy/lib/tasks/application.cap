@@ -3,7 +3,7 @@ namespace :application do
   task :setup do
   	on roles(:app) do
       execute "mkdir -p #{shared_path}/config"
-      upload! "config/application.yml", "#{shared_path}/config/application.yml", via: :scp
+      upload! my_template("application.yml.erb"), "#{shared_path}/config/application.yml"
     end
   end
 end

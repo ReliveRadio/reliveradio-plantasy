@@ -57,7 +57,7 @@ knife solo cook deploy@s17837361.onlinehome-server.info
 ## Configure app settings
 Clone this repository to your local machine.
 
-Back in the `reliveradio-plantasy` project directory you have to preconfigure some server settings. Copy `config/application_example.yml` to `config/application.yml` and adjust the settings.
+Back in the `reliveradio-plantasy` project directory you have to preconfigure some server settings. Copy `config/deploy/credentials/passwords.example.rb` to `config/deploy/credentials/passwords.rb` and adjust the settings.
 
 ## Use Capistrano to deploy the app
 Capistrano will configure all the services on the server. Make sure you run `bundle intall` before to install all the required packages on your client machine.

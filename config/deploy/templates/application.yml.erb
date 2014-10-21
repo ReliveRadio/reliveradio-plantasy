@@ -1,0 +1,13 @@
+# some actions in the app require sending emails to the users
+# configure a smtp server here
+MAILER_PASSWORD: <%= fetch(:mailer_password) %>
+MAILER_FROM_ADDRESS: <%= fetch(:mailer_from_address) %>
+MAILER_USERNAME: <%= fetch(:mailer_username) %>
+MAILER_DOMAIN: <%= fetch(:mailer_domain) %>
+MAILER_SERVER_ADDRESS: <%= fetch(:mailer_server_address) %>
+
+# path to store all the audio files on the server
+# this includes podcast episodes and jingles
+# make sure this is not inside the capistrano managed folders
+# as older releases get deleted after some time
+EPISODE_AUDIO_STORAGE_PATH: "/home/#{fetch(:deploy_user)}/audio_storage/"

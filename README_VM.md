@@ -19,7 +19,7 @@ Boot up and provision the VM with `vagrant up`. It will use the configuration fr
 ## Configure app settings
 Clone this repository to your local machine.
 
-Back in the `reliveradio-plantasy` project directory you have to preconfigure some server settings. Copy `config/application_example.yml` to `config/application.yml` and adjust the settings.
+Back in the `reliveradio-plantasy` project directory you have to preconfigure some server settings. Copy `config/deploy/credentials/passwords.example.rb` to `config/deploy/credentials/passwords.rb` and adjust the settings.
 
 ## Use Capistrano to deploy the app
 It makes a lot of sense to use the same deployment tools for the local vagrant VM like for the remote production server. Therefore we do not use the shared folders feature of vagrant.
