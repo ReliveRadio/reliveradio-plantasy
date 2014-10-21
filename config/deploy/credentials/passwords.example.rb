@@ -1,0 +1,5 @@
+set :mailer_password, 'XXXXXXXXXXXXXX'
+set :mailer_from_address, 'reliveradio-reminder@i42n.auriga.uberspace.de'
+set :mailer_username, 'reliveradio-reminder@i42n.auriga.uberspace.de'
+set :mailer_domain, 'i42n.auriga.uberspace.de'
+set :mailer_server_address, 'auriga.uberspace.de'

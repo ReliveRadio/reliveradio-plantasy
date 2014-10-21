@@ -14,6 +14,12 @@ namespace :icecast do
       # link to new config file
       execute "sudo ln -sf #{icecast_config_file} /etc/icecast2/icecast.xml"
       execute :chmod, '+r', icecast_config_file # make it readable by icecast2 user
+
+      icecast_default_file = "#{shared_path}/config/icecast2.defaults"
+      upload! my_template("icecast.defaults.erb"), icecast_default_file
+      # link to new config file
+      execute "sudo ln -sf #{icecast_default_file} /etc/default/icecast2"
+      execute :chmod, '+r', icecast_default_file # make it readable by icecast2 user
     end
   end
 
