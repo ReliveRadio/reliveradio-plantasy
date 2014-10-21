@@ -18,7 +18,7 @@ server 's17837361.onlinehome-server.info', user: fetch(:user), roles: %w{web app
 
 set :deploy_to, "/home/#{fetch(:deploy_user)}/apps/#{fetch(:full_app_name)}"
 
-set :rails_env, :production
+set :rails_env, "production"
 
 # number of unicorn workers, this will be reflected in
 # the unicorn.rb and the monit configs
