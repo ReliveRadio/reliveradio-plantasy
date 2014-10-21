@@ -26,10 +26,6 @@ set :linked_files, %w{config/application.yml config/mpd_mix.conf config/mpd_tech
 # dirs we want symlinking to shared
 set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system public/uploads}
 
-# what specs should be run before deployment is allowed to
-# continue, see lib/capistrano/tasks/run_tests.cap
-set :tests, []
-
 set :templates_path, "config/deploy/templates"
 
 
